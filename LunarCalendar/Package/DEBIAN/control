@@ -2,8 +2,8 @@ Package: com.autopear.lunarcalendar
 Name: Lunar Calendar
 Version: 1.0-1
 Description: Lunar Calendar on NotificationCenter.
-Section: Addons <NotificationCenter>
-Depends: firmware (>= 5.0)
+Section: Addons (NotificationCenter)
+Depends: firmware (>= 5.0), com.saurik.substrate.safemode
 Conflicts: com.autopear.lunarcalendar-beta
 Provides: com.autopear.lunarcalendar-beta
 Replaces: com.autopear.lunarcalendar-beta

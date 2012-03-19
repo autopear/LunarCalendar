@@ -1,0 +1,442 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D79ECC37150FA17600A1EEF2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D79ECC36150FA17600A1EEF2 /* Foundation.framework */; };
+		D79ECC39150FA17600A1EEF2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D79ECC38150FA17600A1EEF2 /* UIKit.framework */; };
+		D79ECC44150FA17700A1EEF2 /* LunarCalendarController.m in Sources */ = {isa = PBXBuildFile; fileRef = D79ECC43150FA17700A1EEF2 /* LunarCalendarController.m */; };
+		D7DB89781515CFEA00AE7BF8 /* LunarCalendar.h in Headers */ = {isa = PBXBuildFile; fileRef = D7DB89761515CFEA00AE7BF8 /* LunarCalendar.h */; };
+		D7DB89791515CFEA00AE7BF8 /* LunarCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DB89771515CFEA00AE7BF8 /* LunarCalendar.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D79ECC33150FA17600A1EEF2 /* LunarCalendar */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = LunarCalendar; sourceTree = BUILT_PRODUCTS_DIR; };
+		D79ECC36150FA17600A1EEF2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D79ECC38150FA17600A1EEF2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		D79ECC3E150FA17600A1EEF2 /* control */ = {isa = PBXFileReference; lastKnownFileType = text; name = control; path = Package/DEBIAN/control; sourceTree = "<group>"; };
+		D79ECC40150FA17600A1EEF2 /* PackageVersion.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PackageVersion.plist; sourceTree = "<group>"; };
+		D79ECC41150FA17600A1EEF2 /* LunarCalendar-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LunarCalendar-Prefix.pch"; sourceTree = "<group>"; };
+		D79ECC42150FA17700A1EEF2 /* LunarCalendarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LunarCalendarController.h; sourceTree = "<group>"; };
+		D79ECC43150FA17700A1EEF2 /* LunarCalendarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LunarCalendarController.m; sourceTree = "<group>"; };
+		D79ECC49150FA17700A1EEF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Package/System/Library/WeeAppPlugins/LunarCalendar.bundle/Info.plist; sourceTree = "<group>"; };
+		D79ECC4B150FA17700A1EEF2 /* WeeAppBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "WeeAppBackground@2x.png"; path = "Package/System/Library/WeeAppPlugins/LunarCalendar.bundle/WeeAppBackground@2x.png"; sourceTree = "<group>"; };
+		D79ECC4C150FA17700A1EEF2 /* WeeAppBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = WeeAppBackground.png; path = Package/System/Library/WeeAppPlugins/LunarCalendar.bundle/WeeAppBackground.png; sourceTree = "<group>"; };
+		D7B6C8231517811A0002D3A7 /* postinst */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = postinst; path = Package/DEBIAN/postinst; sourceTree = "<group>"; };
+		D7B6C8241517811A0002D3A7 /* prerm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = prerm; path = Package/DEBIAN/prerm; sourceTree = "<group>"; };
+		D7B6C8271517812C0002D3A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		D7B6C8291517812C0002D3A7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		D7B6C82C1517812C0002D3A7 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = InfoPlist.strings; sourceTree = "<group>"; };
+		D7B6C82E1517812C0002D3A7 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = Localizable.strings; sourceTree = "<group>"; };
+		D7B6C8311517812C0002D3A7 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = InfoPlist.strings; sourceTree = "<group>"; };
+		D7B6C8331517812C0002D3A7 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = Localizable.strings; sourceTree = "<group>"; };
+		D7DB89761515CFEA00AE7BF8 /* LunarCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LunarCalendar.h; sourceTree = "<group>"; };
+		D7DB89771515CFEA00AE7BF8 /* LunarCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LunarCalendar.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D79ECC2F150FA17600A1EEF2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D79ECC37150FA17600A1EEF2 /* Foundation.framework in Frameworks */,
+				D79ECC39150FA17600A1EEF2 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D79ECC27150FA17600A1EEF2 = {
+			isa = PBXGroup;
+			children = (
+				D79ECC3A150FA17600A1EEF2 /* LunarCalendar */,
+				D79ECC35150FA17600A1EEF2 /* Frameworks */,
+				D79ECC34150FA17600A1EEF2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D79ECC34150FA17600A1EEF2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D79ECC33150FA17600A1EEF2 /* LunarCalendar */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D79ECC35150FA17600A1EEF2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D79ECC36150FA17600A1EEF2 /* Foundation.framework */,
+				D79ECC38150FA17600A1EEF2 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D79ECC3A150FA17600A1EEF2 /* LunarCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				D7DB89761515CFEA00AE7BF8 /* LunarCalendar.h */,
+				D7DB89771515CFEA00AE7BF8 /* LunarCalendar.m */,
+				D79ECC42150FA17700A1EEF2 /* LunarCalendarController.h */,
+				D79ECC43150FA17700A1EEF2 /* LunarCalendarController.m */,
+				D79ECC3B150FA17600A1EEF2 /* Package */,
+				D79ECC3F150FA17600A1EEF2 /* Supporting Files */,
+			);
+			path = LunarCalendar;
+			sourceTree = "<group>";
+		};
+		D79ECC3B150FA17600A1EEF2 /* Package */ = {
+			isa = PBXGroup;
+			children = (
+				D79ECC3C150FA17600A1EEF2 /* DEBIAN */,
+				D79ECC45150FA17700A1EEF2 /* System */,
+			);
+			name = Package;
+			sourceTree = "<group>";
+		};
+		D79ECC3C150FA17600A1EEF2 /* DEBIAN */ = {
+			isa = PBXGroup;
+			children = (
+				D7B6C8231517811A0002D3A7 /* postinst */,
+				D7B6C8241517811A0002D3A7 /* prerm */,
+				D79ECC3E150FA17600A1EEF2 /* control */,
+			);
+			name = DEBIAN;
+			sourceTree = "<group>";
+		};
+		D79ECC3F150FA17600A1EEF2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D79ECC40150FA17600A1EEF2 /* PackageVersion.plist */,
+				D79ECC41150FA17600A1EEF2 /* LunarCalendar-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D79ECC45150FA17700A1EEF2 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				D79ECC46150FA17700A1EEF2 /* Library */,
+			);
+			name = System;
+			sourceTree = "<group>";
+		};
+		D79ECC46150FA17700A1EEF2 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				D79ECC47150FA17700A1EEF2 /* WeeAppPlugins */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		D79ECC47150FA17700A1EEF2 /* WeeAppPlugins */ = {
+			isa = PBXGroup;
+			children = (
+				D79ECC48150FA17700A1EEF2 /* ___PACKAGENAME___ */,
+			);
+			name = WeeAppPlugins;
+			sourceTree = "<group>";
+		};
+		D79ECC48150FA17700A1EEF2 /* ___PACKAGENAME___ */ = {
+			isa = PBXGroup;
+			children = (
+				D7B6C8251517812C0002D3A7 /* en.lproj */,
+				D7B6C82A1517812C0002D3A7 /* zh_CN.lproj */,
+				D7B6C82F1517812C0002D3A7 /* zh_TW.lproj */,
+				D79ECC49150FA17700A1EEF2 /* Info.plist */,
+				D79ECC4B150FA17700A1EEF2 /* WeeAppBackground@2x.png */,
+				D79ECC4C150FA17700A1EEF2 /* WeeAppBackground.png */,
+			);
+			name = "___PACKAGENAME___";
+			sourceTree = "<group>";
+		};
+		D7B6C8251517812C0002D3A7 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				D7B6C8261517812C0002D3A7 /* InfoPlist.strings */,
+				D7B6C8281517812C0002D3A7 /* Localizable.strings */,
+			);
+			name = en.lproj;
+			path = Package/System/Library/WeeAppPlugins/LunarCalendar.bundle/en.lproj;
+			sourceTree = "<group>";
+		};
+		D7B6C82A1517812C0002D3A7 /* zh_CN.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				D7B6C82B1517812C0002D3A7 /* InfoPlist.strings */,
+				D7B6C82D1517812C0002D3A7 /* Localizable.strings */,
+			);
+			name = zh_CN.lproj;
+			path = Package/System/Library/WeeAppPlugins/LunarCalendar.bundle/zh_CN.lproj;
+			sourceTree = "<group>";
+		};
+		D7B6C82F1517812C0002D3A7 /* zh_TW.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				D7B6C8301517812C0002D3A7 /* InfoPlist.strings */,
+				D7B6C8321517812C0002D3A7 /* Localizable.strings */,
+			);
+			name = zh_TW.lproj;
+			path = Package/System/Library/WeeAppPlugins/LunarCalendar.bundle/zh_TW.lproj;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D79ECC30150FA17600A1EEF2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D7DB89781515CFEA00AE7BF8 /* LunarCalendar.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		D79ECC32150FA17600A1EEF2 /* LunarCalendar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D79ECC4F150FA17700A1EEF2 /* Build configuration list for PBXNativeTarget "LunarCalendar" */;
+			buildPhases = (
+				D79ECC2E150FA17600A1EEF2 /* Sources */,
+				D79ECC2F150FA17600A1EEF2 /* Frameworks */,
+				D79ECC30150FA17600A1EEF2 /* Headers */,
+				D79ECC31150FA17600A1EEF2 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LunarCalendar;
+			productName = LunarCalendar;
+			productReference = D79ECC33150FA17600A1EEF2 /* LunarCalendar */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D79ECC29150FA17600A1EEF2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = D79ECC2C150FA17600A1EEF2 /* Build configuration list for PBXProject "LunarCalendar" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				zh_CN,
+				zh_TW,
+			);
+			mainGroup = D79ECC27150FA17600A1EEF2;
+			productRefGroup = D79ECC34150FA17600A1EEF2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D79ECC32150FA17600A1EEF2 /* LunarCalendar */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D79ECC31150FA17600A1EEF2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D79ECC2E150FA17600A1EEF2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D79ECC44150FA17700A1EEF2 /* LunarCalendarController.m in Sources */,
+				D7DB89791515CFEA00AE7BF8 /* LunarCalendar.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D7B6C8261517812C0002D3A7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D7B6C8271517812C0002D3A7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D7B6C8281517812C0002D3A7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D7B6C8291517812C0002D3A7 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		D7B6C82B1517812C0002D3A7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D7B6C82C1517812C0002D3A7 /* zh_CN */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D7B6C82D1517812C0002D3A7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D7B6C82E1517812C0002D3A7 /* zh_CN */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		D7B6C8301517812C0002D3A7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D7B6C8311517812C0002D3A7 /* zh_TW */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D7B6C8321517812C0002D3A7 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D7B6C8331517812C0002D3A7 /* zh_TW */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D79ECC4D150FA17700A1EEF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = "$(iOSOpenDevPath)/frameworks/**";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Release;
+		};
+		D79ECC4E150FA17700A1EEF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = "$(iOSOpenDevPath)/frameworks/**";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = NO;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Debug;
+		};
+		D79ECC50150FA17700A1EEF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_EXTENSION = "";
+				EXECUTABLE_NAME = LunarCalendar;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LunarCalendar/LunarCalendar-Prefix.pch";
+				INSTALL_PATH = /System/Library/WeeAppPlugins/LunarCalendar.bundle;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = NO;
+				iOSOpenDevRespringOnInstall = NO;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Release;
+		};
+		D79ECC51150FA17700A1EEF2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_EXTENSION = "";
+				EXECUTABLE_NAME = LunarCalendar;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "LunarCalendar/LunarCalendar-Prefix.pch";
+				INSTALL_PATH = /System/Library/WeeAppPlugins/LunarCalendar.bundle;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = NO;
+				iOSOpenDevRespringOnInstall = NO;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D79ECC2C150FA17600A1EEF2 /* Build configuration list for PBXProject "LunarCalendar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D79ECC4D150FA17700A1EEF2 /* Release */,
+				D79ECC4E150FA17700A1EEF2 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D79ECC4F150FA17700A1EEF2 /* Build configuration list for PBXNativeTarget "LunarCalendar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D79ECC50150FA17700A1EEF2 /* Release */,
+				D79ECC51150FA17700A1EEF2 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D79ECC29150FA17600A1EEF2 /* Project object */;
+}

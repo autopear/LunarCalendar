@@ -1,6 +1,6 @@
 Package: com.autopear.lunarcalendar
 Name: Lunar Calendar
-Version: 1.0-1
+Version: 1.0.1-1
 Description: Lunar Calendar on NotificationCenter.
 Section: Addons (NotificationCenter)
 Depends: firmware (>= 5.0), com.saurik.substrate.safemode

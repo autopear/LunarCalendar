@@ -2,9 +2,9 @@
 
 /* Date format */
 /* Sample: "9H-5E/Mar/14th Dragon" */
-"DateFormatNormal" = "[H]-[E]/[M]/[D] [Z]";
+"DateFormatNormal" = "[H][E]/[M]/[D] [Z]";
 /* Sample: "9H-5E/10H-4E/10H-10E" */
-"DateFormatTraditional" = "[YH]-[YE]/[MH]-[ME]/[DH]-[DE]";
+"DateFormatTraditional" = "[YH][YE]/[MH][ME]/[DH][DE]";
 
 /* Heavenly Stems */
 "1H" = "1H";
@@ -118,3 +118,17 @@
 "29th" = "29th";
 "30th" = "30th";
 "31st" = "31st";
+
+/* Constellation */
+"Aries" = "Aries";
+"Taurus" = "Taurus";
+"Gemini" = "Gemini";
+"Cancer" = "Cancer";
+"Leo" = "Leo";
+"Virgo" = "Virgo";
+"Libra" = "Libra";
+"Scorpio" = "Scorpio";
+"Sagittarius" = "Sagittarius";
+"Capricorn" = "Capricorn";
+"Aquarius" = "Aquarius";
+"Pisces" = "Pisces";

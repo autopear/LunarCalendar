@@ -117,3 +117,17 @@
 "29th" = "廿九";
 "30th" = "三十";
 "31st" = "卅一";
+
+/* Constellation */
+"Aries" = "白羊";
+"Taurus" = "金牛";
+"Gemini" = "雙子";
+"Cancer" = "巨蟹";
+"Leo" = "獅子";
+"Virgo" = "室女";
+"Libra" = "天秤";
+"Scorpio" = "天蠍";
+"Sagittarius" = "人馬";
+"Capricorn" = "魔羯";
+"Aquarius" = "寶瓶";
+"Pisces" = "雙魚";

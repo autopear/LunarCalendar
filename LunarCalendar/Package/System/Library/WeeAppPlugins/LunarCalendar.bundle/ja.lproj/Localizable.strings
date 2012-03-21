@@ -1,8 +1,8 @@
 "LeapTitle" = "閏";
 
 /* Date format */
-/* Sample: "壬辰龍年三月十四" */
-"DateFormatNormal" = "[H][E][Z]年[M]月[D]";
+/* Sample: "壬辰竜年三月十四日" */
+"DateFormatNormal" = "[Z]  [H][E]年[M][D]日";
 /* Sample: "壬辰年癸卯月癸酉日" */
 "DateFormatTraditional" = "[YH][YE]年[MH][ME]月[DH][DE]日";
 
@@ -36,30 +36,30 @@
 "Rat" = "鼠";
 "Ox" = "牛";
 "Tiger" = "虎";
-"Rabbit" = "兔";
-"Dragon" = "龍";
+"Rabbit" = "兎";
+"Dragon" = "竜";
 "Snake" = "蛇";
 "Horse" = "馬";
 "Goat" = "羊";
-"Monkey" = "猴";
-"Rooster" = "雞";
-"Dog" = "狗";
-"Pig" = "豬";
+"Monkey" = "猿";
+"Rooster" = "鶏";
+"Dog" = "犬";
+"Pig" = "猪";
 
 "Start of spring" = "立春";
 "Rain water" = "雨水";
-"Awakening of insects" = "驚蟄";
+"Awakening of insects" = "啓蟄";
 "Vernal equinox" = "春分";
 "Clear and bright" = "清明";
 "Grain rains" = "穀雨";
 "Start of summer" = "立夏";
-"Grain full" = "小滿";
+"Grain full" = "小満";
 "Grain in ear" = "芒種";
 "Summer solstice" = "夏至";
 "Minor heat" = "小暑";
 "Major heat" = "大暑";
 "Start of autumn" = "立秋";
-"Limit of heat" = "處暑";
+"Limit of heat" = "処暑";
 "White dew" = "白露";
 "Autumnal equinox" = "秋分";
 "Cold dew" = "寒露";
@@ -72,30 +72,30 @@
 "Major cold" = "大寒";
 
 /* Month */
-"JAN" = "正";
-"FEB" = "二";
-"MAR" = "三";
-"APR" = "四";
-"MAY" = "五";
-"JUN" = "六";
-"JUL" = "七";
-"AUG" = "八";
-"SEP" = "九";
-"OCT" = "十";
-"NOV" = "十一";
-"DEC" = "臘";
+"JAN" = "睦月";
+"FEB" = "如月";
+"MAR" = "弥生";
+"APR" = "卯月";
+"MAY" = "皐月";
+"JUN" = "水無月";
+"JUL" = "文月";
+"AUG" = "葉月";
+"SEP" = "長月";
+"OCT" = "神無月";
+"NOV" = "霜月";
+"DEC" = "師走";
 
 /* Day */
-"1st" = "初一";
-"2nd" = "初二";
-"3rd" = "初三";
-"4th" = "初四";
-"5th" = "初五";
-"6th" = "初六";
-"7th" = "初七";
-"8th" = "初八";
-"9th" = "初九";
-"10th" = "初十";
+"1st" = "一";
+"2nd" = "二";
+"3rd" = "三";
+"4th" = "四";
+"5th" = "五";
+"6th" = "六";
+"7th" = "七";
+"8th" = "八";
+"9th" = "九";
+"10th" = "十";
 "11th" = "十一";
 "12th" = "十二";
 "13th" = "十三";
@@ -105,7 +105,7 @@
 "17th" = "十七";
 "18th" = "十八";
 "19th" = "十九";
-"20th" = "二十";
+"20th" = "廿";
 "21st" = "廿一";
 "22nd" = "廿二";
 "23rd" = "廿三";
@@ -115,21 +115,21 @@
 "27th" = "廿七";
 "28th" = "廿八";
 "29th" = "廿九";
-"30th" = "三十";
+"30th" = "卅";
 "31st" = "卅一";
 
 /* Constellation */
 "Aries" = "白羊";
 "Taurus" = "金牛";
-"Gemini" = "雙子";
+"Gemini" = "双児";
 "Cancer" = "巨蟹";
 "Leo" = "獅子";
-"Virgo" = "室女";
+"Virgo" = "処女";
 "Libra" = "天秤";
-"Scorpio" = "天蠍";
+"Scorpio" = "天蝎";
 "Sagittarius" = "人馬";
-"Capricorn" = "魔羯";
-"Aquarius" = "寶瓶";
-"Pisces" = "雙魚";
+"Capricorn" = "磨羯";
+"Aquarius" = "宝瓶";
+"Pisces" = "双魚";
 
-"Copied to clipboard." = "已拷貝到剪貼板。";
+"Copied to clipboard." = "クリップボードへコピーしました。";

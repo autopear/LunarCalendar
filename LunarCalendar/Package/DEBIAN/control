@@ -1,6 +1,6 @@
 Package: com.autopear.lunarcalendar
-Name: Lunar Calendar
-Version: 1.0.1-1
+Name: Lunar Calendar for NotificationCenter
+Version: 1.0.1-2
 Description: Lunar Calendar on NotificationCenter.
 Section: Addons (NotificationCenter)
 Depends: firmware (>= 5.0), com.saurik.substrate.safemode
@@ -9,12 +9,12 @@ Provides: com.autopear.lunarcalendar-beta
 Replaces: com.autopear.lunarcalendar-beta
 Priority: standard
 Architecture: iphoneos-arm
-Icon: file:///Applications/Preferences.app/notification_icon.png
+Icon: file:///Applications/Preferences.app/notification_icon@2x.png
 Author: Merlin <lonelystars@gmail.com>
 dev: lonelystars
-Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=lunarcalendarDp
-Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=lunarcalendarDp
+Homepage: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=lunarcalendarweeappDp
+Depiction: http://moreinfo.thebigboss.org/moreinfo/depiction.php?file=lunarcalendarweeappDp
 Maintainer: BigBoss <bigboss@thebigboss.org>
 Sponsor: thebigboss.org <http://thebigboss.org/>
 Tag: role::enduser, purpose::extension
-Installed-Size: 48
+Installed-Size: 55

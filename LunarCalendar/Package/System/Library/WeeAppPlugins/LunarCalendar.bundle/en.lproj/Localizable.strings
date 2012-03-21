@@ -1,9 +1,9 @@
 "LeapTitle" = "Leap";
 
 /* Date format */
-/* Sample: "9H-5E/Mar/14th Dragon" */
+/* Sample: "9H5E/Mar/14th Dragon" */
 "DateFormatNormal" = "[H][E]/[M]/[D] [Z]";
-/* Sample: "9H-5E/10H-4E/10H-10E" */
+/* Sample: "9H5E/10H4E/10H10E" */
 "DateFormatTraditional" = "[YH][YE]/[MH][ME]/[DH][DE]";
 
 /* Heavenly Stems */
@@ -132,3 +132,5 @@
 "Capricorn" = "Capricorn";
 "Aquarius" = "Aquarius";
 "Pisces" = "Pisces";
+
+"Copied to clipboard." = "Copied to clipboard.";

@@ -15,6 +15,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D748C419151A21A7001EA15F /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = InfoPlist.strings; sourceTree = "<group>"; };
+		D748C41B151A21A7001EA15F /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Localizable.strings; sourceTree = "<group>"; };
+		D748C41E151A21A7001EA15F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = InfoPlist.strings; sourceTree = "<group>"; };
+		D748C420151A21A7001EA15F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Localizable.strings; sourceTree = "<group>"; };
 		D79ECC33150FA17600A1EEF2 /* LunarCalendar */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = LunarCalendar; sourceTree = BUILT_PRODUCTS_DIR; };
 		D79ECC36150FA17600A1EEF2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D79ECC38150FA17600A1EEF2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -51,6 +55,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D748C417151A21A7001EA15F /* ja.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				D748C418151A21A7001EA15F /* InfoPlist.strings */,
+				D748C41A151A21A7001EA15F /* Localizable.strings */,
+			);
+			name = ja.lproj;
+			path = Package/System/Library/WeeAppPlugins/LunarCalendar.bundle/ja.lproj;
+			sourceTree = "<group>";
+		};
+		D748C41C151A21A7001EA15F /* ko.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				D748C41D151A21A7001EA15F /* InfoPlist.strings */,
+				D748C41F151A21A7001EA15F /* Localizable.strings */,
+			);
+			name = ko.lproj;
+			path = Package/System/Library/WeeAppPlugins/LunarCalendar.bundle/ko.lproj;
+			sourceTree = "<group>";
+		};
 		D79ECC27150FA17600A1EEF2 = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +169,8 @@
 		D79ECC48150FA17700A1EEF2 /* ___PACKAGENAME___ */ = {
 			isa = PBXGroup;
 			children = (
+				D748C417151A21A7001EA15F /* ja.lproj */,
+				D748C41C151A21A7001EA15F /* ko.lproj */,
 				D7B6C8251517812C0002D3A7 /* en.lproj */,
 				D7B6C82A1517812C0002D3A7 /* zh_CN.lproj */,
 				D7B6C82F1517812C0002D3A7 /* zh_TW.lproj */,
@@ -233,6 +259,8 @@
 				en,
 				zh_CN,
 				zh_TW,
+				ja,
+				ko,
 			);
 			mainGroup = D79ECC27150FA17600A1EEF2;
 			productRefGroup = D79ECC34150FA17600A1EEF2 /* Products */;
@@ -273,6 +301,38 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		D748C418151A21A7001EA15F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D748C419151A21A7001EA15F /* ja */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D748C41A151A21A7001EA15F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D748C41B151A21A7001EA15F /* ja */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		D748C41D151A21A7001EA15F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D748C41E151A21A7001EA15F /* ko */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D748C41F151A21A7001EA15F /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D748C420151A21A7001EA15F /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		D7B6C8261517812C0002D3A7 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

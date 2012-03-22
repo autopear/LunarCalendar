@@ -1,4 +1,4 @@
-
+"LeapTitle" = "";
 
 /* Sample: "임진(壬辰)년 계묘(癸卯)월 신사(辛巳)일" */
 "DateFormatTraditional" = "[YH][YE] 년 [MH][ME] 월 [DH][DE] 일";
@@ -102,8 +102,6 @@
 "30th" = "30일";
 "31st" = "31일";
 
-"LeapTitle" = "";
-
 /* Chinese Zodiac */
 "Rat" = "";
 "Ox" = "";
@@ -133,3 +131,5 @@
 "Pisces" = "물고기자리";
 
 "Copied to clipboard." = "복사 다 되었습니다.";
+
+"OK" = "확인";

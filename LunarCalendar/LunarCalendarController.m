@@ -9,8 +9,6 @@
 #import "LunarCalendarController.h"
 #import <SpringBoard/SBBulletinListController.h>
 
-
-
 @implementation LunarCalendarController
 
 -(id)init
@@ -51,7 +49,7 @@
 		pageView1.textAlignment = UITextAlignmentCenter;
         [pageView1 setFont:[UIFont boldSystemFontOfSize:18]];
         pageView1.shadowColor = [UIColor blackColor];
-        pageView1.shadowOffset = CGSizeMake(1.5,1.5);
+        pageView1.shadowOffset = CGSizeMake(1.0,1.0);
         [pageView1 setNumberOfLines:1];
         pageView1.adjustsFontSizeToFitWidth = YES;
 		[scrollView addSubview:pageView1];
@@ -66,7 +64,7 @@
 		pageView2.textAlignment = UITextAlignmentCenter;
         [pageView2 setFont:[UIFont boldSystemFontOfSize:18]];
         pageView2.shadowColor = [UIColor blackColor];
-        pageView2.shadowOffset = CGSizeMake(1.5,1.5);
+        pageView2.shadowOffset = CGSizeMake(1.0,1.0);
         [pageView2 setNumberOfLines:1];
         pageView2.adjustsFontSizeToFitWidth = YES;
 		[scrollView addSubview:pageView2];
@@ -81,12 +79,24 @@
 		pageView3.textAlignment = UITextAlignmentCenter;
         [pageView3 setFont:[UIFont boldSystemFontOfSize:18]];
         pageView3.shadowColor = [UIColor blackColor];
-        pageView3.shadowOffset = CGSizeMake(1.5,1.5);
+        pageView3.shadowOffset = CGSizeMake(1.0,1.0);
         [pageView3 setNumberOfLines:1];
         pageView3.adjustsFontSizeToFitWidth = YES;
 		[scrollView addSubview:pageView3];
         [pageView3 release];
         
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+
+        bigButton = [[UIButton alloc] initWithFrame:CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width * 3, scrollView.frame.size.height)];
+        [bigButton addGestureRecognizer:longPress];
+        [bigButton addGestureRecognizer:tap];
+        [scrollView addSubview:bigButton];
+        [bigButton release];
+        
+        [longPress release];
+        [tap release];
+
         scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * 3, 30);
         scrollView.showsHorizontalScrollIndicator = NO;
 
@@ -94,9 +104,158 @@
         [scrollView release];
         
         currentDate = 0;
+        dateFormat = 0;
     }
 
 	return _view;
+}
+
+- (void)dismissAlert:(UIAlertView *)alert
+{
+    [alert dismissWithClickedButtonIndex:0 animated:YES];
+}
+
+- (void)longPress:(UILongPressGestureRecognizer *)gesture
+{
+    if (gesture.state == UIGestureRecognizerStateEnded)
+    {
+        NSLog(@"Long");
+        NSBundle *bundle = [[NSBundle alloc] initWithPath:@"/System/Library/WeeAppPlugins/LunarCalendar.bundle/"];
+        
+        NSString *message = NSLocalizedStringFromTableInBundle(@"Copied to clipboard.", nil, bundle, @"Copied to clipboard.");
+
+        [bundle release];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil];
+
+        [alert show];
+        
+        NSArray *subViewArray = alert.subviews;
+        
+        UIView *alertView = [subViewArray objectAtIndex:0];                
+        alertView.frame = CGRectMake(alertView.frame.origin.x, alertView.frame.origin.y + alertView.frame.size.height / 2 - 40, alertView.frame.size.width, 80);
+        UILabel *label = [subViewArray objectAtIndex:1];
+        label.frame = alertView.frame;
+        [label setTextAlignment:UITextAlignmentCenter];
+
+        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+        pasteboard.strings = [NSArray arrayWithObjects:pageView1.text, @"\n", pageView2.text, @"\n", pageView3.text, nil];
+        
+        [self performSelector:@selector(dismissAlert:) withObject:alert afterDelay:1.5];
+        
+        [alert release];
+    }
+}
+
+- (void)tap:(UITapGestureRecognizer *)gesture
+{
+    if (gesture.state == UIGestureRecognizerStateEnded)
+    {
+        //Tap first page only
+        if (scrollView.contentOffset.x < scrollView.frame.size.width)
+        {
+            [self performSelector:@selector(refreshLabel) withObject:nil afterDelay:0.3];
+        }
+    }
+}
+
+- (void)refreshLabel
+{
+    if (dateFormat <= 0)
+        dateFormat = 1;
+    else if (dateFormat > 3)
+        dateFormat = 0;
+    else
+        dateFormat++;
+    
+    pageView1.text = [self customDatePrinter:dateFormat];
+}
+
+- (NSString *)customDatePrinter:(int)format
+{
+    NSString *str = @"";
+    
+    NSDate *today = [NSDate date];
+        
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    [dateFormatter setLocale:[NSLocale currentLocale]];
+    
+    if (dateFormat == 0)
+        [dateFormatter setDateStyle:NSDateFormatterFullStyle];
+    else
+        [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    
+    NSString *date = [dateFormatter stringFromDate:today];    
+    
+    NSString *constellation = @"";
+    if (dateFormat == 0 || dateFormat == 2)
+    {
+        NSBundle *bundle = [[NSBundle alloc] initWithPath:@"/System/Library/WeeAppPlugins/LunarCalendar.bundle/"];
+    
+        NSDateFormatter *constellationFormatter = [[NSDateFormatter alloc] init];
+    
+        [constellationFormatter setDateFormat:@"MMdd"];
+    
+        int intConstellation = [[constellationFormatter stringFromDate:today] intValue];
+    
+        [constellationFormatter release];
+    
+        if (intConstellation >= 121 && intConstellation <= 219)
+            constellation = NSLocalizedStringFromTableInBundle(@"Aquarius", nil, bundle, @"Aquarius");
+        else if (intConstellation >= 220 && intConstellation <= 320)
+            constellation = NSLocalizedStringFromTableInBundle(@"Pisces", nil, bundle, @"Pisces");
+        else if (intConstellation >= 321 && intConstellation <= 419)
+            constellation = NSLocalizedStringFromTableInBundle(@"Aries", nil, bundle, @"Aries");
+        else if (intConstellation >= 420 && intConstellation <= 520)
+            constellation = NSLocalizedStringFromTableInBundle(@"Taurus", nil, bundle, @"Taurus");
+        else if (intConstellation >= 521 && intConstellation <= 621)
+            constellation = NSLocalizedStringFromTableInBundle(@"Gemini", nil, bundle, @"Gemini");
+        else if (intConstellation >= 622 && intConstellation <= 722)
+            constellation = NSLocalizedStringFromTableInBundle(@"Taurus", nil, bundle, @"Cancer");
+        else if (intConstellation >= 723 && intConstellation <= 822)
+            constellation = NSLocalizedStringFromTableInBundle(@"Leo", nil, bundle, @"Leo");
+        else if (intConstellation >= 823 && intConstellation <= 922)
+            constellation = NSLocalizedStringFromTableInBundle(@"Virgo", nil, bundle, @"Virgo");
+        else if (intConstellation >= 923 && intConstellation <= 1023)
+            constellation = NSLocalizedStringFromTableInBundle(@"Libra", nil, bundle, @"Libra");
+        else if (intConstellation >= 1024 && intConstellation <= 1121)
+            constellation = NSLocalizedStringFromTableInBundle(@"Scorpio", nil, bundle, @"Scorpio");
+        else if (intConstellation >= 1122 && intConstellation <= 1220)
+            constellation = NSLocalizedStringFromTableInBundle(@"Sagittarius", nil, bundle, @"Sagittarius");
+        else
+            constellation = NSLocalizedStringFromTableInBundle(@"Capricorn", nil, bundle, @"Capricorn");
+        [bundle release];
+    }
+    if (dateFormat == 0)
+    {
+        //date + weekday + constellation
+        str = [[date stringByAppendingString:@"  "] stringByAppendingString:constellation];
+    }
+    else if (dateFormat == 1)
+    {
+        //date + weekday
+        NSCalendar* cal = [NSCalendar currentCalendar];
+        NSDateComponents* weekday = [cal components:NSWeekdayCalendarUnit fromDate:today];
+        NSString *wd = [[dateFormatter weekdaySymbols] objectAtIndex:([weekday weekday] + 6) % 7];
+        str = [date stringByAppendingFormat:@"    %@", wd];
+    }
+    else if (dateFormat == 2)
+    {
+        //date + constellation
+        str = [date stringByAppendingFormat:@"    %@", constellation];
+    }
+    else
+    {
+        //date only
+        str = date;
+    }
+
+    [dateFormatter release];
+    
+    return str;
 }
 
 - (void)viewDidAppear
@@ -129,55 +288,9 @@
     NSDateFormatter *currentFormatter = [[NSDateFormatter alloc] init];
     
     [currentFormatter setDateFormat:@"yyyyMMdd"];
-        
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    
-    [dateFormatter setDateStyle:NSDateFormatterFullStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-        
-    NSString *date = [dateFormatter stringFromDate:today];    
 
-    [dateFormatter release];
-    
-    NSString *constellation = @"";
-    NSBundle *bundle = [[NSBundle alloc] initWithPath:@"/System/Library/WeeAppPlugins/LunarCalendar.bundle/"];
-    
-    NSDateFormatter *constellationFormatter = [[NSDateFormatter alloc] init];
-    
-    [constellationFormatter setDateFormat:@"MMdd"];
-    
-    int intConstellation = [[constellationFormatter stringFromDate:today] intValue];
-    
-    [constellationFormatter release];
-    
-    if (intConstellation >= 121 && intConstellation <= 219)
-        constellation = NSLocalizedStringFromTableInBundle(@"Aquarius", nil, bundle, @"Aquarius");
-    else if (intConstellation >= 220 && intConstellation <= 320)
-        constellation = NSLocalizedStringFromTableInBundle(@"Pisces", nil, bundle, @"Pisces");
-    else if (intConstellation >= 321 && intConstellation <= 419)
-        constellation = NSLocalizedStringFromTableInBundle(@"Aries", nil, bundle, @"Aries");
-    else if (intConstellation >= 420 && intConstellation <= 520)
-        constellation = NSLocalizedStringFromTableInBundle(@"Taurus", nil, bundle, @"Taurus");
-    else if (intConstellation >= 521 && intConstellation <= 621)
-        constellation = NSLocalizedStringFromTableInBundle(@"Gemini", nil, bundle, @"Gemini");
-    else if (intConstellation >= 622 && intConstellation <= 722)
-        constellation = NSLocalizedStringFromTableInBundle(@"Taurus", nil, bundle, @"Cancer");
-    else if (intConstellation >= 723 && intConstellation <= 822)
-        constellation = NSLocalizedStringFromTableInBundle(@"Leo", nil, bundle, @"Leo");
-    else if (intConstellation >= 823 && intConstellation <= 922)
-        constellation = NSLocalizedStringFromTableInBundle(@"Virgo", nil, bundle, @"Virgo");
-    else if (intConstellation >= 923 && intConstellation <= 1023)
-        constellation = NSLocalizedStringFromTableInBundle(@"Libra", nil, bundle, @"Libra");
-    else if (intConstellation >= 1024 && intConstellation <= 1121)
-        constellation = NSLocalizedStringFromTableInBundle(@"Scorpio", nil, bundle, @"Scorpio");
-    else if (intConstellation >= 1122 && intConstellation <= 1220)
-        constellation = NSLocalizedStringFromTableInBundle(@"Sagittarius", nil, bundle, @"Sagittarius");
-    else
-        constellation = NSLocalizedStringFromTableInBundle(@"Capricorn", nil, bundle, @"Capricorn");
-    
-    NSString *str = [[date stringByAppendingString:@"  "] stringByAppendingString:constellation];
-    pageView1.text = str;
-
+    pageView1.text = [self customDatePrinter:dateFormat];
+        
     if (currentDate != [[currentFormatter stringFromDate:today] intValue])
     {
         NSLog(@"Recalculate");
@@ -187,7 +300,6 @@
     {
         NSLog(@"Do nothing");
         [currentFormatter release];
-        [bundle release];
         return;
     }
     
@@ -200,6 +312,8 @@
     [lunarCal InitializeValue];
     
     bool isLeap = [lunarCal IsLeap];
+    
+    NSBundle *bundle = [[NSBundle alloc] initWithPath:@"/System/Library/WeeAppPlugins/LunarCalendar.bundle/"];
     
     NSString *yearHeavenlyStem = NSLocalizedStringFromTableInBundle([lunarCal YearHeavenlyStem], nil, bundle, [lunarCal YearHeavenlyStem]);
     NSString *yearEarthlyBranch = NSLocalizedStringFromTableInBundle([lunarCal YearEarthlyBranch], nil, bundle, [lunarCal YearEarthlyBranch]);

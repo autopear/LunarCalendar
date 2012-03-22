@@ -17,12 +17,21 @@
     UIImageView *bgView;
     UIScrollView *scrollView;
     UILabel *pageView1, *pageView2, *pageView3;
+    UIButton *bigButton;
     
     int currentDate;
+    
+    int dateFormat;
     
     CGFloat originalWidth;
 }
 
 - (UIView *)view;
+- (void)viewDidAppear;
+- (void)longPress:(UILongPressGestureRecognizer *)gesture;
+- (void)tap:(UITapGestureRecognizer *)gesture;
+- (NSString *)customDatePrinter:(int)format;
+- (void)dismissAlert:(UIAlertView *)alert;
+- (void)refreshLabel;
 
 @end

@@ -18,11 +18,11 @@
     UIScrollView *scrollView;
     UILabel *pageView1, *pageView2, *pageView3;
     UIButton *bigButton;
-    
+
     int currentDate;
-    
+
     int dateFormat;
-    
+
     CGFloat originalWidth;
 }
 

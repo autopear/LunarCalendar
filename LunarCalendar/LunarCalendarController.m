@@ -239,12 +239,12 @@
         NSCalendar* cal = [NSCalendar currentCalendar];
         NSDateComponents* weekday = [cal components:NSWeekdayCalendarUnit fromDate:today];
         NSString *wd = [[dateFormatter weekdaySymbols] objectAtIndex:([weekday weekday] + 6) % 7];
-        str = [date stringByAppendingFormat:@"    %@", wd];
+        str = [date stringByAppendingFormat:@"  %@", wd];
     }
     else if (dateFormat == 2)
     {
         //date + constellation
-        str = [date stringByAppendingFormat:@"    %@", constellation];
+        str = [date stringByAppendingFormat:@"  %@", constellation];
     }
     else
     {
@@ -276,9 +276,10 @@
         pageView2.frame = CGRectMake((superWidth - 12), 0, (superWidth - 12), 30);
         pageView3.frame = CGRectMake((superWidth - 12)*2, 0, (superWidth - 12), 30);
         scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * 3, 30);
-
         [scrollView setContentOffset:contentOffset animated:NO];
-
+        
+        bigButton.frame = CGRectMake(4, 0, (superWidth - 12) * 3, 30);
+        
         originalWidth = superWidth;
     }
 
@@ -359,7 +360,7 @@
     if ([solarTerm isEqualToString:@""])
         [pageView2 setText:dateFormatNormal];
     else
-        [pageView2 setText:[dateFormatNormal stringByAppendingFormat:@"    %@", solarTerm]];
+        [pageView2 setText:[dateFormatNormal stringByAppendingFormat:@"  %@", solarTerm]];
 
     [pageView3 setText:dateFormatTraditional];
 }

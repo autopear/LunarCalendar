@@ -30,16 +30,16 @@
 {
     if (_view == nil)
     {
-        _view = [[UIView alloc] initWithFrame:CGRectMake(2, 0, 316, 30)];
+        _view = [[UIView alloc] initWithFrame:CGRectMake(2, 0, 316, 28)];
 
         UIImage *bg = [[UIImage imageWithContentsOfFile:@"/System/Library/WeeAppPlugins/LunarCalendar.bundle/WeeAppBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
 
         bgView = [[UIImageView alloc] initWithImage:bg];
-        bgView.frame = CGRectMake(0, 0, 316, 30);
+        bgView.frame = CGRectMake(0, 0, 316, 28);
         [_view addSubview:bgView];
         [bgView release];
 
-        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(4, 0, 308, 30)];
+        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(4, 0, 308, 28)];
         scrollView.pagingEnabled = YES;
 
         pageView1 = [[UILabel alloc] initWithFrame:scrollView.frame];
@@ -97,7 +97,7 @@
         [longPress release];
         [tap release];
 
-        scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * 3, 30);
+        scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * 3, 28);
         scrollView.showsHorizontalScrollIndicator = NO;
 
         [_view addSubview:scrollView];
@@ -268,17 +268,17 @@
         CGPoint contentOffset = scrollView.contentOffset;
         contentOffset.x = scrollView.contentOffset.x / (originalWidth - 12) * (superWidth - 12);
 
-        _view.frame = CGRectMake(2, 0, (superWidth - 4), 30);
-        bgView.frame = CGRectMake(0, 0, (superWidth - 4), 30);
-        scrollView.frame = CGRectMake(4, 0, (superWidth - 12), 30);
+        _view.frame = CGRectMake(2, 0, (superWidth - 4), 28);
+        bgView.frame = CGRectMake(0, 0, (superWidth - 4), 28);
+        scrollView.frame = CGRectMake(4, 0, (superWidth - 12), 28);
 
-        pageView1.frame = CGRectMake(0, 0, (superWidth - 12), 30);
-        pageView2.frame = CGRectMake((superWidth - 12), 0, (superWidth - 12), 30);
-        pageView3.frame = CGRectMake((superWidth - 12)*2, 0, (superWidth - 12), 30);
-        scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * 3, 30);
+        pageView1.frame = CGRectMake(0, 0, (superWidth - 12), 28);
+        pageView2.frame = CGRectMake((superWidth - 12), 0, (superWidth - 12), 28);
+        pageView3.frame = CGRectMake((superWidth - 12)*2, 0, (superWidth - 12), 28);
+        scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * 3, 28);
         [scrollView setContentOffset:contentOffset animated:NO];
         
-        bigButton.frame = CGRectMake(4, 0, (superWidth - 12) * 3, 30);
+        bigButton.frame = CGRectMake(4, 0, (superWidth - 12) * 3, 28);
         
         originalWidth = superWidth;
     }
@@ -367,7 +367,7 @@
 
 - (float)viewHeight
 {
-    return 30.0f;
+    return 28.0f;
 }
 
 @end

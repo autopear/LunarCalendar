@@ -1,7 +1,10 @@
 "LeapTitle" = "";
 
-/* Sample: "임진(壬辰)년 계묘(癸卯)월 신사(辛巳)일" */
-"DateFormatTraditional" = "[YH][YE] 년 [MH][ME] 월 [DH][DE] 일";
+/* Date format */
+/* Sample: "임壬진辰년정월14일" */
+"DateFormatNormal" = "[H][E]년[M]월[D]";
+/* Sample: "임壬진辰년계癸묘卯월신辛사巳일" */
+"DateFormatTraditional" = "[YH][YE]년[MH][ME]월[DH][DE]일";
 
 /* Heavenly Stems */
 "1H" = "갑甲";
@@ -102,19 +105,21 @@
 "30th" = "30일";
 "31st" = "31일";
 
+"LeapTitle" = "";
+
 /* Chinese Zodiac */
-"Rat" = "";
-"Ox" = "";
-"Tiger" = "";
-"Rabbit" = "";
-"Dragon" = "";
-"Snake" = "";
-"Horse" = "";
-"Goat" = "";
-"Monkey" = "";
-"Rooster" = "";
-"Dog" = "";
-"Pig" = "";
+"Rat" = "쥐";
+"Ox" = "소";
+"Tiger" = "범";
+"Rabbit" = "토끼";
+"Dragon" = "용";
+"Snake" = "뱀";
+"Horse" = "말";
+"Goat" = "앙";
+"Monkey" = "원숭이";
+"Rooster" = "닭";
+"Dog" = "개";
+"Pig" = "돼지";
 
 /* Constellation */
 "Aries" = "양자리";

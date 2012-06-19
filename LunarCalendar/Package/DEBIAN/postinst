@@ -1,6 +1,13 @@
 #!/bin/bash
 declare -a cydia
 cydia=($CYDIA)
+if [ -f /var/mobile/Library/Preferences/com.autopear.lunarcalendar.plist ]; then
+    rm -f /var/mobile/Library/Preferences/com.autopear.lunarcalendar.install
+else
+    mv -f /var/mobile/Library/Preferences/com.autopear.lunarcalendar.install /var/mobile/Library/Preferences/com.autopear.lunarcalendar.plist
+fi
+chown mobile:mobile /var/mobile/Library/Preferences/com.autopear.lunarcalendar.plist
+echo "You can manually edit /var/mobile/Library/Preferences/com.autopear.lunarcalendar.plist for custom date format, addon height and maximum font size."
 if [[ ${CYDIA+@} ]]; then
 	eval "echo 'finish:restart' >&${cydia[0]}"
 fi

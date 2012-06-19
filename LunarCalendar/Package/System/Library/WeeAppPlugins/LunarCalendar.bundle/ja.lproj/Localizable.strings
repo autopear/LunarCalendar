@@ -2,9 +2,9 @@
 
 /* Date format */
 /* Sample: "壬辰竜年三月十四日" */
-"DateFormatNormal" = "[Z]  [H][E]年[M][D]日";
+"DateFormatNormal" = "[Z]  [HY][EY]年[LM][LD]日";
 /* Sample: "壬辰年癸卯月癸酉日" */
-"DateFormatTraditional" = "[YH][YE]年[MH][ME]月[DH][DE]日";
+"DateFormatTraditional" = "[HY][EY]年[HM][EM]月[HD][ED]日";
 
 /* Heavenly Stems */
 "1H" = "甲";

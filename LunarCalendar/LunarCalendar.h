@@ -1,7 +1,9 @@
 ﻿#import <Foundation/Foundation.h>
 
-@interface LunarCalendar : NSObject {
-    struct SolarTerm {
+@interface LunarCalendar : NSObject
+{
+    struct SolarTerm
+    {
         NSString *solarName;
         int solarDate;
     };
@@ -70,4 +72,10 @@
 -(NSString *)DayEarthlyBranch;
 -(NSString *)SolarTermTitle;
 -(bool)IsLeap;
+-(int)GregorianYear;
+-(int)GregorianMonth;
+-(int)GregorianDay;
+-(int)Weekday;
+-(NSString *)Constellation;
+
 @end

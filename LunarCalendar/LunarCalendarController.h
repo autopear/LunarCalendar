@@ -19,19 +19,38 @@
     UILabel *pageView1, *pageView2, *pageView3;
     UIButton *bigButton;
 
-    int currentDate;
-
-    int dateFormat;
-
-    CGFloat originalWidth;
+    struct DateInfo
+    {
+        int GregorianYear;
+        int GregorianMonth;
+        int GregorianDay;
+        int Weekday;
+        NSString *LunarMonth;
+        NSString *LunarDay;
+        NSString *YearHeavenlyStem;
+        NSString *YearEarthlyBranch;
+        NSString *MonthHeavenlyStem;
+        NSString *MonthEarthlyBranch;
+        NSString *DayHeavenlyStem;
+        NSString *DayEarthlyBranch;
+        bool IsLeap;
+        NSString *Constellation;
+        NSString *Zodiac;
+        NSString *SolarTerm;
+        NSString *LeapTitle;
+    };
+    
+    float viewHeight;
+    int fontSize;
 }
 
+
 - (UIView *)view;
-- (void)viewDidAppear;
 - (void)longPress:(UILongPressGestureRecognizer *)gesture;
 - (void)tap:(UITapGestureRecognizer *)gesture;
 - (NSString *)customDatePrinter:(int)format;
 - (void)dismissAlert:(UIAlertView *)alert;
 - (void)refreshLabel;
+- (NSString *)calculateDate:(NSString *)template;
 
 @end

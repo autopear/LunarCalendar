@@ -381,6 +381,7 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
 {
     return zodiacLunar;
 }
+
 -(NSString *)YearHeavenlyStem
 {
     return yearHeavenlyStem;
@@ -420,4 +421,73 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
 {
     return isLeap;
 }
+
+-(int)GregorianYear
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy"];
+    int ret = [[formatter stringFromDate:thisdate] intValue];
+    [formatter release];
+    return ret;
+}
+
+-(int)GregorianMonth
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MM"];
+    int ret = [[formatter stringFromDate:thisdate] intValue];
+    [formatter release];
+    return ret;   
+}
+
+-(int)GregorianDay
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd"];
+    int ret = [[formatter stringFromDate:thisdate] intValue];
+    [formatter release];
+    return ret;
+}
+
+-(int)Weekday
+{
+    NSCalendar* cal = [NSCalendar currentCalendar];
+    NSDateComponents* weekday = [cal components:NSWeekdayCalendarUnit fromDate:thisdate];
+    return [weekday weekday];
+}
+
+-(NSString *)Constellation
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MMdd"];
+    int intConstellation = [[formatter stringFromDate:thisdate] intValue];
+    [formatter release];
+    
+    if (intConstellation >= 121 && intConstellation <= 219)
+        return @"Aquarius";
+    else if (intConstellation >= 220 && intConstellation <= 320)
+        return @"Pisces";
+    else if (intConstellation >= 321 && intConstellation <= 419)
+        return @"Aries";
+    else if (intConstellation >= 420 && intConstellation <= 520)
+        return @"Taurus";
+    else if (intConstellation >= 521 && intConstellation <= 621)
+        return @"Gemini";
+    else if (intConstellation >= 622 && intConstellation <= 722)
+        return @"Taurus";
+    else if (intConstellation >= 723 && intConstellation <= 822)
+        return @"Leo";
+    else if (intConstellation >= 823 && intConstellation <= 922)
+        return @"Virgo";
+    else if (intConstellation >= 923 && intConstellation <= 1023)
+        return @"Libra";
+    else if (intConstellation >= 1024 && intConstellation <= 1121)
+        return @"Scorpio";
+    else if (intConstellation >= 1122 && intConstellation <= 1220)
+        return @"Sagittarius";
+    else
+        return @"Capricorn";
+}
+
+
 @end

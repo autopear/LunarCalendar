@@ -463,31 +463,58 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
     int intConstellation = [[formatter stringFromDate:thisdate] intValue];
     [formatter release];
     
-    if (intConstellation >= 121 && intConstellation <= 219)
+    if (intConstellation >= 120 && intConstellation <= 218)
         return @"Aquarius";
-    else if (intConstellation >= 220 && intConstellation <= 320)
+    else if (intConstellation >= 219 && intConstellation <= 320)
         return @"Pisces";
-    else if (intConstellation >= 321 && intConstellation <= 419)
+    else if (intConstellation >= 321 && intConstellation <= 420)
         return @"Aries";
-    else if (intConstellation >= 420 && intConstellation <= 520)
+    else if (intConstellation >= 421 && intConstellation <= 520)
         return @"Taurus";
     else if (intConstellation >= 521 && intConstellation <= 621)
         return @"Gemini";
     else if (intConstellation >= 622 && intConstellation <= 722)
-        return @"Taurus";
+        return @"Cancer";
     else if (intConstellation >= 723 && intConstellation <= 822)
         return @"Leo";
     else if (intConstellation >= 823 && intConstellation <= 922)
         return @"Virgo";
-    else if (intConstellation >= 923 && intConstellation <= 1023)
+    else if (intConstellation >= 923 && intConstellation <= 1022)
         return @"Libra";
-    else if (intConstellation >= 1024 && intConstellation <= 1121)
+    else if (intConstellation >= 1023 && intConstellation <= 1121)
         return @"Scorpio";
-    else if (intConstellation >= 1122 && intConstellation <= 1220)
+    else if (intConstellation >= 1122 && intConstellation <= 1221)
         return @"Sagittarius";
     else
         return @"Capricorn";
 }
 
-
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

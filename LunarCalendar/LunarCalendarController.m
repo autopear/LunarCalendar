@@ -3,7 +3,7 @@
 //  LunarCalendar
 //
 //  Created by Merlin on 12-3-13.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 autopear. All rights reserved.
 //
 
 #import "LunarCalendarController.h"
@@ -14,6 +14,8 @@ static NSDictionary *preferences = nil;
 static struct DateInfo dateInfo;
 static int dateFormat, currentDate;
 static NSString *customDate;
+static float viewHeight;
+static int fontSize;
 
 #define PreferencesFilePath [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Preferences/com.autopear.lunarcalendar.plist"]
 
@@ -23,8 +25,25 @@ static NSString *customDate;
 {
     if ((self = [super init]))
     {
-        viewHeight = 28.0f;
-        fontSize = 18;
+        preferences = [[NSDictionary alloc] initWithContentsOfFile:PreferencesFilePath];
+        
+        if (preferences == nil)
+        {
+            dateFormat = 0;
+        }
+        else
+        {
+            if ([preferences objectForKey:@"ViewHeight"])
+                viewHeight = [[preferences objectForKey:@"ViewHeight"] floatValue];
+            else
+                viewHeight = 28.0f;
+            if ([preferences objectForKey:@"FontSize"])
+                fontSize = [[preferences objectForKey:@"FontSize"] intValue];
+            else
+                fontSize = 18;
+        }
+
+        currentDate = 0;
     }
     
     return self;
@@ -41,39 +60,21 @@ static NSString *customDate;
 {
     if (_view == nil)
     {
-        preferences = [[NSDictionary alloc] initWithContentsOfFile:PreferencesFilePath];
+        CGFloat superWidth = [[[objc_getClass("SBBulletinListController") sharedInstance] listView] tableView].bounds.size.width;
         
-        if (preferences == nil)
-        {
-            dateFormat = 0;
-            viewHeight = 28.0f;
-            fontSize = 18;
-        }
-        else
-        {
-            if ([preferences objectForKey:@"ViewHeight"])
-                viewHeight = [[preferences objectForKey:@"ViewHeight"] floatValue];
-            else
-                viewHeight = 28.0f;
-            if ([preferences objectForKey:@"FontSize"])
-                fontSize = [[preferences objectForKey:@"FontSize"] intValue];
-            else
-                fontSize = 18;
-        }
-        
-        _view = [[UIView alloc] initWithFrame:CGRectMake(2, 0, 316, viewHeight)];
+        _view = [[UIView alloc] initWithFrame:CGRectMake(2, 0, (superWidth - 4), viewHeight)];
         
         UIImage *bg = [[UIImage imageWithContentsOfFile:@"/System/Library/WeeAppPlugins/LunarCalendar.bundle/WeeAppBackground.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
         
         bgView = [[UIImageView alloc] initWithImage:bg];
-        bgView.frame = CGRectMake(0, 0, 316, viewHeight);
+        bgView.frame = CGRectMake(0, 0, (superWidth - 4), viewHeight);
         [_view addSubview:bgView];
         [bgView release];
         
-        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(4, 0, 308, viewHeight)];
+        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, (superWidth - 4), viewHeight)];
         scrollView.pagingEnabled = YES;
         
-        pageView1 = [[UILabel alloc] initWithFrame:scrollView.frame];
+        pageView1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, (superWidth - 4), viewHeight)];
         pageView1.backgroundColor = [UIColor clearColor];
         pageView1.textColor = [UIColor whiteColor];
         pageView1.text = @"";
@@ -86,9 +87,7 @@ static NSString *customDate;
         [scrollView addSubview:pageView1];
         [pageView1 release];
         
-        CGRect cgrect2 = scrollView.frame;
-        cgrect2.origin.x = scrollView.frame.size.width;
-        pageView2 = [[UILabel alloc] initWithFrame:cgrect2];
+        pageView2 = [[UILabel alloc] initWithFrame:CGRectMake((superWidth - 4), 0, (superWidth - 4), viewHeight)];
         pageView2.backgroundColor = [UIColor clearColor];
         pageView2.textColor = [UIColor whiteColor];
         pageView2.text = @"";
@@ -101,9 +100,7 @@ static NSString *customDate;
         [scrollView addSubview:pageView2];
         [pageView2 release];
         
-        CGRect cgrect3 = scrollView.frame;
-        cgrect3.origin.x = scrollView.frame.size.width * 2;
-        pageView3 = [[UILabel alloc] initWithFrame:cgrect3];
+        pageView3 = [[UILabel alloc] initWithFrame:CGRectMake((superWidth - 4) * 2, 0, (superWidth - 4), viewHeight)];
         pageView3.backgroundColor = [UIColor clearColor];
         pageView3.textColor = [UIColor whiteColor];
         pageView3.text = @"";
@@ -128,12 +125,11 @@ static NSString *customDate;
         [longPress release];
         [tap release];
         
-        scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * 3, viewHeight);
+        scrollView.contentSize = CGSizeMake((superWidth - 4) * 3, viewHeight);
         scrollView.showsHorizontalScrollIndicator = NO;
         
         [_view addSubview:scrollView];
         [scrollView release];
-        
     }
     
     return _view;
@@ -212,10 +208,7 @@ static NSString *customDate;
     template = [template stringByReplacingOccurrencesOfString:@"[EM]" withString:dateInfo.MonthEarthlyBranch];
     template = [template stringByReplacingOccurrencesOfString:@"[HD]" withString:dateInfo.DayHeavenlyStem];
     template = [template stringByReplacingOccurrencesOfString:@"[ED]" withString:dateInfo.DayEarthlyBranch];
-    if (dateInfo.IsLeap)
-        template = [template stringByReplacingOccurrencesOfString:@"[L]" withString:dateInfo.LeapTitle];
-    else
-        template = [template stringByReplacingOccurrencesOfString:@"[L]" withString:@""];
+    template = [template stringByReplacingOccurrencesOfString:@"[L]" withString:(dateInfo.IsLeap ? dateInfo.LeapTitle : @"")];
     template = [template stringByReplacingOccurrencesOfString:@"[C]" withString:dateInfo.Constellation];
     template = [template stringByReplacingOccurrencesOfString:@"[Z]" withString:dateInfo.Zodiac];
     template = [template stringByReplacingOccurrencesOfString:@"[S]" withString:dateInfo.SolarTerm];
@@ -241,10 +234,7 @@ static NSString *customDate;
     
     [dateFormatter setLocale:[NSLocale currentLocale]];
     
-    if (dateFormat == 0)
-        [dateFormatter setDateStyle:NSDateFormatterFullStyle];
-    else
-        [dateFormatter setDateStyle:NSDateFormatterLongStyle];
+    [dateFormatter setDateStyle:((dateFormat == 0) ? NSDateFormatterFullStyle : NSDateFormatterLongStyle)];
     
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
@@ -270,15 +260,7 @@ static NSString *customDate;
     }
     else
     {
-        if ([customDate isEqualToString:@""])
-        {
-            //date only
-            str = date;            
-        }
-        else
-        {
-            str = [self calculateDate:customDate];
-        }
+        str = [customDate isEqualToString:@""] ? date : [self calculateDate:customDate];
     }
     
     return str;
@@ -287,15 +269,13 @@ static NSString *customDate;
 - (void)viewDidAppear
 {
     preferences = [[NSDictionary alloc] initWithContentsOfFile:PreferencesFilePath];
-    
-    CGFloat superWidth = _view.superview.bounds.size.width;
-    
+        
     CGPoint contentOffset = scrollView.contentOffset;
     
     if (preferences == nil)
         contentOffset.x = 0;
     else if ([preferences objectForKey:@"PageNo"])
-        contentOffset.x = [[preferences objectForKey:@"PageNo"] intValue] * (superWidth - 12);
+        contentOffset.x = [[preferences objectForKey:@"PageNo"] intValue] * scrollView.frame.size.width;
     else
         contentOffset.x = 0;        
     
@@ -304,19 +284,17 @@ static NSString *customDate;
     if ([preferences objectForKey:@"FontSize"])
         fontSize = [[preferences objectForKey:@"FontSize"] intValue];
     
-    _view.frame = CGRectMake(2, 0, (superWidth - 4), viewHeight);
-    bgView.frame = CGRectMake(0, 0, (superWidth - 4), viewHeight);
-    scrollView.frame = CGRectMake(4, 0, (superWidth - 12), viewHeight);
-    
-    pageView1.frame = CGRectMake(0, 0, (superWidth - 12), viewHeight);
-    [pageView1 setFont:[UIFont boldSystemFontOfSize:fontSize]];
-    pageView2.frame = CGRectMake((superWidth - 12), 0, (superWidth - 12), viewHeight);
-    [pageView2 setFont:[UIFont boldSystemFontOfSize:fontSize]];
-    pageView3.frame = CGRectMake((superWidth - 12)*2, 0, (superWidth - 12), viewHeight);
-    [pageView3 setFont:[UIFont boldSystemFontOfSize:fontSize]];
     scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * 3, viewHeight);
+
+    [pageView1 setFont:[UIFont boldSystemFontOfSize:fontSize]];
+    pageView1.frame = CGRectMake(0, 0, scrollView.frame.size.width, viewHeight);
+    [pageView2 setFont:[UIFont boldSystemFontOfSize:fontSize]];
+    pageView2.frame = CGRectMake(scrollView.frame.size.width, 0, scrollView.frame.size.width, viewHeight);
+    [pageView3 setFont:[UIFont boldSystemFontOfSize:fontSize]];
+    pageView3.frame = CGRectMake(scrollView.frame.size.width * 2, 0, scrollView.frame.size.width, viewHeight);
+
     [scrollView setContentOffset:contentOffset animated:NO];
-        
+
     bigButton.frame = CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width * 3, scrollView.frame.size.height);
 
     if (preferences == nil)
@@ -341,58 +319,92 @@ static NSString *customDate;
     NSDateFormatter *currentFormatter = [[NSDateFormatter alloc] init];
     
     [currentFormatter setDateFormat:@"yyyyMMdd"];
-    currentDate = [[currentFormatter stringFromDate:today] intValue];
-    [currentFormatter release];
+    
+    if ([[currentFormatter stringFromDate:today] intValue] == currentDate)
+    {
+        [currentFormatter release];
+    }
+    else
+    {
+        currentDate = [[currentFormatter stringFromDate:today] intValue];
+        [currentFormatter release];
+        
+        //recalculate
+        LunarCalendar *lunarCal = [[LunarCalendar alloc] init];
+        
+        [lunarCal loadWithDate:today];
+        
+        [lunarCal InitializeValue];
+        
+        dateInfo.GregorianYear = [lunarCal GregorianYear];
+        dateInfo.GregorianMonth = [lunarCal GregorianMonth];
+        dateInfo.GregorianDay = [lunarCal GregorianDay];
+        
+        dateInfo.Weekday = [lunarCal Weekday];
+        
+        NSBundle *bundle = [[NSBundle alloc] initWithPath:@"/System/Library/WeeAppPlugins/LunarCalendar.bundle/"];
+        
+        dateInfo.Constellation = NSLocalizedStringFromTableInBundle([lunarCal Constellation], nil, bundle, [lunarCal Constellation]);
+        
+        dateInfo.YearHeavenlyStem = NSLocalizedStringFromTableInBundle([lunarCal YearHeavenlyStem], nil, bundle, [lunarCal YearHeavenlyStem]);
+        dateInfo.YearEarthlyBranch = NSLocalizedStringFromTableInBundle([lunarCal YearEarthlyBranch], nil, bundle, [lunarCal YearEarthlyBranch]);
+        
+        dateInfo.MonthHeavenlyStem = NSLocalizedStringFromTableInBundle([lunarCal MonthHeavenlyStem], nil, bundle, [lunarCal MonthHeavenlyStem]);
+        dateInfo.MonthEarthlyBranch = NSLocalizedStringFromTableInBundle([lunarCal MonthEarthlyBranch], nil, bundle, [lunarCal MonthEarthlyBranch]);
+        
+        dateInfo.DayHeavenlyStem = NSLocalizedStringFromTableInBundle([lunarCal DayHeavenlyStem], nil, bundle, [lunarCal DayHeavenlyStem]);
+        dateInfo.DayEarthlyBranch = NSLocalizedStringFromTableInBundle([lunarCal DayEarthlyBranch], nil, bundle, [lunarCal DayEarthlyBranche]);
+        
+        dateInfo.IsLeap = [lunarCal IsLeap];
+        
+        dateInfo.Zodiac = NSLocalizedStringFromTableInBundle([lunarCal ZodiacLunar], nil, bundle, [lunarCal ZodiacLunar]);
+        
+        dateInfo.SolarTerm = NSLocalizedStringFromTableInBundle([lunarCal SolarTermTitle], nil, bundle, [lunarCal SolarTermTitle]);
+        
+        NSString *dateFormatNormal = NSLocalizedStringFromTableInBundle(@"DateFormatNormal", nil, bundle, @"DateFormatNormal");
+        NSString *dateFormatTraditional = NSLocalizedStringFromTableInBundle(@"DateFormatTraditional", nil, bundle, @"DateFormatTraditional");
+        
+        dateInfo.LeapTitle = NSLocalizedStringFromTableInBundle(@"LeapTitle", nil, bundle, @"LeapTitle");
+        
+        dateInfo.LunarMonth = NSLocalizedStringFromTableInBundle([lunarCal MonthLunar], nil, bundle, [lunarCal MonthLunar]);
+        dateInfo.LunarDay = NSLocalizedStringFromTableInBundle([lunarCal DayLunar], nil, bundle, [lunarCal DayLunar]);
+        
+        [lunarCal release];
+        
+        [bundle release];
+        
+        [pageView2 setText:[self calculateDate:dateFormatNormal]];
+        
+        [pageView3 setText:[self calculateDate:dateFormatTraditional]];
+        
+        [pageView1 setText:[self customDatePrinter:dateFormat]];        
+    }
 
-    //recalculate
-    LunarCalendar *lunarCal = [[LunarCalendar alloc] init];
-    
-    [lunarCal loadWithDate:today];
-    
-    [lunarCal InitializeValue];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        UIView *list = (UIView*)[[objc_getClass("SBBulletinListController") sharedInstance] listView];
+        for (UIGestureRecognizer *gr in list.gestureRecognizers)
+        {
+            gr.cancelsTouchesInView = NO;
+        }
+    }
+}
 
-    dateInfo.GregorianYear = [lunarCal GregorianYear];
-    dateInfo.GregorianMonth = [lunarCal GregorianMonth];
-    dateInfo.GregorianDay = [lunarCal GregorianDay];
-    
-    dateInfo.Weekday = [lunarCal Weekday];
-    
-    NSBundle *bundle = [[NSBundle alloc] initWithPath:@"/System/Library/WeeAppPlugins/LunarCalendar.bundle/"];
-    
-    dateInfo.Constellation = NSLocalizedStringFromTableInBundle([lunarCal Constellation], nil, bundle, [lunarCal Constellation]);
-    
-    dateInfo.YearHeavenlyStem = NSLocalizedStringFromTableInBundle([lunarCal YearHeavenlyStem], nil, bundle, [lunarCal YearHeavenlyStem]);
-    dateInfo.YearEarthlyBranch = NSLocalizedStringFromTableInBundle([lunarCal YearEarthlyBranch], nil, bundle, [lunarCal YearEarthlyBranch]);
-    
-    dateInfo.MonthHeavenlyStem = NSLocalizedStringFromTableInBundle([lunarCal MonthHeavenlyStem], nil, bundle, [lunarCal MonthHeavenlyStem]);
-    dateInfo.MonthEarthlyBranch = NSLocalizedStringFromTableInBundle([lunarCal MonthEarthlyBranch], nil, bundle, [lunarCal MonthEarthlyBranch]);
-    
-    dateInfo.DayHeavenlyStem = NSLocalizedStringFromTableInBundle([lunarCal DayHeavenlyStem], nil, bundle, [lunarCal DayHeavenlyStem]);
-    dateInfo.DayEarthlyBranch = NSLocalizedStringFromTableInBundle([lunarCal DayEarthlyBranch], nil, bundle, [lunarCal DayEarthlyBranche]);
-    
-    dateInfo.IsLeap = [lunarCal IsLeap];
-    
-    dateInfo.Zodiac = NSLocalizedStringFromTableInBundle([lunarCal ZodiacLunar], nil, bundle, [lunarCal ZodiacLunar]);
-    
-    dateInfo.SolarTerm = NSLocalizedStringFromTableInBundle([lunarCal SolarTermTitle], nil, bundle, [lunarCal SolarTermTitle]);
-    
-    NSString *dateFormatNormal = NSLocalizedStringFromTableInBundle(@"DateFormatNormal", nil, bundle, @"DateFormatNormal");
-    NSString *dateFormatTraditional = NSLocalizedStringFromTableInBundle(@"DateFormatTraditional", nil, bundle, @"DateFormatTraditional");
-    
-    dateInfo.LeapTitle = NSLocalizedStringFromTableInBundle(@"LeapTitle", nil, bundle, @"LeapTitle");
-    
-    dateInfo.LunarMonth = NSLocalizedStringFromTableInBundle([lunarCal MonthLunar], nil, bundle, [lunarCal MonthLunar]);
-    dateInfo.LunarDay = NSLocalizedStringFromTableInBundle([lunarCal DayLunar], nil, bundle, [lunarCal DayLunar]);
-    
-    [lunarCal release];
-    
-    [bundle release];
-    
-    [pageView2 setText:[self calculateDate:dateFormatNormal]];
-    
-    [pageView3 setText:[self calculateDate:dateFormatTraditional]];
-    
-    [pageView1 setText:[self customDatePrinter:dateFormat]];
+- (void)willAnimateRotationToInterfaceOrientation:(int)arg1
+{
+    CGFloat superWidth = [[[objc_getClass("SBBulletinListController") sharedInstance] listView] tableView].bounds.size.width;
+
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+        superWidth = UIInterfaceOrientationIsLandscape(arg1) ? 480.0f : 320.0f;
+
+    _view.frame = CGRectMake(2, 0, (superWidth - 4), viewHeight);
+    bgView.frame = CGRectMake(0, 0, (superWidth - 4), viewHeight);
+    scrollView.frame = CGRectMake(0, 0, (superWidth - 4), viewHeight);
+
+    pageView1.frame = CGRectMake(0, 0, (superWidth - 4), viewHeight);
+    pageView2.frame = CGRectMake((superWidth - 4), 0, (superWidth - 4), viewHeight);
+    pageView3.frame = CGRectMake((superWidth - 4) * 2, 0, (superWidth - 4), viewHeight);
+    scrollView.contentSize = CGSizeMake((superWidth - 4) * 3, viewHeight);
 }
 
 - (void)viewDidDisappear

@@ -3,7 +3,7 @@
 //  LunarCalendar
 //
 //  Created by Merlin on 12-3-13.
-//  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 autopear. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -39,11 +39,7 @@
         NSString *SolarTerm;
         NSString *LeapTitle;
     };
-    
-    float viewHeight;
-    int fontSize;
 }
-
 
 - (UIView *)view;
 - (void)longPress:(UILongPressGestureRecognizer *)gesture;

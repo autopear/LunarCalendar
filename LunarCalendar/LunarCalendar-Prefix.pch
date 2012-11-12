@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'LunarCalendar' target in the 'LunarCalendar' project
-//
-
-#ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-#endif

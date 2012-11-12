@@ -1,48 +1,48 @@
-﻿#import <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
+
+struct SolarTerm
+{
+	NSString *solarName;
+	int solarDate;
+};
 
 @interface LunarCalendar : NSObject
-{
-    struct SolarTerm
-    {
-        NSString *solarName;
-        int solarDate;
-    };
-    
-    NSArray *HeavenlyStems;
-    NSArray *EarthlyBranches;
-    NSArray *LunarZodiac;
-    NSArray *SolarTerms;
-    NSArray *arrayMonth;
-    NSArray *arrayDay;
+{	
+	NSArray *HeavenlyStems;
+	NSArray *EarthlyBranches;
+	NSArray *LunarZodiac;
+	NSArray *SolarTerms;
+	NSArray *arrayMonth;
+	NSArray *arrayDay;
 
-    NSDate *thisdate;
-    
-    int year;
-    int month;
-    int day;
-    
-    int lunarYear;       //农历年
-    int lunarMonth;      //农历月
-    int doubleMonth;     //闰月
-    bool isLeap;         //是否闰月标记
-    int lunarDay;        //农历日
-    
-    struct SolarTerm solarTerm[2];
-    
-    NSString *yearHeavenlyStem;
-    NSString *monthHeavenlyStem;
-    NSString *dayHeavenlyStem;
-    
-    NSString *yearEarthlyBranch;
-    NSString *monthEarthlyBranch;
-    NSString *dayEarthlyBranch;
-    
-    NSString *monthLunar;
-    NSString *dayLunar;
-    
-    NSString *zodiacLunar;
-    
-    NSString *solarTermTitle; 
+	NSDate *thisdate;
+	
+	int year;
+	int month;
+	int day;
+	
+	int lunarYear;	//农历年
+	int lunarMonth;	//农历月
+	int doubleMonth;	//闰月
+	bool isLeap;	//是否闰月标记
+	int lunarDay;	//农历日
+	
+	struct SolarTerm solarTerm[2];
+	
+	NSString *yearHeavenlyStem;
+	NSString *monthHeavenlyStem;
+	NSString *dayHeavenlyStem;
+	
+	NSString *yearEarthlyBranch;
+	NSString *monthEarthlyBranch;
+	NSString *dayEarthlyBranch;
+	
+	NSString *monthLunar;
+	NSString *dayLunar;
+	
+	NSString *zodiacLunar;
+	
+	NSString *solarTermTitle; 
 }
 
 -(void)loadWithDate:(NSDate *)date;

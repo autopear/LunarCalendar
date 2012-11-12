@@ -1,0 +1,4 @@
+"Specifications" = "详细说明";
+"Default format will be used if custom format is left empty." = "自定义格式留空则使用默认格式。";
+"Sample format:\n[GM]-[GD] [WD] [LM]-[LD] [S]\nSample output:\n7-7 Saturday May-19th Minor heat" = "示例格式：\n[GM]月[GD]日 [WD] [LM]月[LD] [S]\n示例显示：\n7月7日 星期六 五月十九 小暑";
+"Parameters:\n[GY]: Gregorian year\n[GM]: Gregorian month\n[GD]: Gregorian day\n[WD]: Weekday\n[LM]: Lunar month\n[LD]: Lunar day\n[HY]: Year heavenly stem\n[EY]: Year earthly branch\n[HM]: Month heavenly stem\n[EM]: Month earthly branch\n[HD]: Day heavenly stem\n[ED]: Day earthly branch\n[L]: Leap year title\n[C]: Constellation\n[Z]: Chinese zodiac\n[S]: Solar terms" = "参数列表：\n[GY]：公历年\n[GM]：公历月\n[GD]：公历日\n[WD]：星期\n[LM]：农历月\n[LD]：农历日\n[HY]：天干年\n[EY]：地支年\n[HM]：天干月\n[EM]：地支月\n[HD]：天干日\n[ED]：地支日\n[L]：闰年显示\n[C]：星座\n[Z]：生肖属相\n[S]：节气";

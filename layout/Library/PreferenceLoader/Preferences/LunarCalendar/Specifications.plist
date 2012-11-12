@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Default format will be used if custom format is left empty.</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Sample format:
+[GM]-[GD] [WD] [LM]-[LD] [S]
+Sample output:
+7-7 Saturday May-19th Minor heat</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Parameters:
+[GY]: Gregorian year
+[GM]: Gregorian month
+[GD]: Gregorian day
+[WD]: Weekday
+[LM]: Lunar month
+[LD]: Lunar day
+[HY]: Year heavenly stem
+[EY]: Year earthly branch
+[HM]: Month heavenly stem
+[EM]: Month earthly branch
+[HD]: Day heavenly stem
+[ED]: Day earthly branch
+[L]: Leap year title
+[C]: Constellation
+[Z]: Chinese zodiac
+[S]: Solar terms</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Copyright © 2012 Merlin Mao</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>Specifications</string>
+</dict>
+</plist>

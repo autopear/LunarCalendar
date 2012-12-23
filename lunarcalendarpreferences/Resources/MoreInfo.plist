@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Close current app, kill background, power tools, fast clear notifications and much more from NotificationCenter!</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openActionSlider:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>icon</key>
+			<string>ActionSlider.png</string>
+			<key>label</key>
+			<string>ActionSlider</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Send selected text, images and links to Facebook , Twitter and Sina Weibo.</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openQuickShare:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>icon</key>
+			<string>QuickShare.png</string>
+			<key>label</key>
+			<string>QuickShare for ActionMenu</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Lite version of ActionSlider.</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openWeeCloseApps:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>icon</key>
+			<string>WeeCloseApps.png</string>
+			<key>label</key>
+			<string>WeeCloseApps</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Bring back lyrics for Music app on iPad.</string>
+			<key>requiredCapabilities</key>
+			<array>
+				<string>ipad</string>
+			</array>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openLyricsforiPad:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>icon</key>
+			<string>/System/Library/PreferenceBundles/MusicSettings.bundle/icon.png</string>
+			<key>label</key>
+			<string>Lyrics for iPad</string>
+			<key>requiredCapabilities</key>
+			<array>
+				<string>ipad</string>
+			</array>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Quickly clear all app badges.</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openRemoveBadges:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>icon</key>
+			<string>RemoveBadges.png</string>
+			<key>label</key>
+			<string>Remove Badges</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Install IPA(s) from the command line.</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openIPAInstaller:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>icon</key>
+			<string>IPAInstaller.png</string>
+			<key>label</key>
+			<string>IPA Installer Console</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Copyright © 2012-2013 Merlin Mao</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>More Information</string>
+</dict>
+</plist>

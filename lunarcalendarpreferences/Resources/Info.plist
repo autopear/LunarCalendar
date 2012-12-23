@@ -2,38 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AppBundleID</key>
-	<string>com.apple.mobilecal</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	<key>CFBundleDisplayName</key>
-	<string>LunarCalendar_Widget</string>
 	<key>CFBundleExecutable</key>
-	<string>LunarCalendar</string>
+	<string>LunarCalendarPreferences</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.autopear.lunarcalendar</string>
+	<string>com.autopear.lunarcalendarpreferences</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>LunarCalendar Wee App</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleSupportedPlatforms</key>
-	<array>
-		<string>iPhoneOS</string>
-	</array>
 	<key>CFBundleVersion</key>
-	<string>1.3</string>
+	<string>1.4</string>
+	<key>DTPlatformName</key>
+	<string>iphoneos</string>
 	<key>MinimumOSVersion</key>
 	<string>5.0</string>
-	<key>UIDeviceFamily</key>
-	<array>
-		<integer>1</integer>
-		<integer>2</integer>
-	</array>
+	<key>NSPrincipalClass</key>
+	<string>LunarCalendarPreferencesListController</string>
 </dict>
 </plist>

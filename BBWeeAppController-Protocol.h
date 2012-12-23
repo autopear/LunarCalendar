@@ -23,4 +23,3 @@
 - (id)launchURL;
 - (id)launchURLForTapLocation:(struct CGPoint)arg1;
 @end
-

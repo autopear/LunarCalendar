@@ -45,7 +45,7 @@ Sample output:
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Copyright © 2012 Merlin Mao</string>
+			<string>Copyright © 2012-2013 Merlin Mao</string>
 		</dict>
 	</array>
 	<key>title</key>

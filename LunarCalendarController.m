@@ -12,30 +12,13 @@
 #import "LunarCalendar/LunarCalendar.h"
 #import "TouchFix/TouchFix.h"
 
-struct DateInfo
-{
-	int GregorianYear;
-	int GregorianMonth;
-	int GregorianDay;
-	int Weekday;
-	NSString *LunarMonth;
-	NSString *LunarDay;
-	NSString *YearHeavenlyStem;
-	NSString *YearEarthlyBranch;
-	NSString *MonthHeavenlyStem;
-	NSString *MonthEarthlyBranch;
-	NSString *DayHeavenlyStem;
-	NSString *DayEarthlyBranch;
-	bool IsLeap;
-	NSString *Constellation;
-	NSString *Zodiac;
-	NSString *SolarTerm;
-	NSString *LeapTitle;
-};
-
 @interface SBBulletinListController
 + (id)sharedInstance;
 - (id)listView;
+@end
+
+@interface SBBulletinListView : UIView
+- (id)linenView;
 @end
 
 @interface LunarCalendarController : NSObject <BBWeeAppController>
@@ -57,19 +40,15 @@ struct DateInfo
 - (NSString *)calculateDate:(NSString *)template;
 @end
 
-static NSMutableDictionary *preferences = nil;
 static NSBundle *localizedBundle = nil;
 
-static struct DateInfo dateInfo;
-static int currentDate = 0;
-
+static NSMutableDictionary *preferences = nil;
 static float viewHeight = 28.0f;
 static int fontSize = 18;
 static int switchGesture = NO;
 static int pageNo = 0;
 
 static BOOL viewHeightChanged = NO, fontSizeChanged = NO, formatChanged1 = NO, formatChanged2 = NO, formatChanged3 = NO;
-static NSString *localeIdentifier = @"";
 
 static NSString *displayDate1 = @"", *displayDate2 = @"", *displayDate3 = @"";
 
@@ -141,13 +120,17 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 
 @implementation LunarCalendarController
 
+static NSMutableDictionary *dateInfo;
+static int currentDate = 0;
+static NSString *localeIdentifier = @"";
+
 -(id)init
 {
 	if ((self = [super init]))
 	{
 		preferences = [[NSMutableDictionary alloc] initWithContentsOfFile:PreferencesFilePath];
 
-		localizedBundle = [[NSBundle alloc] initWithPath:@"/Library/PreferenceLoader/Preferences/LunarCalendar/"];
+		localizedBundle = [[NSBundle alloc] initWithPath:@"/Library/PreferenceBundles/LunarCalendarPreferences.bundle/"];
 
 		if (preferences == nil)
 		{
@@ -178,7 +161,11 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 			displayDate3 = ([[preferences objectForKey:@"CustomFormat3"] length] == 0) ? NSLocalizedStringFromTableInBundle(@"DateFormatTraditional", @"LunarCalendar", localizedBundle, @"[HY][EY]/[HM][EM]/[HD][ED]") : [preferences objectForKey:@"CustomFormat3"];
 		}
 
+        currentDate = 0;
+
 		CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, PreferencesChangedCallback, CFSTR(PreferencesChangedNotification), NULL, CFNotificationSuspensionBehaviorCoalesce);
+
+        dateInfo = [[NSMutableDictionary alloc] initWithCapacity:17];
 	}
 
 	return self;
@@ -186,6 +173,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 
 -(void)dealloc
 {
+    [dateInfo release];
 	[localizedBundle release];
 	[preferences release];
 	[_view release];
@@ -196,7 +184,11 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 {
 	if (_view == nil)
 	{
-		CGFloat superWidth = [[[objc_getClass("SBBulletinListController") sharedInstance] listView] tableView].bounds.size.width;
+        CGFloat superWidth;
+        if ([[[objc_getClass("SBBulletinListController") sharedInstance] listView] linenView])
+            superWidth = ((UIView *)[[[objc_getClass("SBBulletinListController") sharedInstance] listView] linenView]).frame.size.width;
+        else
+            superWidth = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 480.0f : 320.0f;
 
 		_view = [[UIView alloc] initWithFrame:CGRectMake(2, 0, (superWidth - 4), viewHeight)];
 
@@ -343,28 +335,28 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 
 - (NSString *)calculateDate:(NSString *)template
 {
-	template = [template stringByReplacingOccurrencesOfString:@"[GY]" withString:[NSString stringWithFormat:@"%d", dateInfo.GregorianYear]];
-	template = [template stringByReplacingOccurrencesOfString:@"[GM]" withString:[NSString stringWithFormat:@"%d", dateInfo.GregorianMonth]];
-	template = [template stringByReplacingOccurrencesOfString:@"[GD]" withString:[NSString stringWithFormat:@"%d", dateInfo.GregorianDay]];
-	template = [template stringByReplacingOccurrencesOfString:@"[LM]" withString:dateInfo.LunarMonth];
-	template = [template stringByReplacingOccurrencesOfString:@"[LD]" withString:dateInfo.LunarDay];
-	template = [template stringByReplacingOccurrencesOfString:@"[HY]" withString:dateInfo.YearHeavenlyStem];
-	template = [template stringByReplacingOccurrencesOfString:@"[EY]" withString:dateInfo.YearEarthlyBranch];
-	template = [template stringByReplacingOccurrencesOfString:@"[HM]" withString:dateInfo.MonthHeavenlyStem];
-	template = [template stringByReplacingOccurrencesOfString:@"[EM]" withString:dateInfo.MonthEarthlyBranch];
-	template = [template stringByReplacingOccurrencesOfString:@"[HD]" withString:dateInfo.DayHeavenlyStem];
-	template = [template stringByReplacingOccurrencesOfString:@"[ED]" withString:dateInfo.DayEarthlyBranch];
-	template = [template stringByReplacingOccurrencesOfString:@"[L]" withString:(dateInfo.IsLeap ? dateInfo.LeapTitle : @"")];
-	template = [template stringByReplacingOccurrencesOfString:@"[C]" withString:dateInfo.Constellation];
-	template = [template stringByReplacingOccurrencesOfString:@"[Z]" withString:dateInfo.Zodiac];
-	template = [template stringByReplacingOccurrencesOfString:@"[S]" withString:dateInfo.SolarTerm];
+	template = [template stringByReplacingOccurrencesOfString:@"[GY]" withString:[NSString stringWithFormat:@"%d", [[dateInfo objectForKey:@"GregorianYear"] intValue]]];
+	template = [template stringByReplacingOccurrencesOfString:@"[GM]" withString:[NSString stringWithFormat:@"%d", [[dateInfo objectForKey:@"GregorianMonth"] intValue]]];
+	template = [template stringByReplacingOccurrencesOfString:@"[GD]" withString:[NSString stringWithFormat:@"%d", [[dateInfo objectForKey:@"GregorianDay"] intValue]]];
+	template = [template stringByReplacingOccurrencesOfString:@"[LM]" withString:[dateInfo objectForKey:@"LunarMonth"]];
+	template = [template stringByReplacingOccurrencesOfString:@"[LD]" withString:[dateInfo objectForKey:@"LunarDay"]];
+	template = [template stringByReplacingOccurrencesOfString:@"[HY]" withString:[dateInfo objectForKey:@"YearHeavenlyStem"]];
+	template = [template stringByReplacingOccurrencesOfString:@"[EY]" withString:[dateInfo objectForKey:@"YearEarthlyBranch"]];
+	template = [template stringByReplacingOccurrencesOfString:@"[HM]" withString:[dateInfo objectForKey:@"MonthHeavenlyStem"]];
+	template = [template stringByReplacingOccurrencesOfString:@"[EM]" withString:[dateInfo objectForKey:@"MonthEarthlyBranch"]];
+	template = [template stringByReplacingOccurrencesOfString:@"[HD]" withString:[dateInfo objectForKey:@"DayHeavenlyStem"]];
+	template = [template stringByReplacingOccurrencesOfString:@"[ED]" withString:[dateInfo objectForKey:@"DayEarthlyBranch"]];
+	template = [template stringByReplacingOccurrencesOfString:@"[L]" withString:([[dateInfo objectForKey:@"IsLeap"] boolValue] ? [dateInfo objectForKey:@"LeapTitle"] : @"")];
+	template = [template stringByReplacingOccurrencesOfString:@"[C]" withString:[dateInfo objectForKey:@"Constellation"]];
+	template = [template stringByReplacingOccurrencesOfString:@"[Z]" withString:[dateInfo objectForKey:@"Zodiac"]];
+	template = [template stringByReplacingOccurrencesOfString:@"[S]" withString:[dateInfo objectForKey:@"SolarTerm"]];
 
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setLocale:[NSLocale currentLocale]];
 	[dateFormatter setDateStyle:NSDateFormatterLongStyle];
 	[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
 
-	template = [template stringByReplacingOccurrencesOfString:@"[WD]" withString:[[dateFormatter weekdaySymbols] objectAtIndex:(dateInfo.Weekday + 6) % 7]];
+	template = [template stringByReplacingOccurrencesOfString:@"[WD]" withString:[[dateFormatter weekdaySymbols] objectAtIndex:([[dateInfo objectForKey:@"Weekday"] intValue] + 6) % 7]];
 	[dateFormatter release];
 
 	return [template stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -387,7 +379,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 	[dateFormatter release];
 
 	if (format == 0) //date + weekday + constellation
-		return ([displayDate1 length] == 0) ? [[date stringByAppendingString:@"  "] stringByAppendingString:dateInfo.Constellation] : [self calculateDate:displayDate1];
+		return ([displayDate1 length] == 0) ? [NSString stringWithFormat:@"%@  %@", date, [dateInfo objectForKey:@"Constellation"]] : [self calculateDate:displayDate1];
 	else if (format == 1)
 		return [self calculateDate:displayDate2];
 	else
@@ -396,6 +388,24 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 
 - (void)viewDidAppear
 {
+    CGFloat superWidth;
+    if ([[[objc_getClass("SBBulletinListController") sharedInstance] listView] linenView])
+        superWidth = ((UIView *)[[[objc_getClass("SBBulletinListController") sharedInstance] listView] linenView]).frame.size.width;
+    else
+        superWidth = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 480.0f : 320.0f;
+
+    _view.frame = CGRectMake(2, 0, (superWidth - 4), viewHeight);
+	bgView.frame = CGRectMake(0, 0, (superWidth - 4), viewHeight);
+	scrollView.frame = CGRectMake(0, 0, (superWidth - 4), viewHeight);
+
+	pageView1.frame = CGRectMake(0, 0, (superWidth - 4), viewHeight);
+	pageView2.frame = CGRectMake((superWidth - 4), 0, (superWidth - 4), viewHeight);
+	pageView3.frame = CGRectMake((superWidth - 4) * 2, 0, (superWidth - 4), viewHeight);
+
+	scrollView.contentSize = CGSizeMake((superWidth - 4) * 3, viewHeight);
+
+	bigButton.frame = CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width * 3, scrollView.frame.size.height);
+
 	if (fontSizeChanged)
 	{
 		[pageView1 setFont:[UIFont boldSystemFontOfSize:fontSize]];
@@ -442,33 +452,39 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 
 		[lunarCal InitializeValue];
 
-		dateInfo.GregorianYear = [lunarCal GregorianYear];
-		dateInfo.GregorianMonth = [lunarCal GregorianMonth];
-		dateInfo.GregorianDay = [lunarCal GregorianDay];
+        [dateInfo setObject:[NSNumber numberWithInt:[lunarCal GregorianYear]] forKey:@"GregorianYear"];
+        [dateInfo setObject:[NSNumber numberWithInt:[lunarCal GregorianMonth]] forKey:@"GregorianMonth"];
+        [dateInfo setObject:[NSNumber numberWithInt:[lunarCal GregorianDay]] forKey:@"GregorianDay"];
 
-		dateInfo.Weekday = [lunarCal Weekday];
+        [dateInfo setObject:[NSNumber numberWithInt:[lunarCal Weekday]] forKey:@"Weekday"];
 
-		dateInfo.Constellation = NSLocalizedStringFromTableInBundle([lunarCal Constellation], @"LunarCalendar", localizedBundle, [lunarCal Constellation]);
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal Constellation], @"LunarCalendar", localizedBundle, [lunarCal Constellation]) forKey:@"Constellation"];
 
-		dateInfo.YearHeavenlyStem = NSLocalizedStringFromTableInBundle([lunarCal YearHeavenlyStem], @"LunarCalendar", localizedBundle, [lunarCal YearHeavenlyStem]);
-		dateInfo.YearEarthlyBranch = NSLocalizedStringFromTableInBundle([lunarCal YearEarthlyBranch], @"LunarCalendar", localizedBundle, [lunarCal YearEarthlyBranch]);
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal YearHeavenlyStem], @"LunarCalendar", localizedBundle, [lunarCal YearHeavenlyStem]) forKey:@"YearHeavenlyStem"];
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal YearEarthlyBranch], @"LunarCalendar", localizedBundle, [lunarCal YearEarthlyBranch]) forKey:@"YearEarthlyBranch"];
 
-		dateInfo.MonthHeavenlyStem = NSLocalizedStringFromTableInBundle([lunarCal MonthHeavenlyStem], @"LunarCalendar", localizedBundle, [lunarCal MonthHeavenlyStem]);
-		dateInfo.MonthEarthlyBranch = NSLocalizedStringFromTableInBundle([lunarCal MonthEarthlyBranch], @"LunarCalendar", localizedBundle, [lunarCal MonthEarthlyBranch]);
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal MonthHeavenlyStem], @"LunarCalendar", localizedBundle, [lunarCal MonthHeavenlyStem]) forKey:@"MonthHeavenlyStem"];
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal MonthEarthlyBranch], @"LunarCalendar", localizedBundle, [lunarCal MonthEarthlyBranch]) forKey:@"MonthEarthlyBranch"];
 
-		dateInfo.DayHeavenlyStem = NSLocalizedStringFromTableInBundle([lunarCal DayHeavenlyStem], @"LunarCalendar", localizedBundle, [lunarCal DayHeavenlyStem]);
-		dateInfo.DayEarthlyBranch = NSLocalizedStringFromTableInBundle([lunarCal DayEarthlyBranch], @"LunarCalendar", localizedBundle, [lunarCal DayEarthlyBranche]);
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal MonthHeavenlyStem], @"LunarCalendar", localizedBundle, [lunarCal MonthHeavenlyStem]) forKey:@"MonthHeavenlyStem"];
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal MonthEarthlyBranch], @"LunarCalendar", localizedBundle, [lunarCal MonthEarthlyBranch]) forKey:@"MonthEarthlyBranch"];
 
-		dateInfo.IsLeap = [lunarCal IsLeap];
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal DayHeavenlyStem], @"LunarCalendar", localizedBundle, [lunarCal DayHeavenlyStem]) forKey:@"DayHeavenlyStem"];
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal DayEarthlyBranch], @"LunarCalendar", localizedBundle, [lunarCal DayEarthlyBranch]) forKey:@"DayEarthlyBranch"];
 
-		dateInfo.Zodiac = NSLocalizedStringFromTableInBundle([lunarCal ZodiacLunar], @"LunarCalendar", localizedBundle, [lunarCal ZodiacLunar]);
+        [dateInfo setObject:[NSNumber numberWithBool:[lunarCal IsLeap]] forKey:@"IsLeap"];
 
-		dateInfo.SolarTerm = NSLocalizedStringFromTableInBundle([lunarCal SolarTermTitle], @"LunarCalendar", localizedBundle, [lunarCal SolarTermTitle]);
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal ZodiacLunar], @"LunarCalendar", localizedBundle, [lunarCal ZodiacLunar]) forKey:@"Zodiac"];
 
-		dateInfo.LeapTitle = NSLocalizedStringFromTableInBundle(@"LeapTitle", @"LunarCalendar", localizedBundle, @"LeapTitle");
+        if ([lunarCal SolarTermTitle] && [[lunarCal SolarTermTitle] length] > 0)
+            [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal SolarTermTitle], @"LunarCalendar", localizedBundle, [lunarCal SolarTermTitle]) forKey:@"SolarTerm"];
+        else
+            [dateInfo setObject:@"" forKey:@"SolarTerm"];
 
-		dateInfo.LunarMonth = NSLocalizedStringFromTableInBundle([lunarCal MonthLunar], @"LunarCalendar", localizedBundle, [lunarCal MonthLunar]);
-		dateInfo.LunarDay = NSLocalizedStringFromTableInBundle([lunarCal DayLunar], @"LunarCalendar", localizedBundle, [lunarCal DayLunar]);
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle(@"LeapTitle", @"LunarCalendar", localizedBundle, @"LeapTitle") forKey:@"LeapTitle"];
+
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal MonthLunar], @"LunarCalendar", localizedBundle, [lunarCal MonthLunar]) forKey:@"LunarMonth"];
+        [dateInfo setObject:NSLocalizedStringFromTableInBundle([lunarCal DayLunar], @"LunarCalendar", localizedBundle, [lunarCal DayLunar]) forKey:@"LunarDay"];
 
 		[lunarCal release];
 	}
@@ -497,26 +513,13 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 		[pageView1 setText:[self customDatePrinter:pageNo]];
 		scrollView.scrollEnabled = NO;
 	}
-}
 
-- (void)willAnimateRotationToInterfaceOrientation:(int)arg1
-{
-	CGFloat superWidth = [[[objc_getClass("SBBulletinListController") sharedInstance] listView] tableView].bounds.size.width;
-
-	if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
-		superWidth = UIInterfaceOrientationIsLandscape(arg1) ? 480.0f : 320.0f;
-
-	_view.frame = CGRectMake(2, 0, (superWidth - 4), viewHeight);
-	bgView.frame = CGRectMake(0, 0, (superWidth - 4), viewHeight);
-	scrollView.frame = CGRectMake(0, 0, (superWidth - 4), viewHeight);
-
-	pageView1.frame = CGRectMake(0, 0, (superWidth - 4), viewHeight);
-	pageView2.frame = CGRectMake((superWidth - 4), 0, (superWidth - 4), viewHeight);
-	pageView3.frame = CGRectMake((superWidth - 4) * 2, 0, (superWidth - 4), viewHeight);
-
-	scrollView.contentSize = CGSizeMake((superWidth - 4) * 3, viewHeight);
-
-	bigButton.frame = CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width * 3, scrollView.frame.size.height);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        UIView *list = [[objc_getClass("SBBulletinListController") sharedInstance] listView];
+        for (UIGestureRecognizer *gr in list.gestureRecognizers)
+            gr.cancelsTouchesInView = NO;
+    }
 }
 
 - (id)launchURLForTapLocation:(CGPoint)point

@@ -2,15 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>entry</key>
-	<dict>
-		<key>cell</key>
-		<string>PSLinkCell</string>
-		<key>icon</key>
-		<string>/Applications/MobileCal.app/Icon-Small.png</string>
-		<key>label</key>
-		<string>Lunar Calendar</string>
-	</dict>
 	<key>items</key>
 	<array>
 		<dict>
@@ -168,8 +159,20 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>LunarCalendarMoreInfoListController</string>
+			<key>label</key>
+			<string>More Information</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Copyright © 2012 Merlin Mao</string>
+			<string>Copyright © 2012-2013 Merlin Mao</string>
 		</dict>
 	</array>
 	<key>title</key>

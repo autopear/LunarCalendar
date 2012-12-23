@@ -1,7 +1,7 @@
-"LeapTitle" = "闰";
+"LeapTitle" = "閏";
 
 /* Date format */
-/* Sample: "壬辰龙年三月十四" */
+/* Sample: "壬辰龍年三月十四" */
 "DateFormatNormal" = "[HY][EY][Z]年[L][LM]月[LD]";
 /* Sample: "壬辰年癸卯月癸酉日" */
 "DateFormatTraditional" = "[HY][EY]年[HM][EM]月[HD][ED]日";
@@ -37,29 +37,29 @@
 "Ox" = "牛";
 "Tiger" = "虎";
 "Rabbit" = "兔";
-"Dragon" = "龙";
+"Dragon" = "龍";
 "Snake" = "蛇";
-"Horse" = "马";
+"Horse" = "馬";
 "Goat" = "羊";
 "Monkey" = "猴";
-"Rooster" = "鸡";
+"Rooster" = "雞";
 "Dog" = "狗";
-"Pig" = "猪";
+"Pig" = "豬";
 
 "Start of spring" = "立春";
 "Rain water" = "雨水";
-"Awakening of insects" = "惊蛰";
+"Awakening of insects" = "驚蟄";
 "Vernal equinox" = "春分";
 "Clear and bright" = "清明";
-"Grain rains" = "谷雨";
+"Grain rains" = "穀雨";
 "Start of summer" = "立夏";
-"Grain full" = "小满";
-"Grain in ear" = "芒种";
+"Grain full" = "小滿";
+"Grain in ear" = "芒種";
 "Summer solstice" = "夏至";
 "Minor heat" = "小暑";
 "Major heat" = "大暑";
 "Start of autumn" = "立秋";
-"Limit of heat" = "处暑";
+"Limit of heat" = "處暑";
 "White dew" = "白露";
 "Autumnal equinox" = "秋分";
 "Cold dew" = "寒露";
@@ -83,7 +83,7 @@
 "SEP" = "九";
 "OCT" = "十";
 "NOV" = "十一";
-"DEC" = "腊";
+"DEC" = "臘";
 
 /* Day */
 "1st" = "初一";
@@ -121,32 +121,33 @@
 /* Constellation */
 "Aries" = "白羊";
 "Taurus" = "金牛";
-"Gemini" = "双子";
+"Gemini" = "雙子";
 "Cancer" = "巨蟹";
-"Leo" = "狮子";
-"Virgo" = "处女";
+"Leo" = "獅子";
+"Virgo" = "室女";
 "Libra" = "天秤";
-"Scorpio" = "天蝎";
-"Sagittarius" = "射手";
+"Scorpio" = "天蠍";
+"Sagittarius" = "人馬";
 "Capricorn" = "魔羯";
-"Aquarius" = "水瓶";
-"Pisces" = "双鱼";
+"Aquarius" = "寶瓶";
+"Pisces" = "雙魚";
 
-"Copied to clipboard." = "已复制到剪贴板。";
+"Copied to clipboard." = "已拷貝到剪貼板。";
 
 /* Preferences */
-"Lunar Calendar" = "中国农历";
-"Switch Gesture" = "切换手势";
-"Gesture" = "手势";
-"Swipe" = "左右滑动";
+"Lunar Calendar" = "中華農曆";
+"Switch Gesture" = "切換手勢";
+"Gesture" = "手勢";
+"Swipe" = "左右滑動";
 "Single Tap" = "按一下";
-"Double Tap" = "按两下";
-"View height" = "视图高度";
-"Default view height: 28.0." = "默认高度：28.0。";
-"Font size" = "字体大小";
-"Default font size: 18." = "默认字体大小：18。";
-"Custom display formats" = "自定义显示格式";
-"Specifications" = "详细说明";
+"Double Tap" = "按兩下";
+"View height" = "視圖高度";
+"Default view height: 28.0." = "預設高度：28.0。";
+"Font size" = "字體大小";
+"Default font size: 18." = "預設字體大小：18。";
+"Custom display formats" = "自訂顯示格式";
+"Specifications" = "詳細說明";
 "Format 1:" = "格式一：";
 "Format 2:" = "格式二：";
 "Format 3:" = "格式三：";
+"More Information" = "更多資訊";

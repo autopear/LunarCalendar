@@ -107,6 +107,8 @@
 			<string>Specifications</string>
 			<key>label</key>
 			<string>Specifications</string>
+			<key>detail</key>
+			<string>LunarCalendarSpecificationsListController</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>

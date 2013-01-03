@@ -1,15 +1,60 @@
 #import <Preferences/Preferences.h>
 #import <objc/runtime.h>
 
-@interface LunarCalendarPreferencesListController: PSListController {
+@interface LunarCalendarPreferencesListController: PSListController
+{
 }
 @end
 
 @implementation LunarCalendarPreferencesListController
+- (id)init
+{
+	if ((self = [super init]))
+	{
+	}
+	
+	return self;
+}
+
+- (void)dealloc
+{
+	[super dealloc];
+}
+
 - (id)specifiers {
 	if(_specifiers == nil) {
 		_specifiers = [[self loadSpecifiersFromPlistName:@"LunarCalendar" target:self] retain];
 	}
+	return _specifiers;
+}
+@end
+
+@interface LunarCalendarSpecificationsListController: PSListController
+{
+}
+@end
+
+@implementation LunarCalendarSpecificationsListController
+- (id)init
+{
+	if ((self = [super init]))
+	{
+	}
+	
+	return self;
+}
+
+- (void)dealloc
+{
+	[super dealloc];
+}
+
+- (id)specifiers
+{
+	if(_specifiers == nil)
+    {
+		_specifiers = [[self loadSpecifiersFromPlistName:@"Specifications" target:self] retain];
+    }
 	return _specifiers;
 }
 @end
@@ -20,7 +65,6 @@
 @end
 
 @implementation LunarCalendarMoreInfoListController
-
 - (id)init
 {
 	if ((self = [super init]))

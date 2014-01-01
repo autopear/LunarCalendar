@@ -7,10 +7,48 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Switch Gesture</string>
 		</dict>
 		<dict>
+			<key>PostNotification</key>
+			<string>com.autopear.lunarcalendar/prefs</string>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<string>default</string>
+			<key>defaults</key>
+			<string>com.autopear.lunarcalendar</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>Language</string>
+			<key>label</key>
+			<string>Language</string>
+			<key>validTitles</key>
+			<array>
+				<string>Default</string>
+				<string>English</string>
+				<string>日本語</string>
+				<string>한국말</string>
+				<string>简体中文</string>
+				<string>繁體中文</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<string>default</string>
+				<string>en</string>
+				<string>ja</string>
+				<string>ko</string>
+				<string>zh_CN</string>
+				<string>zh_TW</string>
+			</array>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>id</key>
+			<string>GESTURE</string>
 			<key>PostNotification</key>
 			<string>com.autopear.lunarcalendar/prefs</string>
 			<key>cell</key>
@@ -24,7 +62,7 @@
 			<key>key</key>
 			<string>SwitchGesture</string>
 			<key>label</key>
-			<string>Gesture</string>
+			<string>Switch Gesture</string>
 			<key>validTitles</key>
 			<array>
 				<string>Swipe</string>
@@ -34,6 +72,34 @@
 			<key>validValues</key>
 			<array>
 				<integer>0</integer>
+				<integer>1</integer>
+				<integer>2</integer>
+			</array>
+		</dict>
+		<dict>
+			<key>id</key>
+			<string>GESTURE7</string>
+			<key>PostNotification</key>
+			<string>com.autopear.lunarcalendar/prefs</string>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<integer>0</integer>
+			<key>defaults</key>
+			<string>com.autopear.lunarcalendar</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>SwitchGesture</string>
+			<key>label</key>
+			<string>Switch Gesture</string>
+			<key>validTitles</key>
+			<array>
+				<string>Single Tap</string>
+				<string>Double Tap</string>
+			</array>
+			<key>validValues</key>
+			<array>
 				<integer>1</integer>
 				<integer>2</integer>
 			</array>
@@ -174,7 +240,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Copyright © 2012-2013 Merlin Mao</string>
+			<string>Copyright © 2012-2014 Merlin Mao</string>
 		</dict>
 	</array>
 	<key>title</key>

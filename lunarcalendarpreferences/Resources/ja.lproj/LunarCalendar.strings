@@ -136,18 +136,19 @@
 
 /* Preferences */
 "Lunar Calendar" = "旧暦";
-"Switch Gesture" = "Switch Gesture";
-"Gesture" = "Gesture";
-"Swipe" = "Swipe";
-"Single Tap" = "Single Tap";
-"Double Tap" = "Double Tap";
-"View height" = "View height";
-"Default view height: 28.0." = "Default view height: 28.0.";
-"Font size" = "Font size";
-"Default font size: 18." = "Default font size: 18.";
-"Custom display formats" = "Custom display formats";
-"Specifications" = "Specifications";
-"Format 1:" = "Format 1:";
-"Format 2:" = "Format 2:";
-"Format 3:" = "Format 3:";
+"Switch Gesture" = "ジェスチャー";
+"Language" = "言語";
+"Default" = "デフォルト";
+"Swipe" = "スワイプ";
+"Single Tap" = "シングルタップ";
+"Double Tap" = "ダブルタップ";
+"View height" = "ビューの高さ";
+"Default view height: 28.0." = "デフォルトのビューの高さ：28.0。";
+"Font size" = "フォントサイズ";
+"Default font size: 18." = "デフォルトのフォントサイズ：18。";
+"Custom display formats" = "カスタム表示形式";
+"Specifications" = "仕様書";
+"Format 1:" = "フォーマット 1：";
+"Format 2:" = "フォーマット 2：";
+"Format 3:" = "フォーマット 3：";
 "More Information" = "詳細情報";

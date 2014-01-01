@@ -5,13 +5,13 @@
 	<key>entry</key>
 	<dict>
 		<key>bundle</key>
-		<string>LunarCalendarPreferences</string>
+		<string>LunarCalendar</string>
 		<key>cell</key>
 		<string>PSLinkCell</string>
 		<key>detail</key>
-		<string>LunarCalendarPreferencesListController</string>
+		<string>LunarCalendarListController</string>
 		<key>icon</key>
-		<string>/Applications/MobileCal.app/Icon-Small.png</string>
+		<string>/Applications/Preferences.app/Calendar.png</string>
 		<key>isController</key>
 		<string>1</string>
 		<key>label</key>

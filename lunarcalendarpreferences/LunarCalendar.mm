@@ -1,12 +1,12 @@
 #import <Preferences/Preferences.h>
 #import <objc/runtime.h>
 
-@interface LunarCalendarPreferencesListController: PSListController
+@interface LunarCalendarListController: PSListController
 {
 }
 @end
 
-@implementation LunarCalendarPreferencesListController
+@implementation LunarCalendarListController
 - (id)init
 {
 	if ((self = [super init]))
@@ -21,12 +21,45 @@
 	[super dealloc];
 }
 
-- (id)specifiers {
-	if(_specifiers == nil) {
-		_specifiers = [[self loadSpecifiersFromPlistName:@"LunarCalendar" target:self] retain];
-	}
+- (id)specifiers
+{
+    if (_specifiers == nil)
+    {
+        NSArray *specs = [self loadSpecifiersFromPlistName:@"LunarCalendar" target:self];
+
+        NSMutableArray *actualSpecs = [[NSMutableArray alloc] init];
+        
+        PSSpecifier *gestureSpec = nil;
+        PSSpecifier *gesture7Spec = nil;
+        
+        for (unsigned int i=0; i<[specs count] ;i++)
+        {
+            PSSpecifier *spec = (PSSpecifier *)[specs objectAtIndex:i];
+        
+            if ([[spec propertyForKey:@"id"] isEqualToString:@"GESTURE"])
+            {
+                gestureSpec = spec;
+                if (kCFCoreFoundationVersionNumber >= 847.20)
+                    continue;
+            }
+            if ([[spec propertyForKey:@"id"] isEqualToString:@"GESTURE7"])
+            {
+                gesture7Spec = spec;
+                if (kCFCoreFoundationVersionNumber < 847.20)
+                    continue;
+            }
+            [actualSpecs addObject:spec];
+        }
+        if (kCFCoreFoundationVersionNumber < 847.20)
+            [self removeSpecifier:gesture7Spec];
+        else
+            [self removeSpecifier:gesture7Spec];
+        _specifiers = actualSpecs;
+    }
+
 	return _specifiers;
 }
+
 @end
 
 @interface LunarCalendarSpecificationsListController: PSListController
@@ -52,11 +85,10 @@
 - (id)specifiers
 {
 	if(_specifiers == nil)
-    {
 		_specifiers = [[self loadSpecifiersFromPlistName:@"Specifications" target:self] retain];
-    }
 	return _specifiers;
 }
+
 @end
 
 @interface LunarCalendarMoreInfoListController: PSListController
@@ -82,9 +114,7 @@
 - (id)specifiers
 {
 	if(_specifiers == nil)
-    {
 		_specifiers = [[self loadSpecifiersFromPlistName:@"MoreInfo" target:self] retain];
-    }
 	return _specifiers;
 }
 
@@ -117,6 +147,12 @@
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"cydia://package/org.thebigboss.quickshare"]];
 }
+
+-(void)openImListening:(PSSpecifier*)specifier
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"cydia://package/org.bigboss.imlistening"]];
+}
+
 @end
 
 #define WBSAddMethod(_class, _sel, _imp, _type) \

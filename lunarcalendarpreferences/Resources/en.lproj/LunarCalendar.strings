@@ -137,8 +137,9 @@
 
 /* Preferences */
 "Lunar Calendar" = "Lunar Calendar";
+"Language" = "Language";
+"Default" = "Default";
 "Switch Gesture" = "Switch Gesture";
-"Gesture" = "Gesture";
 "Swipe" = "Swipe";
 "Single Tap" = "Single Tap";
 "Double Tap" = "Double Tap";
@@ -152,4 +153,3 @@
 "Format 2:" = "Format 2:";
 "Format 3:" = "Format 3:";
 "More Information" = "More Information";
-

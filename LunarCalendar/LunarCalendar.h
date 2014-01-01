@@ -51,14 +51,14 @@ struct SolarTerm
 -(int)LunarYearDays:(int)y;
 -(int)DoubleMonth:(int)y;
 -(int)DoubleMonthDays:(int)y;
--(int)MonthDays:(int)y:(int)m;
+-(int)MonthDays:(int)y :(int)m;
 -(void)ComputeSolarTerm;
 
--(double)Term:(int)y:(int)n:(bool)pd;
--(double)AntiDayDifference:(int)y:(double)x;
--(double)EquivalentStandardDay:(int)y:(int)m:(int)d;
--(int)IfGregorian:(int)y:(int)m:(int)d:(int)opt;
--(int)DayDifference:(int)y:(int)m:(int)d;
+-(double)Term:(int)y :(int)n :(bool)pd;
+-(double)AntiDayDifference:(int)y :(double)x;
+-(double)EquivalentStandardDay :(int)y :(int)m :(int)d;
+-(int)IfGregorian:(int)y :(int)m :(int)d :(int)opt;
+-(int)DayDifference:(int)y :(int)m :(int)d;
 -(double)Tail:(double)x;
 
 -(NSString *)MonthLunar;

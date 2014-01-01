@@ -137,7 +137,8 @@
 /* Preferences */
 "Lunar Calendar" = "中華農曆";
 "Switch Gesture" = "切換手勢";
-"Gesture" = "手勢";
+"Language" = "語言";
+"Default" = "預設";
 "Swipe" = "左右滑動";
 "Single Tap" = "按一下";
 "Double Tap" = "按兩下";

@@ -137,7 +137,8 @@
 /* Preferences */
 "Lunar Calendar" = "中国农历";
 "Switch Gesture" = "切换手势";
-"Gesture" = "手势";
+"Language" = "语言";
+"Default" = "默认";
 "Swipe" = "左右滑动";
 "Single Tap" = "按一下";
 "Double Tap" = "按两下";
@@ -151,3 +152,4 @@
 "Format 2:" = "格式二：";
 "Format 3:" = "格式三：";
 "More Information" = "更多信息";
+

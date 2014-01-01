@@ -1,12 +1,13 @@
-SDKVERSION = 5.0
-TARGET_IPHONEOS_DEPLOYMENT_VERSION = 5.0
+export TARGET=iphone:7.0:5.0
+export ARCHS = armv7 armv7s arm64
 
 include theos/makefiles/common.mk
 
 LIBRARY_NAME = LunarCalendar
-LunarCalendar_FILES = LunarCalendarController.m TouchFix/TouchFix.m LunarCalendar/LunarCalendar.m
+LunarCalendar_FILES = LunarCalendarController.m LunarCalendar/LunarCalendar.m
 LunarCalendar_INSTALL_PATH = /System/Library/WeeAppPlugins/LunarCalendar.bundle
-LunarCalendar_FRAMEWORKS = Foundation UIKit
+LunarCalendar_FRAMEWORKS = Foundation UIKit CoreGraphics
+LunarCalendar_LDFLAGS = -weak_library /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/PrivateFrameworks/SpringBoardUIServices.framework/SpringBoardUIServices
 
 include $(THEOS_MAKE_PATH)/library.mk $(THEOS_MAKE_PATH)/tweak.mk
 

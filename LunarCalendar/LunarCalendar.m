@@ -1,4 +1,4 @@
-﻿#import "LunarCalendar.h"
+#import "LunarCalendar.h"
 
 int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16554,0x056a0,0x09ad0,0x055d2,
 	0x04ae0,0x0a5b6,0x0a4d0,0x0d250,0x1d255,0x0b540,0x0d6a0,0x0ada2,0x095b0,0x14977,
@@ -224,7 +224,7 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
 }
 
 ///返回农历年月份的总天数
--(int)MonthDays:(int)y:(int)m
+-(int)MonthDays:(int)y :(int)m
 {
 	return (((LunarCalendarInfo[y - 1900] & (0x10000 >> m)) != 0) ? 30 : 29);
 }
@@ -273,7 +273,7 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
 	return x - floor(x);
 }
 
--(double)Term:(int)y:(int)n:(bool)pd
+-(double)Term:(int)y :(int)n :(bool)pd
 {
 	//儒略日
 	double juD = y * (365.2423112 - 6.4e-14 * (y - 100) * (y - 100) - 3.047e-8 * (y - 100)) + 15.218427 * n + 1721050.71301;
@@ -291,7 +291,7 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
 	return vs;
 }
 
--(double)AntiDayDifference:(int)y:(double)x
+-(double)AntiDayDifference:(int)y :(double)x
 {
 	int m = 1;
 	for (int j = 1; j <= 12; j++)
@@ -308,7 +308,7 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
 	return 100 * m + x;
 }
 
--(double)EquivalentStandardDay:(int)y:(int)m:(int)d
+-(double)EquivalentStandardDay:(int)y :(int)m :(int)d
 {
 	//Julian的等效标准天数
 	double v = (y - 1) * 365 + floor((double)((y - 1) / 4)) + [self DayDifference:y:m:d] - 2;
@@ -320,7 +320,7 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
 	return v;
 }
 
--(int)DayDifference:(int)y:(int)m:(int)d
+-(int)DayDifference:(int)y :(int)m :(int)d
 {
 	int ifG = [self IfGregorian:y:m:d:1];
 	//NSArray *monL = [NSArray arrayWithObjects:, nil];
@@ -352,7 +352,7 @@ int LunarCalendarInfo[] = { 0x04bd8,0x04ae0,0x0a570,0x054d5,0x0d260,0x0d950,0x16
 	return v;
 }
 
--(int)IfGregorian:(int)y:(int)m:(int)d:(int)opt
+-(int)IfGregorian:(int)y :(int)m :(int)d :(int)opt
 {
 	if (opt == 1)
 	{

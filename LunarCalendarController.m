@@ -340,7 +340,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
         if (switchGesture == 0)
             pasteboard.string = [NSString stringWithFormat:@"%@\n%@\n%@", pageView1.text, pageView2.text, pageView3.text];
         else
-            pasteboard.string = [NSString stringWithFormat:@"%@", pageView1.text];
+            pasteboard.string = [NSString stringWithFormat:@"%@\n%@\n%@", [self customDatePrinter:0], [self customDatePrinter:1], [self customDatePrinter:2]];
 
         [self performSelector:@selector(dismissAlert:) withObject:alert afterDelay:1.5];
 
@@ -1110,7 +1110,7 @@ static UIView *getSuperTableView(UIView *view)
         [alert show];
 
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-        pasteboard.string = [NSString stringWithFormat:@"%@", pageView1.text];
+        pasteboard.string = [NSString stringWithFormat:@"%@\n%@\n%@", [self customDatePrinter:0], [self customDatePrinter:1], [self customDatePrinter:2]];
 
         [self performSelector:@selector(dismissAlert:) withObject:alert afterDelay:1.5];
 

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>AppBundleID</key>
-    <string>com.apple.mobilecal</string>
+	<string>com.autopear.lunarcalendar</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>

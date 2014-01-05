@@ -4,7 +4,7 @@
 /* Sample: "壬辰龍年三月十四" */
 "DateFormatNormal" = "[HY][EY][Z]年[L][LM]月[LD]";
 /* Sample: "壬辰年癸卯月癸酉日" */
-"DateFormatTraditional" = "[HY][EY]年[HM][EM]月[HD][ED]日";
+"DateFormatTraditional" = "[HY][EY]年[HM][EM]月[HD][ED]日 [S]";
 
 /* Heavenly Stems */
 "1H" = "甲";

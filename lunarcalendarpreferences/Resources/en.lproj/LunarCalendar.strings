@@ -2,9 +2,9 @@
 
 /* Date format */
 /* Sample: "9H5E/Mar/14th Dragon" */
-"DateFormatNormal" = "[HY][EY]/[LM]/[LD] [Z]";
+"DateFormatNormal" = "[HY][EY]/[LM]/[LD] [Z] [S]";
 /* Sample: "9H5E/10H4E/10H10E" */
-"DateFormatTraditional" = "[HY][EY]/[HM][EM]/[HD][ED]";
+"DateFormatTraditional" = "[HY][EY]/[HM][EM]/[HD][ED] [S]";
 
 /* Heavenly Stems */
 "1H" = "1H";

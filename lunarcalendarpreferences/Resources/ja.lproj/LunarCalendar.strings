@@ -135,20 +135,25 @@
 "Copied to clipboard." = "クリップボードにコピーされました。";
 
 /* Preferences */
-"Lunar Calendar" = "旧暦";
-"Switch Gesture" = "ジェスチャー";
-"Language" = "言語";
-"Default" = "デフォルト";
-"Swipe" = "スワイプ";
-"Single Tap" = "シングルタップ";
-"Double Tap" = "ダブルタップ";
-"View height" = "ビューの高さ";
+"Center" = "センター";
+"Custom Display Formats" = "カスタム表示形式";
 "Default view height: 28.0." = "デフォルトのビューの高さ：28.0。";
-"Font size" = "フォントサイズ";
-"Default font size: 18." = "デフォルトのフォントサイズ：18。";
-"Custom display formats" = "カスタム表示形式";
-"Specifications" = "仕様書";
+"Default" = "デフォルト";
+"Double Tap" = "ダブルタップ";
 "Format 1:" = "フォーマット 1：";
 "Format 2:" = "フォーマット 2：";
 "Format 3:" = "フォーマット 3：";
+"Language" = "言語";
+"Left" = "左";
+"Lunar Calendar" = "旧暦";
 "More Information" = "詳細情報";
+"Right" = "右";
+"Side Margin" = "マージン";
+"Single Tap" = "シングルタップ";
+"Specifications" = "仕様書";
+"Swipe" = "スワイプ";
+"Switch Gesture" = "ジェスチャー";
+"Text Alignment" = "テキストアラインメント";
+"Text Style" = "テキストスタイル";
+"Text margin on the left or right." = "左側または右側のマージン。";
+"View Height" = "ビューの高さ";

@@ -46,6 +46,8 @@ Sample output:
 			<string>PSGroupCell</string>
 			<key>footerText</key>
 			<string>Copyright © 2012-2014 Merlin Mao</string>
+			<key>id</key>
+			<string>COPYRIGHT</string>
 		</dict>
 	</array>
 	<key>title</key>

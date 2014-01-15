@@ -4,7 +4,7 @@ export ARCHS = armv7 armv7s arm64
 include theos/makefiles/common.mk
 
 LIBRARY_NAME = LunarCalendar
-LunarCalendar_FILES = LunarCalendarController.m LunarCalendar/LunarCalendar.m
+LunarCalendar_FILES = LunarCalendarController.m LunarCalendarWidgetController.m LunarCalendar/LunarCalendar.m
 LunarCalendar_INSTALL_PATH = /System/Library/WeeAppPlugins/LunarCalendar.bundle
 LunarCalendar_FRAMEWORKS = Foundation UIKit CoreGraphics
 LunarCalendar_LDFLAGS = -weak_library /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/PrivateFrameworks/SpringBoardUIServices.framework/SpringBoardUIServices

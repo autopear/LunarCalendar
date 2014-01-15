@@ -135,20 +135,25 @@
 "Copied to clipboard." = "已拷貝到剪貼板。";
 
 /* Preferences */
-"Lunar Calendar" = "中華農曆";
-"Switch Gesture" = "切換手勢";
-"Language" = "語言";
-"Default" = "預設";
-"Swipe" = "左右滑動";
-"Single Tap" = "按一下";
-"Double Tap" = "按兩下";
-"View height" = "視圖高度";
+"Center" = "居中";
+"Custom Display Formats" = "自訂顯示格式";
 "Default view height: 28.0." = "預設高度：28.0。";
-"Font size" = "字體大小";
-"Default font size: 18." = "預設字體大小：18。";
-"Custom display formats" = "自訂顯示格式";
-"Specifications" = "詳細說明";
+"Default" = "預設";
+"Double Tap" = "按兩下";
 "Format 1:" = "格式一：";
 "Format 2:" = "格式二：";
 "Format 3:" = "格式三：";
+"Language" = "語言";
+"Left" = "靠左";
+"Lunar Calendar" = "中華農曆";
 "More Information" = "更多資訊";
+"Right" = "靠右";
+"Side Margin" = "左右邊距";
+"Single Tap" = "按一下";
+"Specifications" = "詳細說明";
+"Swipe" = "左右滑動";
+"Switch Gesture" = "切換手勢";
+"Text Alignment" = "文字對齊";
+"Text Style" = "文本式樣";
+"Text margin on the left or right." = "左側或右側文字邊距。";
+"View Height" = "視圖高度";

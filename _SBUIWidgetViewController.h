@@ -1,10 +1,12 @@
-@protocol _SBUIWidgetHost <NSObject>
--(void)invalidatePreferredViewSize;
--(void)requestLaunchOfURL:(id)url;
--(void)requestPresentationOfViewController:(id)viewController presentationStyle:(int)style context:(id)context completion:(id)completion;
+@interface NSObject(SBWidgetHostDelegate)
+- (void)widget:(id)arg1 didUpdatePreferredSize:(struct CGSize)arg2;
 @end
 
-
+@protocol _SBUIWidgetHost <NSObject>
+- (void)invalidatePreferredViewSize;
+- (void)requestLaunchOfURL:(id)url;
+- (void)requestPresentationOfViewController:(id)viewController presentationStyle:(int)style context:(id)context completion:(id)completion;
+@end
 
 @interface _SBUIWidgetViewController : UIViewController <_SBUIWidgetHost> {
     id<_SBUIWidgetHost> *_widgetHost;
@@ -12,15 +14,8 @@
     int _widgetIdiom;
     NSString *_widgetidentifier;
 }
-
-//@property(readonly) CGSize preferredViewSize;
-//@property id<_SBUIWidgetHost> * widgetHost;
-//@property(copy) NSString * widgetIdentifier;
-//@property int widgetIdiom;
-
 + (id)_exportedInterface;
 + (id)_remoteViewControllerInterface;
-
 - (void)__hostDidDismiss;
 - (void)__hostDidPresent;
 - (void)__hostWillDismiss;
@@ -44,5 +39,4 @@
 - (id)widgetIdentifier;
 - (int)widgetIdiom;
 -(void)unloadView;
-
 @end

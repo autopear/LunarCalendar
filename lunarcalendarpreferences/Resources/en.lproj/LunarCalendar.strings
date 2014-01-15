@@ -136,20 +136,25 @@
 "Copied to clipboard." = "Copied to clipboard.";
 
 /* Preferences */
-"Lunar Calendar" = "Lunar Calendar";
-"Language" = "Language";
-"Default" = "Default";
-"Switch Gesture" = "Switch Gesture";
-"Swipe" = "Swipe";
-"Single Tap" = "Single Tap";
-"Double Tap" = "Double Tap";
-"View height" = "View height";
+"Center" = "Center";
+"Custom Display Formats" = "Custom Display Formats";
 "Default view height: 28.0." = "Default view height: 28.0.";
-"Font size" = "Font size";
-"Default font size: 18." = "Default font size: 18.";
-"Custom display formats" = "Custom display formats";
-"Specifications" = "Specifications";
+"Default" = "Default";
+"Double Tap" = "Double Tap";
 "Format 1:" = "Format 1:";
 "Format 2:" = "Format 2:";
 "Format 3:" = "Format 3:";
+"Language" = "Language";
+"Left" = "Left";
+"Lunar Calendar" = "Lunar Calendar";
 "More Information" = "More Information";
+"Right" = "Right";
+"Side Margin" = "Side Margin";
+"Single Tap" = "Single Tap";
+"Specifications" = "Specifications";
+"Swipe" = "Swipe";
+"Switch Gesture" = "Switch Gesture";
+"Text Alignment" = "Text Alignment";
+"Text Style" = "Text Style";
+"Text margin on the left or right." = "Text margin on the left or right.";
+"View Height" = "View Height";

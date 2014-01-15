@@ -43,12 +43,6 @@
 			</array>
 		</dict>
 		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-		</dict>
-		<dict>
-			<key>id</key>
-			<string>GESTURE</string>
 			<key>PostNotification</key>
 			<string>com.autopear.lunarcalendar/prefs</string>
 			<key>cell</key>
@@ -77,32 +71,40 @@
 			</array>
 		</dict>
 		<dict>
-			<key>id</key>
-			<string>GESTURE7</string>
 			<key>PostNotification</key>
 			<string>com.autopear.lunarcalendar/prefs</string>
 			<key>cell</key>
 			<string>PSLinkListCell</string>
 			<key>default</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
 			<key>detail</key>
 			<string>PSListItemsController</string>
 			<key>key</key>
-			<string>SwitchGesture</string>
+			<string>TextAlign</string>
 			<key>label</key>
-			<string>Switch Gesture</string>
+			<string>Text Alignment</string>
 			<key>validTitles</key>
 			<array>
-				<string>Single Tap</string>
-				<string>Double Tap</string>
+				<string>Left</string>
+				<string>Center</string>
+				<string>Right</string>
 			</array>
 			<key>validValues</key>
 			<array>
+				<integer>0</integer>
 				<integer>1</integer>
 				<integer>2</integer>
 			</array>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>detail</key>
+			<string>LunarCalendarTextStyleListController</string>
+			<key>label</key>
+			<string>Text Style</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -110,7 +112,7 @@
 			<key>footerText</key>
 			<string>Default view height: 28.0.</string>
 			<key>label</key>
-			<string>View height</string>
+			<string>View Height</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -124,7 +126,7 @@
 			<key>key</key>
 			<string>ViewHeight</string>
 			<key>label</key>
-			<string>View height</string>
+			<string>View Height</string>
 			<key>max</key>
 			<real>60</real>
 			<key>min</key>
@@ -136,9 +138,9 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Default font size: 18.</string>
+			<string>Text margin on the left or right.</string>
 			<key>label</key>
-			<string>Font size</string>
+			<string>Side Margin</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -146,17 +148,17 @@
 			<key>cell</key>
 			<string>PSSliderCell</string>
 			<key>default</key>
-			<integer>28</integer>
+			<integer>0</integer>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
 			<key>key</key>
-			<string>FontSize</string>
+			<string>SideMargin</string>
 			<key>label</key>
-			<string>Font size</string>
+			<string>Side Margin</string>
 			<key>max</key>
-			<integer>40</integer>
+			<integer>250</integer>
 			<key>min</key>
-			<integer>15</integer>
+			<integer>0</integer>
 			<key>showValue</key>
 			<true/>
 		</dict>
@@ -164,17 +166,15 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Custom display formats</string>
+			<string>Custom Display Formats</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>detail</key>
-			<string>Specifications</string>
+			<string>LunarCalendarSpecificationsListController</string>
 			<key>label</key>
 			<string>Specifications</string>
-			<key>detail</key>
-			<string>LunarCalendarSpecificationsListController</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>

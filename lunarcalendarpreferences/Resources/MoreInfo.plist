@@ -8,7 +8,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Close current app, kill background, power tools, fast clear notifications and much more from NotificationCenter!</string>
+			<string>Close current app, kill background, power tools, fast clear notifications and much more from Notification Center!</string>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -56,6 +56,26 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
+			<string>Social share widget in iOS 7's Notification Center.</string>
+			<key>id</key>
+			<string>SHAREWIDGET7_GROUP</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openShareWidget7:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>icon</key>
+			<string>ShareWidget7.png</string>
+			<key>id</key>
+			<string>SHAREWIDGET7_CELL</string>
+			<key>label</key>
+			<string>Share Widget for iOS 7</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
 			<string>Lite version of ActionSlider.</string>
 		</dict>
 		<dict>
@@ -73,6 +93,8 @@
 			<string>PSGroupCell</string>
 			<key>footerText</key>
 			<string>Bring back lyrics for Music app on iPad.</string>
+			<key>id</key>
+			<string>LYRICSFORIPAD_GROUP</string>
 			<key>requiredCapabilities</key>
 			<array>
 				<string>ipad</string>
@@ -85,6 +107,8 @@
 			<string>PSButtonCell</string>
 			<key>icon</key>
 			<string>/System/Library/PreferenceBundles/MusicSettings.bundle/icon.png</string>
+			<key>id</key>
+			<string>LYRICSFORIPAD_CELL</string>
 			<key>label</key>
 			<string>Lyrics for iPad</string>
 			<key>requiredCapabilities</key>

@@ -135,21 +135,25 @@
 "Copied to clipboard." = "已复制到剪贴板。";
 
 /* Preferences */
-"Lunar Calendar" = "中国农历";
-"Switch Gesture" = "切换手势";
-"Language" = "语言";
-"Default" = "默认";
-"Swipe" = "左右滑动";
-"Single Tap" = "按一下";
-"Double Tap" = "按两下";
-"View height" = "视图高度";
+"Center" = "居中";
+"Custom Display Formats" = "自定义显示格式";
 "Default view height: 28.0." = "默认高度：28.0。";
-"Font size" = "字体大小";
-"Default font size: 18." = "默认字体大小：18。";
-"Custom display formats" = "自定义显示格式";
-"Specifications" = "详细说明";
+"Default" = "默认";
+"Double Tap" = "按两下";
 "Format 1:" = "格式一：";
 "Format 2:" = "格式二：";
 "Format 3:" = "格式三：";
+"Language" = "语言";
+"Left" = "靠左";
+"Lunar Calendar" = "中国农历";
 "More Information" = "更多信息";
-
+"Right" = "靠右";
+"Side Margin" = "左右边距";
+"Single Tap" = "按一下";
+"Specifications" = "详细说明";
+"Swipe" = "左右滑动";
+"Switch Gesture" = "切换手势";
+"Text Alignment" = "文字对齐";
+"Text Style" = "文本式样";
+"Text margin on the left or right." = "左侧或右侧文字边距。";
+"View Height" = "视图高度";

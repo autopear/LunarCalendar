@@ -1,6 +1,6 @@
 "ActionSlider" = "ActionSlider";
 "Bring back lyrics for Music app on iPad." = "讓 iPad 上的音樂程式能重新顯示歌詞。";
-"Close current app, kill background, power tools, fast clear notifications and much more from NotificationCenter!" = "使用通知中心關閉當前程式，退出多工程式，電源工具，快速清理通知等。";
+"Close current app, kill background, power tools, fast clear notifications and much more from Notification Center!" = "使用通知中心關閉當前程式，退出多工程式，電源工具，快速清理通知等。";
 "Install IPA(s) from the command line." = "通過命令行安裝 IPA。";
 "IPA Installer Console" = "IPA 安裝器命令行版";
 "Lite version of ActionSlider." = "ActionSlider 的簡化版。";
@@ -11,3 +11,5 @@
 "Remove Badges" = "清理角標";
 "Send selected text, images and links to Facebook , Twitter and Sina Weibo." = "快速發送選中的文字、圖片及鏈接到 Facebook、Twitter 或新浪微博。";
 "Share what you are listening to social network!" = "快速將您正在聽的音樂分享到社交網路！";
+"Share Widget for iOS 7" = "iOS 7 共享 Widget";
+"Social share widget in iOS 7's Notification Center." = "iOS 7 通知中心中的社交共享 Widget。";

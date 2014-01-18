@@ -25,6 +25,8 @@
 #define PreferencesChangedNotification "com.autopear.lunarcalendar/prefs"
 #define PreferencesFilePath [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Preferences/com.autopear.lunarcalendar.plist"]
 
+#ifndef __LP64__
+
 //Controller for iOS 5 & 6
 @interface LunarCalendarController : UIViewController <BBWeeAppController> {
     UIView *_weeView;
@@ -51,6 +53,8 @@
 - (void)viewWillAppear;
 - (void)viewWillDisappear;
 @end
+
+#endif
 
 //Controller for iOS 7
 @interface LunarCalendarWidgetController: _SBUIWidgetViewController {

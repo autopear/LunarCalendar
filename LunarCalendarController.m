@@ -6,8 +6,11 @@
 //  Copyright (c) 2012-2014 autopear. All rights reserved.
 //
 
+#ifndef __LP64__
+
 #import "LunarCalendar.h"
 #import "SpringBoard.h"
+#import "TouchFix/TouchFix.h"
 
 @implementation LunarCalendarController
 
@@ -593,4 +596,18 @@
     return viewHeight;
 }
 
+- (NSURL *)launchURLForTapLocation:(CGPoint)point {
+    UITouch *touch = [[UITouch alloc] initWithPoint:[self.view convertPoint:point toView:self.view.window] andView:self.view];
+    UIEvent *eventDown = [[UIEvent alloc] initWithTouch:touch];
+    [touch.view touchesBegan:[eventDown allTouches] withEvent:eventDown];
+    [touch changeToPhase:UITouchPhaseEnded];
+    
+    UIEvent *eventUp = [[UIEvent alloc] initWithTouch:touch];
+    [touch.view touchesEnded:[eventUp allTouches] withEvent:eventUp];
+    
+    return nil;
+}
+
 @end
+
+#endif

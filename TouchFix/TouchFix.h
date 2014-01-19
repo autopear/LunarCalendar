@@ -2,21 +2,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <CoreGraphics/CoreGraphics.h>
 
-#import "UITouch+Private.h"
-
-@interface UIEvent (LunarCalendar_TouchFix)
-
-- (instancetype)initWithTouch:(UITouch *)touch;
-
+@interface UIEvent (LunarCalendar__TouchFix)
+- (UIEvent *)initWithTouch:(UITouch *)touch;
 @end
 
-@interface UITouch (LunarCalendar_TouchFix)
-
-- (instancetype)initWithPoint:(CGPoint)point andView:(UIView *)view;
-- (void)changeToPhase:(UITouchPhase)phase;
-
+@interface UITouch (LunarCalendar__TouchFix)
+- (UITouch *)initWithPoint:(CGPoint)point andView:(UIView *)view;
+- (void)setPhase:(UITouchPhase)phase;
 @end
 
 #endif

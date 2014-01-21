@@ -91,6 +91,7 @@
 @end
 
 static NSBundle *localizedBundle = nil;
+static NSString *lanCode = nil;
 static NSDictionary *languageStrings = nil;
 static double viewHeight = 28.0f;
 static int fontSize = 18;
@@ -129,11 +130,17 @@ static void LoadPreferences()
         [languageStrings release];
         languageStrings = nil;
     }
+    if (lanCode)
+    {
+        [lanCode release];
+        lanCode = nil;
+    }
     
     NSMutableDictionary *preferences = [[NSMutableDictionary alloc] initWithContentsOfFile:PreferencesFilePath];
     if (preferences) {
         NSString *readLanguage = [preferences objectForKey:@"Language"] ? [preferences objectForKey:@"Language"] : @"default";
         if (![readLanguage isEqualToString:@"default"]) {
+            lanCode = [readLanguage retain];
             NSString *languagePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/LunarCalendar.bundle/%@.lproj/LunarCalendar.strings", readLanguage];
             if ([[NSFileManager defaultManager] fileExistsAtPath:languagePath])
                 languageStrings = [[NSDictionary alloc] initWithContentsOfFile:languagePath];

@@ -241,7 +241,10 @@
     template = [template stringByReplacingOccurrencesOfString:@"[S]" withString:[_dateInfo objectForKey:@"SolarTerm"]];
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setLocale:[NSLocale currentLocale]];
+    if (lanCode)
+        [dateFormatter setLocale:[NSLocale localeWithLocaleIdentifier:lanCode]];
+    else
+        [dateFormatter setLocale:[NSLocale currentLocale]];
     [dateFormatter setDateStyle:NSDateFormatterLongStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
 
@@ -256,7 +259,10 @@
 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 
-    [dateFormatter setLocale:[NSLocale currentLocale]];
+    if (lanCode)
+        [dateFormatter setLocale:[NSLocale localeWithLocaleIdentifier:lanCode]];
+    else
+        [dateFormatter setLocale:[NSLocale currentLocale]];
 
     [dateFormatter setDateStyle:NSDateFormatterFullStyle];
 

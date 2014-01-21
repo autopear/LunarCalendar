@@ -5,6 +5,9 @@ if [[ $1 == remove ]]; then
     if [ -f /var/mobile/Library/Preferences/com.autopear.lunarcalendar.plist ]; then
         rm -f /var/mobile/Library/Preferences/com.autopear.lunarcalendar.plist
     fi
+	if [ -e /System/Library/WeeAppPlugins/LunarCalendarAll.bundle ]; then
+		rm -fr /System/Library/WeeAppPlugins/LunarCalendarAll.bundle
+	fi
 fi
 if [[ ${CYDIA+@} ]]; then
 	eval "echo 'finish:restart' >&${cydia[0]}"

@@ -84,6 +84,12 @@
 - (void)hostWillDismiss;
 @end
 
+@interface LunarCalendarTodayController : LunarCalendarWidgetController
+@end
+
+@interface LunarCalendarAllController : LunarCalendarWidgetController
+@end
+
 static NSBundle *localizedBundle = nil;
 static NSDictionary *languageStrings = nil;
 static double viewHeight = 28.0f;

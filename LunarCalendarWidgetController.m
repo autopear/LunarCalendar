@@ -8,7 +8,7 @@
 
 #import "LunarCalendar.h"
 #import "SpringBoard.h"
-#import "CaptainHook.h"
+#import <CaptainHook/CaptainHook.h>
 
 @implementation LunarCalendarWidgetController
 
@@ -597,4 +597,10 @@
         return [self calculateDate:displayDate3];
 }
 
+@end
+
+@implementation LunarCalendarTodayController
+@end
+
+@implementation LunarCalendarAllController
 @end

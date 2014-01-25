@@ -6,11 +6,280 @@
 //  Copyright (c) 2012-2014 autopear. All rights reserved.
 //
 
-#import "LunarCalendar.h"
-#import "SpringBoard.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <objc/runtime.h>
 #import <CaptainHook/CaptainHook.h>
+#import "LunarCalendar/LunarCalendar.h"
+#import "SpringBoard.h"
+#import "_SBUIWidgetViewController.h"
+#import "SpringBoard.h"
+
+#define PreferencesChangedNotification "com.autopear.lunarcalendar/prefs"
+#define PreferencesFilePath [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Preferences/com.autopear.lunarcalendar.plist"]
+
+
+//Controller for iOS 7
+@interface LunarCalendarWidgetController: _SBUIWidgetViewController <UIAlertViewDelegate> {
+    UIView *_weeView;
+    UIScrollView *_scrollView;
+    UILabel *_pageView1;
+    UILabel *_pageView2;
+    UILabel *_pageView3;
+    UIAlertView *_alert;
+    unsigned int _currentDate;
+    NSMutableDictionary *_dateInfo;
+}
+- (id)init;
+- (void)dealloc;
+- (CGFloat)bulletinViewWidth;
+- (CGSize)preferredViewSize;
+- (void)longPress:(UILongPressGestureRecognizer *)gesture;
+- (void)singleTap:(UITapGestureRecognizer *)gesture;
+- (void)doubleTap:(UITapGestureRecognizer *)gesture;
+- (NSString *)customDatePrinter:(int)format;
+- (void)dismissAlert;
+- (void)refreshLabel;
+- (NSString *)calculateDate:(NSString *)template;
+- (void)updateDate;
+- (void)hostWillPresent;
+- (void)hostWillDismiss;
+@end
+
+@interface LunarCalendarTodayController : LunarCalendarWidgetController
+@end
+
+@interface LunarCalendarAllController : LunarCalendarWidgetController
+@end
 
 @implementation LunarCalendarWidgetController
+
+static NSBundle *localizedBundle = nil;
+static NSString *lanCode = nil;
+static NSDictionary *languageStrings = nil;
+static double viewHeight = 28.0f;
+static int fontSize = 18;
+static int fontStyle = 1;
+static int switchGesture = 0;
+static int textAlign = 1;
+static int pageNo = 0;
+static CGFloat sideMargin = 0;
+static CGFloat colorRed = 1.0f;
+static CGFloat colorGreen = 1.0f;
+static CGFloat colorBlue = 1.0f;
+static CGFloat colorAlpha = 1.0f;
+static CGFloat shadowWidth = 0.0f;
+static CGFloat shadowHeight = 0.0f;
+static CGFloat shadowRed = 0.0f;
+static CGFloat shadowGreen = 0.0f;
+static CGFloat shadowBlue = 0.0f;
+static CGFloat shadowAlpha = 1.0f;
+static BOOL viewHeightChanged = NO;
+static BOOL fontChanged = NO;
+static BOOL formatChanged1 = NO;
+static BOOL formatChanged2 = NO;
+static BOOL formatChanged3 = NO;
+static BOOL textAlignChanged = NO;
+static BOOL sideMarginChanged = NO;
+static BOOL textColorChanged = NO;
+static BOOL shadowChaned = NO;
+static NSString *displayDate1 = @"";
+static NSString *displayDate2 = @"";
+static NSString *displayDate3 = @"";
+
+static CGFloat viewWidth;
+
+static void LoadPreferences() {
+    if (languageStrings) {
+        [languageStrings release];
+        languageStrings = nil;
+    }
+    if (lanCode) {
+        [lanCode release];
+        lanCode = nil;
+    }
+    
+    NSMutableDictionary *preferences = [[NSMutableDictionary alloc] initWithContentsOfFile:PreferencesFilePath];
+    if (preferences) {
+        NSString *readLanguage = [preferences objectForKey:@"Language"] ? [preferences objectForKey:@"Language"] : @"default";
+        if (![readLanguage isEqualToString:@"default"]) {
+            lanCode = [readLanguage retain];
+            NSString *languagePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/LunarCalendar.bundle/%@.lproj/LunarCalendar.strings", readLanguage];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:languagePath])
+                languageStrings = [[NSDictionary alloc] initWithContentsOfFile:languagePath];
+        }
+        
+        int readSwitchGesture = [preferences objectForKey:@"SwitchGesture"] ? [[preferences objectForKey:@"SwitchGesture"] intValue] : 0;
+        if (readSwitchGesture > 2 || readSwitchGesture < 0)
+            readSwitchGesture = 0;
+        if (readSwitchGesture != switchGesture)
+            switchGesture = readSwitchGesture;
+        
+        double readViewHeight = [preferences objectForKey:@"ViewHeight"] ? [[preferences objectForKey:@"ViewHeight"] doubleValue] : 28.0f;
+        if (readViewHeight < 20.0f || readViewHeight > 60.0f)
+            readViewHeight = 28.0f;
+        if (readViewHeight != viewHeight) {
+            viewHeightChanged = YES;
+            viewHeight = readViewHeight;
+        }
+        
+        int readFontSize = [preferences objectForKey:@"FontSize"] ? [[preferences objectForKey:@"FontSize"] intValue] : 18;
+        if (readFontSize < 15 || readFontSize > 40)
+            readFontSize = 18;
+        if (readFontSize != fontSize) {
+            fontChanged = YES;
+            fontSize = readFontSize;
+        }
+        
+        int readFontStyle = [preferences objectForKey:@"FontStyle"] ? [[preferences objectForKey:@"FontStyle"] intValue] : (kCFCoreFoundationVersionNumber < 847.20 ? 1 : 0);
+        if (readFontStyle < 0 || readFontStyle > 2)
+            readFontStyle = 1;
+        if (readFontStyle != fontStyle) {
+            fontChanged = YES;
+            fontStyle = readFontStyle;
+        }
+        
+        NSString *readFormat1 = [preferences objectForKey:@"CustomFormat1"] ? [preferences objectForKey:@"CustomFormat1"] : @"";
+        if (![readFormat1 isEqualToString:displayDate1]) {
+            formatChanged1 = YES;
+            displayDate1 = [readFormat1 retain];
+        }
+        
+        NSString *readFormat2 = [preferences objectForKey:@"CustomFormat2"] ? [preferences objectForKey:@"CustomFormat2"] : @"";
+        if ([readFormat2 length] == 0) {
+            if (languageStrings && [languageStrings objectForKey:@"DateFormatNormal"])
+                readFormat2 = [languageStrings objectForKey:@"DateFormatNormal"];
+            if ([readFormat2 length] == 0)
+                readFormat2 =  NSLocalizedStringFromTableInBundle(@"DateFormatNormal", @"LunarCalendar", localizedBundle, @"[HY][EY]/[LM]/[LD] [Z]");
+        }
+        
+        if (![readFormat2 isEqualToString:displayDate2]) {
+            formatChanged2 = YES;
+            displayDate2 = [readFormat2 retain];
+        }
+        
+        NSString *readFormat3 = [preferences objectForKey:@"CustomFormat3"] ? [preferences objectForKey:@"CustomFormat3"] : @"";
+        if ([readFormat3 length] == 0) {
+            if (languageStrings && [languageStrings objectForKey:@"DateFormatTraditional"])
+                readFormat3 = [languageStrings objectForKey:@"DateFormatTraditional"];
+            if ([readFormat3 length] == 0)
+                readFormat3 =  NSLocalizedStringFromTableInBundle(@"DateFormatTraditional", @"LunarCalendar", localizedBundle, @"[HY][EY]/[HM][EM]/[HD][ED]");
+        }
+        
+        if (![readFormat3 isEqualToString:displayDate3]) {
+            formatChanged3 = YES;
+            displayDate3 = [readFormat3 retain];
+        }
+        
+        int readTextAlign = [preferences objectForKey:@"TextAlign"] ? [[preferences objectForKey:@"TextAlign"] intValue] : (kCFCoreFoundationVersionNumber < 847.20 ? 1 : 0);
+        if (readTextAlign < 0 || readTextAlign > 2)
+            readTextAlign = kCFCoreFoundationVersionNumber < 847.20 ? 1 : 0;
+        if (readTextAlign != textAlign) {
+            textAlignChanged = YES;
+            textAlign = readTextAlign;
+        }
+        if (textAlign == 1) {
+            if (sideMargin != 0.0f) {
+                sideMargin = 0.0f;
+                sideMarginChanged = YES;
+            }
+        }
+        
+        if (!sideMarginChanged) {
+            CGFloat readSideMargin = [preferences objectForKey:@"SideMargin"] ? [[preferences objectForKey:@"SideMargin"] doubleValue] : (kCFCoreFoundationVersionNumber < 847.20 ? 0 : 45.0f);
+            if (readSideMargin < 0)
+                readSideMargin = 0;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                if (readSideMargin > 250.0f)
+                    readSideMargin = 250.0f;
+            } else {
+                if (readSideMargin > 150.0f)
+                    readSideMargin = 150.0f;
+            }
+            if (readSideMargin != sideMargin) {
+                sideMarginChanged = YES;
+                sideMargin = readSideMargin;
+            }
+        }
+        
+        CGFloat readColorRed = [preferences objectForKey:@"ColorRed"] ? [[preferences objectForKey:@"ColorRed"] floatValue] : 1.0f;
+        if (readColorRed < 0.0f || readColorRed > 1.0f)
+            readColorRed = 1.0f;
+        CGFloat readColorGreen = [preferences objectForKey:@"ColorGreen"] ? [[preferences objectForKey:@"ColorGreen"] floatValue] : 1.0f;
+        if (readColorGreen < 0.0f || readColorGreen > 1.0f)
+            readColorGreen = 1.0f;
+        CGFloat readColorBlue = [preferences objectForKey:@"ColorBlue"] ? [[preferences objectForKey:@"ColorBlue"] floatValue] : 1.0f;
+        if (readColorBlue < 0.0f || readColorBlue > 1.0f)
+            readColorBlue = 1.0f;
+        CGFloat readColorAlpha = [preferences objectForKey:@"ColorAlpha"] ? [[preferences objectForKey:@"ColorAlpha"] floatValue] : 1.0f;
+        if (readColorAlpha < 0.0f || readColorAlpha > 1.0f)
+            readColorAlpha = 1.0f;
+        if (readColorRed != colorRed || readColorGreen != colorGreen || readColorBlue != colorBlue || readColorAlpha != colorAlpha) {
+            textColorChanged = YES;
+            colorRed = readColorRed;
+            colorGreen = readColorGreen;
+            colorBlue = readColorBlue;
+            colorAlpha = readColorAlpha;
+        }
+        
+        CGFloat readShadowWidth = [preferences objectForKey:@"ShadowWidth"] ? [[preferences objectForKey:@"ShadowWidth"] floatValue] : (kCFCoreFoundationVersionNumber < 847.20 ? 1.0f : 0.0f);
+        if (readShadowWidth < -5.0f)
+            readShadowWidth = -5.0f;
+        if (readShadowWidth > 5.0f)
+            readShadowWidth = 5.0f;
+        CGFloat readShadowHeight = [preferences objectForKey:@"ShadowHeight"] ? [[preferences objectForKey:@"ShadowHeight"] floatValue] : (kCFCoreFoundationVersionNumber < 847.20 ? 1.0f : 0.0f);
+        if (readShadowHeight < -5.0f)
+            readShadowHeight = -5.0f;
+        if (readShadowHeight > 5.0f)
+            readShadowHeight = 5.0f;
+        
+        CGFloat readShadowRed = [preferences objectForKey:@"ShadowRed"] ? [[preferences objectForKey:@"ShadowRed"] floatValue] : 0.0f;
+        if (readShadowRed < 0.0f || readShadowRed > 1.0f)
+            readShadowRed = 1.0f;
+        CGFloat readShadowGreen = [preferences objectForKey:@"ShadowGreen"] ? [[preferences objectForKey:@"ShadowGreen"] floatValue] : 0.0f;
+        if (readShadowGreen < 0.0f || readShadowGreen > 1.0f)
+            readShadowGreen = 1.0f;
+        CGFloat readShadowBlue = [preferences objectForKey:@"ShadowBlue"] ? [[preferences objectForKey:@"ShadowBlue"] floatValue] : 0.0f;
+        if (readShadowBlue < 0.0f || readShadowBlue > 1.0f)
+            readShadowBlue = 1.0f;
+        CGFloat readShadowAlpha = [preferences objectForKey:@"ShadowAlpha"] ? [[preferences objectForKey:@"ShadowAlpha"] floatValue] : 1.0f;
+        if (readShadowAlpha < 0.0f || readShadowAlpha > 1.0f)
+            readShadowAlpha = 1.0f;
+        if (readShadowWidth != shadowWidth || readShadowHeight != shadowHeight || readShadowRed != shadowRed || readShadowGreen != shadowGreen || readShadowBlue != shadowBlue || readShadowAlpha != shadowAlpha) {
+            shadowChaned = YES;
+            shadowWidth = readShadowWidth;
+            shadowHeight = readShadowHeight;
+            shadowRed = readShadowRed;
+            shadowGreen = readShadowGreen;
+            shadowBlue = readShadowBlue;
+            shadowAlpha = readShadowAlpha;
+        }
+    } else {
+        displayDate1 = @"";
+        displayDate2 = [NSLocalizedStringFromTableInBundle(@"DateFormatNormal", @"LunarCalendar", localizedBundle, @"[HY][EY]/[LM]/[LD] [Z]") retain];
+        displayDate3 = [NSLocalizedStringFromTableInBundle(@"DateFormatTraditional", @"LunarCalendar", localizedBundle, @"[HY][EY]/[HM][EM]/[HD][ED]") retain];
+        switchGesture = kCFCoreFoundationVersionNumber < 847.20 ? 0 : 1;
+        fontSize = 18;
+        fontStyle = (kCFCoreFoundationVersionNumber < 847.20 ? 1 : 0);
+        textAlign = (kCFCoreFoundationVersionNumber < 847.20 ? 1 : 0);
+        sideMargin = (kCFCoreFoundationVersionNumber < 847.20 ? 0 : 45.0f);
+        colorRed = 1.0f;
+        colorGreen = 1.0f;
+        colorBlue = 1.0f;
+        colorAlpha = 1.0f;
+        shadowWidth = (kCFCoreFoundationVersionNumber < 847.20 ? 1.0f : 0.0f);
+        shadowHeight = (kCFCoreFoundationVersionNumber < 847.20 ? 1.0f : 0.0f);
+        shadowRed = 0.0f;
+        shadowGreen = 0.0f;
+        shadowBlue = 0.0f;
+        shadowAlpha = 1.0f;
+    }
+    [preferences release];
+}
+
+static void PreferencesChangedCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+    LoadPreferences();
+}
 
 - (id)init {
     if (kCFCoreFoundationVersionNumber < 847.20) //iOS 5 & 6
@@ -26,10 +295,11 @@
         _dateInfo = [[NSMutableDictionary alloc] initWithCapacity:17];
 
         CGFloat superWidth = [self bulletinViewWidth];
+        viewWidth = superWidth;
 
-        _weeView = [[UIView alloc] initWithFrame:CGRectMake(2, 0, (superWidth - 4), viewHeight)];
+        _weeView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, superWidth , viewHeight)];
 
-        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, (superWidth - 4), viewHeight)];
+        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(2, 0, (superWidth - 4), viewHeight)];
         _scrollView.pagingEnabled = YES;
         _scrollView.bounces = YES;
         _scrollView.showsHorizontalScrollIndicator = NO;
@@ -56,7 +326,23 @@
         UIColor *labelShadowColor = [UIColor colorWithRed:shadowRed green:shadowGreen blue:shadowBlue alpha:shadowAlpha];
         CGSize labelShadowSize = CGSizeMake(shadowWidth, shadowHeight);
         
-        _pageView1 = [[UILabel alloc] initWithFrame:CGRectMake(sideMargin, 0, (superWidth - 4 - sideMargin * 2), viewHeight)];
+
+        CGRect frame1, frame2, frame3;
+        if (textAlign == 0) {
+            frame1 = CGRectMake(sideMargin, 0, (superWidth - 4 - sideMargin), viewHeight);
+            frame2 = CGRectMake((superWidth - 4) + sideMargin, 0, (superWidth - 4 - sideMargin), viewHeight);
+            frame3 = CGRectMake((superWidth - 4) * 2 + sideMargin, 0, (superWidth - 4 - sideMargin), viewHeight);
+        } else if (textAlign == 2) {
+            frame1 = CGRectMake(0, 0, (superWidth - 4 - sideMargin), viewHeight);
+            frame2 = CGRectMake((superWidth - 4), 0, (superWidth - 4 - sideMargin), viewHeight);
+            frame3 = CGRectMake((superWidth - 4) * 2, 0, (superWidth - 4 - sideMargin), viewHeight);
+        } else {
+            frame1 = CGRectMake(0, 0, (superWidth - 4), viewHeight);
+            frame2 = CGRectMake((superWidth - 4), 0, (superWidth - 4), viewHeight);
+            frame3 = CGRectMake((superWidth - 4) * 2, 0, (superWidth - 4), viewHeight);
+        }
+        
+        _pageView1 = [[UILabel alloc] initWithFrame:frame1];
         _pageView1.backgroundColor = [UIColor clearColor];
         _pageView1.textColor = labelTextColor;
         _pageView1.shadowColor = labelShadowColor;
@@ -79,7 +365,7 @@
         _pageView1.userInteractionEnabled = NO;
         [_scrollView addSubview:_pageView1];
 
-        _pageView2 = [[UILabel alloc] initWithFrame:CGRectMake((superWidth - 4) + sideMargin, 0, (superWidth - 4 - sideMargin * 2), viewHeight)];
+        _pageView2 = [[UILabel alloc] initWithFrame:frame2];
         _pageView2.backgroundColor = [UIColor clearColor];
         _pageView2.textColor = labelTextColor;
         _pageView2.shadowColor = labelShadowColor;
@@ -102,7 +388,7 @@
         _pageView2.userInteractionEnabled = NO;
         [_scrollView addSubview:_pageView2];
 
-        _pageView3 = [[UILabel alloc] initWithFrame:CGRectMake((superWidth - 4) * 2 + sideMargin, 0, (superWidth - 4 - sideMargin * 2), viewHeight)];
+        _pageView3 = [[UILabel alloc] initWithFrame:frame3];
         _pageView3.backgroundColor = [UIColor clearColor];
         _pageView3.textColor = labelTextColor;
         _pageView3.shadowColor = labelShadowColor;
@@ -156,10 +442,6 @@
     [super dealloc];
 }
 
-- (UIView *)view {
-    return _weeView;
-}
-
 -(CGFloat)bulletinViewWidth {
     SBNotificationCenterController *ncctrl = (SBNotificationCenterController *)[objc_getClass("SBNotificationCenterController") sharedInstance];
     SBNotificationCenterViewController *ncvc = ncctrl.viewController;
@@ -178,7 +460,7 @@
 }
 
 - (CGSize)preferredViewSize {
-    return CGSizeMake([self bulletinViewWidth], viewHeight);
+    return CGSizeMake(viewWidth, viewHeight);
 }
 
 - (void)hostWillDismiss {
@@ -204,9 +486,10 @@
 
     CGFloat superWidth = [self bulletinViewWidth];
     
-    if (superWidth != _weeView.frame.size.height + 4) {
-        _weeView.frame = CGRectMake(2, 0, (superWidth - 4), viewHeight);
-        _scrollView.frame = CGRectMake(0, 0, (superWidth - 4), viewHeight);
+    if (superWidth != _weeView.frame.size.height) {
+        viewWidth = superWidth;
+        _weeView.frame = CGRectMake(0, 0, superWidth , viewHeight);
+        _scrollView.frame = CGRectMake(2, 0, (superWidth - 4), viewHeight);
         
         if (textAlign == 0) {
             _pageView1.frame = CGRectMake(sideMargin, 0, (superWidth - 4 - sideMargin), viewHeight);
@@ -284,9 +567,9 @@
     }
     
     if (viewHeightChanged) {
-        _pageView1.frame = CGRectMake(0, 0, _scrollView.frame.size.width, viewHeight);
-        _pageView2.frame = CGRectMake(_scrollView.frame.size.width, 0, _scrollView.frame.size.width, viewHeight);
-        _pageView3.frame = CGRectMake(_scrollView.frame.size.width * 2, 0, _scrollView.frame.size.width, viewHeight);
+        _pageView1.frame = CGRectMake(_pageView1.frame.origin.x, _pageView1.frame.origin.y, _pageView1.frame.size.width, viewHeight);
+        _pageView2.frame = CGRectMake(_pageView2.frame.origin.x, _pageView2.frame.origin.y, _pageView2.frame.size.width, viewHeight);
+        _pageView3.frame = CGRectMake(_pageView3.frame.origin.x, _pageView3.frame.origin.y, _pageView3.frame.size.width, viewHeight);
         viewHeightChanged = NO;
         [[[self widgetHost] delegate] widget:[self widgetHost] didUpdatePreferredSize:[self preferredViewSize]];
     }
@@ -510,7 +793,6 @@
 }
 
 - (void)longPress:(UILongPressGestureRecognizer *)gesture {
-    NSLog(@"lpng press");
     if (gesture.state == UIGestureRecognizerStateEnded) {
         NSString *message = NSLocalizedStringFromTableInBundle(@"Copied to clipboard.", @"LunarCalendar", localizedBundle, @"Copied to clipboard.");
 
@@ -526,13 +808,11 @@
 }
 
 - (void)singleTap:(UITapGestureRecognizer *)gesture {
-    NSLog(@"singleTap press");
     if (gesture.state == UIGestureRecognizerStateEnded && switchGesture == 1)
         [self performSelector:@selector(refreshLabel) withObject:nil afterDelay:0.3];
 }
 
 - (void)doubleTap:(UITapGestureRecognizer *)gesture {
-    NSLog(@"doubleTap press");
     if (gesture.state == UIGestureRecognizerStateEnded && switchGesture == 2)
         [self performSelector:@selector(refreshLabel) withObject:nil afterDelay:0.3];
 }

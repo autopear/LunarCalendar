@@ -2,18 +2,15 @@
 declare -a cydia
 cydia=($CYDIA)
 if [ -e /System/Library/PrivateFrameworks/PhotosUI.framework ]; then
-	if [[ ! -e /System/Library/WeeAppPlugins/LunarCalendarAll.bundle ]]; then
-		mkdir -p /System/Library/WeeAppPlugins/LunarCalendarAll.bundle
-		ln -s /System/Library/WeeAppPlugins/LunarCalendar.bundle/en.lproj /System/Library/WeeAppPlugins/LunarCalendarAll.bundle/en.lproj
-		ln -s /System/Library/WeeAppPlugins/LunarCalendar.bundle/ja.lproj /System/Library/WeeAppPlugins/LunarCalendarAll.bundle/ja.lproj
-		ln -s /System/Library/WeeAppPlugins/LunarCalendar.bundle/ko.lproj /System/Library/WeeAppPlugins/LunarCalendarAll.bundle/ko.lproj
-		ln -s /System/Library/WeeAppPlugins/LunarCalendar.bundle/zh_CN.lproj /System/Library/WeeAppPlugins/LunarCalendarAll.bundle/zh_CN.lproj
-		ln -s /System/Library/WeeAppPlugins/LunarCalendar.bundle/zh_TW.lproj /System/Library/WeeAppPlugins/LunarCalendarAll.bundle/zh_TW.lproj
-		ln -s /System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendar /System/Library/WeeAppPlugins/LunarCalendarAll.bundle/LunarCalendar
-		ln -s /System/Library/WeeAppPlugins/LunarCalendar.bundle/Info-all.plist /System/Library/WeeAppPlugins/LunarCalendarAll.bundle/Info.plist		
-	fi
+	mv -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendar7 /System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendar
+	mv -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/Info7.plist /System/Library/WeeAppPlugins/LunarCalendar.bundle/Info.plist
+	rm -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/WeeAppBackground.png
+	rm -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/WeeAppBackground@2x.png
 else
-	rm -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/Info-all.plist
+	rm -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendar7
+	rm -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/Info7.plist
+	rm -f /System/Library/WeeAppPlugins/LunarCalendarAll.bundle/*
+	rm -fr /System/Library/WeeAppPlugins/LunarCalendarAll.bundle
 fi
 if [[ ${CYDIA+@} ]]; then
 	eval "echo 'finish:restart' >&${cydia[0]}"

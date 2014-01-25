@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.6</string>
+	<string>1.6.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -27,14 +27,9 @@
 		<string>iPhoneOS</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.6</string>
+	<string>1.6.2</string>
 	<key>MinimumOSVersion</key>
 	<string>5.0</string>
-	<key>SBUIWidgetViewControllers</key>
-	<dict>
-		<key>SBUIWidgetIdiomNotificationCenterToday</key>
-		<string>LunarCalendarTodayController</string>
-	</dict>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>

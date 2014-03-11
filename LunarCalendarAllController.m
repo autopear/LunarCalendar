@@ -1,6 +1,6 @@
 //
-//  LunarCalendarWidgetController.h
-//  LunarCalendarWidgetController
+//  LunarCalendarAllController.h
+//  LunarCalendarAllController
 //
 //  Created by Merlin on 12-3-13.
 //  Copyright (c) 2012-2014 autopear. All rights reserved.
@@ -20,7 +20,7 @@
 
 
 //Controller for iOS 7
-@interface LunarCalendarWidgetController: _SBUIWidgetViewController <UIAlertViewDelegate> {
+@interface LunarCalendarAllController: _SBUIWidgetViewController <UIAlertViewDelegate> {
     UIView *_weeView;
     UIScrollView *_scrollView;
     UILabel *_pageView1;
@@ -46,13 +46,7 @@
 - (void)hostWillDismiss;
 @end
 
-@interface LunarCalendarTodayController : LunarCalendarWidgetController
-@end
-
-@interface LunarCalendarAllController : LunarCalendarWidgetController
-@end
-
-@implementation LunarCalendarWidgetController
+@implementation LunarCalendarAllController
 
 static NSBundle *localizedBundle = nil;
 static NSString *lanCode = nil;
@@ -885,10 +879,4 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
         return [self calculateDate:displayDate3];
 }
 
-@end
-
-@implementation LunarCalendarTodayController
-@end
-
-@implementation LunarCalendarAllController
 @end

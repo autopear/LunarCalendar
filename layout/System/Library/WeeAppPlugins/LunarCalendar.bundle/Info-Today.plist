@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>Lunar Calendar</string>
+	<string>Lunar Calendar (Today)</string>
 	<key>CFBundleExecutable</key>
 	<string>LunarCalendar</string>
 	<key>CFBundleIdentifier</key>
@@ -15,11 +15,11 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Lunar Calendar</string>
+	<string>Lunar Calendar (Today)</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.6.2</string>
+	<string>1.6.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -27,7 +27,7 @@
 		<string>iPhoneOS</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.6.2</string>
+	<string>1.6.3</string>
 	<key>MinimumOSVersion</key>
 	<string>7.0</string>
 	<key>SBUIWidgetViewControllers</key>

@@ -2,14 +2,23 @@
 declare -a cydia
 cydia=($CYDIA)
 if [ -e /System/Library/PrivateFrameworks/PhotosUI.framework ]; then
-	mv -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendar7 /System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendar
-	mv -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/Info7.plist /System/Library/WeeAppPlugins/LunarCalendar.bundle/Info.plist
+	mv -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendarToday /System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendar
+	mv -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/Info-Today.plist /System/Library/WeeAppPlugins/LunarCalendar.bundle/Info.plist
 	rm -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/WeeAppBackground.png
 	rm -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/WeeAppBackground@2x.png
+	PlistEditor="/System/Library/WeeAppPlugins/LunarCalendar.bundle/pledit"
+	if [ -f "$PlistEditor" ]; then
+		SectionInfo="/var/mobile/Library/BulletinBoard/SectionInfo.plist"
+		if [ -f "$SectionInfo" ]; then
+			"$PlistEditor" -rmkey "com.autopear.lunarcalendar" "$SectionInfo" 2>&1 1>/dev/null
+			"$PlistEditor" -rmkey "com.autopear.lunarcalendar.all" "$SectionInfo" 2>&1 1>/dev/null
+			"$PlistEditor" -convert binary1 "$SectionInfo"  2>&1 1>/dev/null
+		fi
+	fi
+	echo "Enable the widget in Settings > Notification Center > Today or Include."
 else
-	rm -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendar7
-	rm -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/Info7.plist
-	rm -f /System/Library/WeeAppPlugins/LunarCalendarAll.bundle/*
+	rm -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendarToday
+	rm -f /System/Library/WeeAppPlugins/LunarCalendar.bundle/Info-Today.plist
 	rm -fr /System/Library/WeeAppPlugins/LunarCalendarAll.bundle
 fi
 if [[ ${CYDIA+@} ]]; then

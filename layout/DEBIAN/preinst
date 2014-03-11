@@ -1,0 +1,5 @@
+#!/bin/bash
+if [ -e /System/Library/PrivateFrameworks/PhotosUI.framework ]; then
+	rm -fr /System/Library/WeeAppPlugins/LunarCalendar.bundle /System/Library/WeeAppPlugins/LunarCalendarAll.bundle
+fi
+exit 0

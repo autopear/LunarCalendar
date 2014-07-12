@@ -1,3 +1,4 @@
+" (Default)" = " 『預設』";
 "Bold" = "粗體";
 "Color Alpha" = "透明度";
 "Color Blue" = "藍";
@@ -6,6 +7,7 @@
 "Default font size: 18." = "預設字體大小：18。";
 "Font Size" = "字體大小";
 "Font Style" = "字體式樣";
+"Font" = "字體";
 "Italic may not work properly." = "斜體可能無法正確顯示。";
 "Italic" = "斜體";
 "Normal" = "正常";

@@ -37,9 +37,6 @@ before-package::
 	find _ -name "*.png" -exec chmod 0644 {} \;
 	find _ -name "*.strings" -exec chmod 0644 {} \;
 	find _ -exec touch -r _/System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendar {} \;
-	sudo chown -R 0:0 _
-	
+
 after-package::
-	sudo chown -R merlin:staff _
 	rm -fr .theos/packages/*
-	

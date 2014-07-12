@@ -123,6 +123,8 @@
 			<real>28</real>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>ViewHeight</string>
 			<key>key</key>
 			<string>ViewHeight</string>
 			<key>label</key>
@@ -151,6 +153,8 @@
 			<integer>0</integer>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>SideMargin</string>
 			<key>key</key>
 			<string>SideMargin</string>
 			<key>label</key>

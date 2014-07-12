@@ -8,35 +8,25 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Italic may not work properly.</string>			
+			<string>Italic may not work properly.</string>
 		</dict>
 		<dict>
-			<key>PostNotification</key>
-			<string>com.autopear.lunarcalendar/prefs</string>
 			<key>cell</key>
 			<string>PSLinkListCell</string>
 			<key>default</key>
-			<integer>1</integer>
+			<string>Helvetica</string>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
 			<key>detail</key>
-			<string>PSListItemsController</string>
+			<string>LunarCalendarFontListController</string>
+			<key>id</key>
+			<string>Font</string>
 			<key>key</key>
-			<string>FontStyle</string>
+			<string>FontName</string>
 			<key>label</key>
-			<string>Font Style</string>
-			<key>validTitles</key>
-			<array>
-				<string>Normal</string>
-				<string>Bold</string>
-				<string>Italic</string>
-			</array>
-			<key>validValues</key>
-			<array>
-				<integer>0</integer>
-				<integer>1</integer>
-				<integer>2</integer>
-			</array>
+			<string>Font</string>
+			<key>name</key>
+			<string>Font</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -55,6 +45,8 @@
 			<integer>18</integer>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>FontSize</string>
 			<key>key</key>
 			<string>FontSize</string>
 			<key>label</key>
@@ -83,6 +75,8 @@
 			<real>1</real>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>ColorRed</string>
 			<key>key</key>
 			<string>ColorRed</string>
 			<key>label</key>
@@ -105,6 +99,8 @@
 			<real>1</real>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>ColorGreen</string>
 			<key>key</key>
 			<string>ColorGreen</string>
 			<key>label</key>
@@ -127,6 +123,8 @@
 			<real>1</real>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>ColorBlue</string>
 			<key>key</key>
 			<string>ColorBlue</string>
 			<key>label</key>
@@ -149,6 +147,8 @@
 			<real>1</real>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>ColorAlpha</string>
 			<key>key</key>
 			<string>ColorAlpha</string>
 			<key>label</key>
@@ -179,6 +179,8 @@
 			<real>0.0</real>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>ShadowWidth</string>
 			<key>key</key>
 			<string>ShadowWidth</string>
 			<key>label</key>
@@ -199,6 +201,8 @@
 			<real>0.0</real>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>ShadowHeight</string>
 			<key>key</key>
 			<string>ShadowHeight</string>
 			<key>label</key>
@@ -227,6 +231,8 @@
 			<real>0.0</real>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>ShadowRed</string>
 			<key>key</key>
 			<string>ShadowRed</string>
 			<key>label</key>
@@ -249,6 +255,8 @@
 			<real>0.0</real>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>ShadowGreen</string>
 			<key>key</key>
 			<string>ShadowGreen</string>
 			<key>label</key>
@@ -271,6 +279,8 @@
 			<real>0.0</real>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>ShadowBlue</string>
 			<key>key</key>
 			<string>ShadowBlue</string>
 			<key>label</key>
@@ -293,6 +303,8 @@
 			<real>1</real>
 			<key>defaults</key>
 			<string>com.autopear.lunarcalendar</string>
+			<key>id</key>
+			<string>ShadowAlpha</string>
 			<key>key</key>
 			<string>ShadowAlpha</string>
 			<key>label</key>

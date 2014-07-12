@@ -53,7 +53,6 @@ static NSString *lanCode = nil;
 static NSDictionary *languageStrings = nil;
 static double viewHeight = 28.0f;
 static int fontSize = 18;
-static int fontStyle = 1;
 static int switchGesture = 0;
 static int textAlign = 1;
 static int pageNo = 0;
@@ -80,6 +79,7 @@ static BOOL shadowChaned = NO;
 static NSString *displayDate1 = @"";
 static NSString *displayDate2 = @"";
 static NSString *displayDate3 = @"";
+static NSString *fontName = @"";
 
 static CGFloat viewWidth;
 
@@ -125,12 +125,10 @@ static void LoadPreferences() {
             fontSize = readFontSize;
         }
         
-        int readFontStyle = [preferences objectForKey:@"FontStyle"] ? [[preferences objectForKey:@"FontStyle"] intValue] : (kCFCoreFoundationVersionNumber < 847.20 ? 1 : 0);
-        if (readFontStyle < 0 || readFontStyle > 2)
-            readFontStyle = 1;
-        if (readFontStyle != fontStyle) {
+        NSString *readFontName = [preferences objectForKey:@"FontName"] ? [preferences objectForKey:@"FontName"] : (kCFCoreFoundationVersionNumber < 847.20 ? @"Helvetica-Bold" : @"Helvetica");
+        if (readFontName != fontName) {
             fontChanged = YES;
-            fontStyle = readFontStyle;
+            fontName = [readFontName retain];
         }
         
         NSString *readFormat1 = [preferences objectForKey:@"CustomFormat1"] ? [preferences objectForKey:@"CustomFormat1"] : @"";
@@ -254,7 +252,7 @@ static void LoadPreferences() {
         displayDate3 = [NSLocalizedStringFromTableInBundle(@"DateFormatTraditional", @"LunarCalendar", localizedBundle, @"[HY][EY]/[HM][EM]/[HD][ED]") retain];
         switchGesture = kCFCoreFoundationVersionNumber < 847.20 ? 0 : 1;
         fontSize = 18;
-        fontStyle = (kCFCoreFoundationVersionNumber < 847.20 ? 1 : 0);
+        fontName = (kCFCoreFoundationVersionNumber < 847.20 ? @"Helvetica-Bold" : @"Helvetica");
         textAlign = (kCFCoreFoundationVersionNumber < 847.20 ? 1 : 0);
         sideMargin = (kCFCoreFoundationVersionNumber < 847.20 ? 0 : 45.0f);
         colorRed = 1.0f;
@@ -348,12 +346,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
             _pageView1.textAlignment = NSTextAlignmentRight;
         else
             _pageView1.textAlignment = NSTextAlignmentCenter;
-        if (fontStyle == 0)
-            [_pageView1 setFont:[UIFont systemFontOfSize:fontSize]];
-        else if (fontStyle == 2)
-            [_pageView1 setFont:[UIFont italicSystemFontOfSize:fontSize]];
-        else
-            [_pageView1 setFont:[UIFont boldSystemFontOfSize:fontSize]];
+        [_pageView1 setFont:[UIFont fontWithName:fontName size:fontSize]];
         [_pageView1 setNumberOfLines:1];
         _pageView1.adjustsFontSizeToFitWidth = YES;
         _pageView1.userInteractionEnabled = NO;
@@ -371,12 +364,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
             _pageView2.textAlignment = NSTextAlignmentRight;
         else
             _pageView2.textAlignment = NSTextAlignmentCenter;
-        if (fontStyle == 0)
-            [_pageView2 setFont:[UIFont systemFontOfSize:fontSize]];
-        else if (fontStyle == 2)
-            [_pageView2 setFont:[UIFont italicSystemFontOfSize:fontSize]];
-        else
-            [_pageView2 setFont:[UIFont boldSystemFontOfSize:fontSize]];
+        [_pageView2 setFont:[UIFont fontWithName:fontName size:fontSize]];
         [_pageView2 setNumberOfLines:1];
         _pageView2.adjustsFontSizeToFitWidth = YES;
         _pageView2.userInteractionEnabled = NO;
@@ -394,12 +382,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
             _pageView3.textAlignment = NSTextAlignmentRight;
         else
             _pageView3.textAlignment = NSTextAlignmentCenter;
-        if (fontStyle == 0)
-            [_pageView3 setFont:[UIFont systemFontOfSize:fontSize]];
-        else if (fontStyle == 2)
-            [_pageView3 setFont:[UIFont italicSystemFontOfSize:fontSize]];
-        else
-            [_pageView3 setFont:[UIFont boldSystemFontOfSize:fontSize]];
+        [_pageView3 setFont:[UIFont fontWithName:fontName size:fontSize]];
         [_pageView3 setNumberOfLines:1];
         _pageView3.adjustsFontSizeToFitWidth = YES;
         _pageView3.userInteractionEnabled = NO;
@@ -469,7 +452,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
     [preferences setValue:[NSNumber numberWithInt:pageNo] forKey:@"PageNo"];
     [preferences writeToFile:PreferencesFilePath atomically:YES];
     [preferences release];
-	
+
     [super hostWillDismiss];
 }
 
@@ -523,19 +506,9 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
     }
     
     if (fontChanged) {
-        if (fontStyle == 0) {
-            [_pageView1 setFont:[UIFont systemFontOfSize:fontSize]];
-            [_pageView2 setFont:[UIFont systemFontOfSize:fontSize]];
-            [_pageView3 setFont:[UIFont systemFontOfSize:fontSize]];
-        } else if (fontStyle == 2) {
-            [_pageView1 setFont:[UIFont italicSystemFontOfSize:fontSize]];
-            [_pageView2 setFont:[UIFont italicSystemFontOfSize:fontSize]];
-            [_pageView3 setFont:[UIFont italicSystemFontOfSize:fontSize]];
-        } else {
-            [_pageView1 setFont:[UIFont boldSystemFontOfSize:fontSize]];
-            [_pageView2 setFont:[UIFont boldSystemFontOfSize:fontSize]];
-            [_pageView3 setFont:[UIFont boldSystemFontOfSize:fontSize]];
-        }
+        [_pageView1 setFont:[UIFont fontWithName:fontName size:fontSize]];
+        [_pageView2 setFont:[UIFont fontWithName:fontName size:fontSize]];
+        [_pageView3 setFont:[UIFont fontWithName:fontName size:fontSize]];
         fontChanged = NO;
     }
 

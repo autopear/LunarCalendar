@@ -8,6 +8,9 @@ if [ -e /System/Library/PrivateFrameworks/AssertionServices.framework ]; then
 	mv -f $lcBundle/Info-Today.plist $lcBundle/Info.plist
 	rm -f $lcBundle/WeeAppBackground.png $lcBundle/WeeAppBackground@2x.png $lcBundle/pledit
 	rm -fr $lcAllBundle
+	if [[ ! -d /Library/WeeLoader/Plugins ]]; then
+		mkdir -p /Library/WeeLoader/Plugins
+	fi
 	mv -f $lcBundle /Library/WeeLoader/Plugins/LunarCalendar.bundle
 elif [ -e /System/Library/PrivateFrameworks/PhotosUI.framework ]; then
 	mv -f $lcBundle/LunarCalendarToday $lcBundle/LunarCalendar

@@ -11,7 +11,7 @@
 		<key>detail</key>
 		<string>LunarCalendarListController</string>
 		<key>icon</key>
-		<string>/Applications/Preferences.app/Calendar.png</string>
+		<string>/Library/PreferenceBundles/LunarCalendar.bundle/LunarCalendar.png</string>
 		<key>isController</key>
 		<string>1</string>
 		<key>label</key>

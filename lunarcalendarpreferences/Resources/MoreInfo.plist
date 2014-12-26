@@ -76,6 +76,26 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
+			<string>Social share widget in iOS 8's Notification Center.</string>
+			<key>id</key>
+			<string>SHAREWIDGET8_GROUP</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>openShareWidget8:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>icon</key>
+			<string>ShareWidget8.png</string>
+			<key>id</key>
+			<string>SHAREWIDGET8_CELL</string>
+			<key>label</key>
+			<string>Share Widget for iOS 8</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
 			<string>Lite version of ActionSlider.</string>
 		</dict>
 		<dict>
@@ -152,7 +172,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Copyright © 2012-2014 Merlin Mao</string>
+			<string>Copyright © 2012-2015 Merlin Mao</string>
 		</dict>
 	</array>
 	<key>title</key>

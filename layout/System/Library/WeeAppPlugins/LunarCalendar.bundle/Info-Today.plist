@@ -10,6 +10,14 @@
 	<string>Lunar Calendar (Today)</string>
 	<key>CFBundleExecutable</key>
 	<string>LunarCalendar</string>
+	<key>CFBundleIconFile</key>
+	<string>LunarCalendar.png</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>LunarCalendar.png</string>
+		<string>LunarCalendar@2x.png</string>
+		<string>LunarCalendar@3x.png</string>
+	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.autopear.lunarcalendar</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -19,7 +27,7 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.6.3</string>
+	<string>1.8</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -27,7 +35,7 @@
 		<string>iPhoneOS</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.6.3</string>
+	<string>1.8</string>
 	<key>MinimumOSVersion</key>
 	<string>7.0</string>
 	<key>SBUIWidgetViewControllers</key>

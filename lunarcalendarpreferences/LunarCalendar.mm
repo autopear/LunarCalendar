@@ -2,12 +2,15 @@
 #import <objc/runtime.h>
 
 #define PREFS_PATH @"/var/mobile/Library/Preferences/com.autopear.lunarcalendar.plist"
-#define SETTIGNS_CHANGED @"com.autopear.lunarcalendar/prefs"
+#define SETTIGNS_CHANGED "com.autopear.lunarcalendar/prefs"
 
 @interface PSSliderTableCell : PSControlTableCell
 @end
 
-@interface LunarCalendarListController: PSListController {
+@interface LunarCalendarListController: PSListController <UIAlertViewDelegate> {
+    NSString *_confirmContent;
+    NSString *_confirmOK;
+    NSString *_confirmCancel;
 }
 - (void)updateInterface;
 @end
@@ -16,59 +19,62 @@
 
 - (id)init {
 	if ((self = [super init])) {
+        NSBundle *localizedBundle = [[NSBundle alloc] initWithPath:@"/Library/PreferenceBundles/LunarCalendar.bundle/"];
+        _confirmContent = [NSLocalizedStringFromTableInBundle(@"Are you sure you want to reset all settings to default?", @"LunarCalendar", localizedBundle, @"Are you sure you want to reset all settings to default?") retain];
+        _confirmOK = [NSLocalizedStringFromTableInBundle(@"OK", @"LunarCalendar", localizedBundle, @"OK") retain];
+        _confirmCancel = [NSLocalizedStringFromTableInBundle(@"Cancel", @"LunarCalendar", localizedBundle, @"Cancel") retain];
+        [localizedBundle release];
 	}
 
 	return self;
 }
 
 - (void)dealloc {
+    [_confirmContent release];
+    [_confirmOK release];
+    [_confirmCancel release];
 	[super dealloc];
 }
 
 - (id)specifiers {
     if (_specifiers == nil) {
-        _specifiers = [[self loadSpecifiersFromPlistName:@"LunarCalendar" target:self] retain];
-
-        unsigned int count = 0;
-        for (PSSpecifier *spec in _specifiers) {
-            if ([spec propertyForKey:@"key"]) {
-                NSString *key = [spec propertyForKey:@"key"];
+        NSMutableArray *specifiers = [NSMutableArray array];
+        for (PSSpecifier *specifier in [self loadSpecifiersFromPlistName:@"LunarCalendar" target:self]) {
+            if ([specifier propertyForKey:@"key"]) {
+                NSString *key = [specifier propertyForKey:@"key"];
                 if ([key isEqualToString:@"SwitchGesture"]) {
                     if (kCFCoreFoundationVersionNumber < 847.20)
-                        [spec setProperty:[NSNumber numberWithInt:0] forKey:@"default"]; //iOS 5 & 6
+                        [specifier setProperty:[NSNumber numberWithInt:0] forKey:@"default"]; //iOS 5 & 6
                     else
-                        [spec setProperty:[NSNumber numberWithInt:1] forKey:@"default"]; //iOS 7
-                    count++;
+                        [specifier setProperty:[NSNumber numberWithInt:1] forKey:@"default"]; //iOS 7 & 8
                 }
                 if ([key isEqualToString:@"TextAlign"]) {
                     if (kCFCoreFoundationVersionNumber < 847.20)
-                        [spec setProperty:[NSNumber numberWithInt:1] forKey:@"default"]; //iOS 5 & 6
+                        [specifier setProperty:[NSNumber numberWithInt:1] forKey:@"default"]; //iOS 5 & 6
                     else
-                        [spec setProperty:[NSNumber numberWithInt:0] forKey:@"default"]; //iOS 7
-                    count++;
+                        [specifier setProperty:[NSNumber numberWithInt:0] forKey:@"default"]; //iOS 7 & 8
                 }
                 if ([key isEqualToString:@"SideMargin"]) {
                     if (kCFCoreFoundationVersionNumber < 847.20) {
                         //iOS 5 & 6
                         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                            [spec setProperty:[NSNumber numberWithInt:250] forKey:@"max"];
+                            [specifier setProperty:[NSNumber numberWithInt:250] forKey:@"max"];
                         else
-                            [spec setProperty:[NSNumber numberWithInt:150] forKey:@"max"];
-                        [spec setProperty:[NSNumber numberWithInt:0] forKey:@"default"];
+                            [specifier setProperty:[NSNumber numberWithInt:150] forKey:@"max"];
+                        [specifier setProperty:[NSNumber numberWithInt:0] forKey:@"default"];
                     } else {
-                        //iOS 7
+                        //iOS 7 & 8
                         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                            [spec setProperty:[NSNumber numberWithInt:250] forKey:@"max"];
+                            [specifier setProperty:[NSNumber numberWithInt:250] forKey:@"max"];
                         else
-                            [spec setProperty:[NSNumber numberWithInt:150] forKey:@"max"];
-                        [spec setProperty:[NSNumber numberWithInt:45] forKey:@"default"];
+                            [specifier setProperty:[NSNumber numberWithInt:150] forKey:@"max"];
+                        [specifier setProperty:[NSNumber numberWithInt:45] forKey:@"default"];
                     }
-                    count++;
                 }
             }
-            if (count > 2)
-                break;
+            [specifiers addObject:specifier];
         }
+        _specifiers = [specifiers retain];
     }
 
 	return _specifiers;
@@ -87,10 +93,10 @@
     NSString *fontName = fontCell.detailTextLabel.text;
     if ([fontName length] > 0)
         fontCell.detailTextLabel.font = [UIFont fontWithName:fontName size:[UIFont smallSystemFontSize]];
-    
+
     if (kCFCoreFoundationVersionNumber < 847.20) {
         NSArray *sliderCells = [NSArray arrayWithObjects:@"ViewHeight", @"SideMargin", nil];
-        
+
         for (NSString *cellId in sliderCells) {
             PSSliderTableCell *cell = (PSSliderTableCell *)[self cachedCellForSpecifierID:cellId];
             for (UIView *view in cell.control.subviews) {
@@ -104,16 +110,77 @@
     }
 }
 
+- (id)readPreferenceValue:(PSSpecifier*)specifier {
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:PREFS_PATH];
+    if ([dict objectForKey:[specifier propertyForKey:@"key"]])
+        return [dict objectForKey:[specifier propertyForKey:@"key"]];
+    else
+        return [specifier propertyForKey:@"default"];
+}
+
+- (void)setPreferenceValue:(id)value specifier:(PSSpecifier*)specifier {
+    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
+    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PREFS_PATH]];
+    [defaults setObject:value forKey:[specifier propertyForKey:@"key"]];
+    [defaults writeToFile:PREFS_PATH atomically:YES];
+    CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFSTR(SETTIGNS_CHANGED), NULL, NULL, YES);
+}
+
+- (void)resetDefault:(PSSpecifier*)specifier {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                    message:_confirmContent
+                                                   delegate:self
+                                          cancelButtonTitle:_confirmCancel
+                                          otherButtonTitles:_confirmOK, nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (!alertView)
+        return;
+
+    [alertView release];
+
+    if (buttonIndex == 1) {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:PREFS_PATH])
+            return;
+
+        NSMutableDictionary *dict =  [NSMutableDictionary dictionaryWithContentsOfFile:PREFS_PATH];
+
+        NSObject *format1 = [dict objectForKey:@"CustomFormat1"];
+        NSObject *format2 = [dict objectForKey:@"CustomFormat2"];
+        NSObject *format3 = [dict objectForKey:@"CustomFormat3"];
+        NSObject *pageNo = [dict objectForKey:@"PageNo"];
+
+        [dict removeAllObjects];
+
+        if (format1)
+            [dict setObject:format1 forKey:@"CustomFormat1"];
+        if (format2)
+            [dict setObject:format2 forKey:@"CustomFormat2"];
+        if (format3)
+            [dict setObject:format3 forKey:@"CustomFormat3"];
+        if (pageNo)
+            [dict setObject:pageNo forKey:@"PageNo"];
+
+        [dict setObject:(kCFCoreFoundationVersionNumber < 847.20 ? @"Helvetica-Bold" : @"Helvetica") forKey:@"FontName"];
+
+        [dict writeToFile:PREFS_PATH atomically:YES];
+
+        [self reloadSpecifiers];
+
+        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFSTR(SETTIGNS_CHANGED), NULL, nil, YES);
+    }
+}
+
 @end
 
-@interface LunarCalendarTextStyleListController : PSListController {
-}
-- (void)updateInterface;
+@interface LunarCalendarTextStyleListController : PSListController- (void)updateInterface;
 @end
 
 @implementation LunarCalendarTextStyleListController
-- (id)init
-{
+
+- (id)init {
 	if ((self = [super init])) {
 	}
 
@@ -126,37 +193,32 @@
 
 - (id)specifiers {
 	if(_specifiers == nil) {
-		_specifiers = [[self loadSpecifiersFromPlistName:@"TextStyle" target:self] retain];
-
-        unsigned int count = 0;
-        for (PSSpecifier *spec in _specifiers) {
-            if ([spec propertyForKey:@"key"]) {
-                NSString *key = [spec propertyForKey:@"key"];
+        NSMutableArray *specifiers = [NSMutableArray array];
+        for (PSSpecifier *specifier in [self loadSpecifiersFromPlistName:@"TextStyle" target:self]) {
+            if ([specifier propertyForKey:@"key"]) {
+                NSString *key = [specifier propertyForKey:@"key"];
                 if ([key isEqualToString:@"FontName"]) {
                     if (kCFCoreFoundationVersionNumber < 847.20)
-                        [spec setProperty:@"Helvetica-Bold" forKey:@"default"]; //iOS 5 & 6
+                        [specifier setProperty:@"Helvetica-Bold" forKey:@"default"]; //iOS 5 & 6
                     else
-                        [spec setProperty:@"Helvetica" forKey:@"default"]; //iOS 7
-                    count++;
+                        [specifier setProperty:@"Helvetica" forKey:@"default"]; //iOS 7 & 8
                 }
                 if ([key isEqualToString:@"ShadowWidth"]) {
                     if (kCFCoreFoundationVersionNumber < 847.20)
-                        [spec setProperty:[NSNumber numberWithInt:1] forKey:@"default"]; //iOS 5 & 6
+                        [specifier setProperty:[NSNumber numberWithInt:1] forKey:@"default"]; //iOS 5 & 6
                     else
-                        [spec setProperty:[NSNumber numberWithInt:0] forKey:@"default"]; //iOS 7
-                    count++;
+                        [specifier setProperty:[NSNumber numberWithInt:0] forKey:@"default"]; //iOS 7 & 8
                 }
                 if ([key isEqualToString:@"ShadowHeight"]) {
                     if (kCFCoreFoundationVersionNumber < 847.20)
-                        [spec setProperty:[NSNumber numberWithInt:1] forKey:@"default"]; //iOS 5 & 6
+                        [specifier setProperty:[NSNumber numberWithInt:1] forKey:@"default"]; //iOS 5 & 6
                     else
-                        [spec setProperty:[NSNumber numberWithInt:0] forKey:@"default"]; //iOS 7
-                    count++;
+                        [specifier setProperty:[NSNumber numberWithInt:0] forKey:@"default"]; //iOS 7 & 8
                 }
             }
-            if (count > 2)
-                break;
+            [specifiers addObject:specifier];
         }
+        _specifiers = [specifiers retain];
     }
 	return _specifiers;
 }
@@ -177,10 +239,10 @@
         fontCell.detailTextLabel.font = [UIFont fontWithName:fontName size:[UIFont smallSystemFontSize]];
         fontCell.detailTextLabel.text = fontName;
     }
-    
+
     if (kCFCoreFoundationVersionNumber < 847.20) {
         NSArray *sliderCells = [NSArray arrayWithObjects:@"FontSize", @"ColorRed", @"ColorGreen", @"ColorBlue", @"ColorAlpha", @"ShadowWidth", @"ShadowHeight", @"ShadowRed", @"ShadowGreen", @"ShadowBlue", @"ShadowAlpha", nil];
-        
+
         for (NSString *cellId in sliderCells) {
             PSSliderTableCell *cell = (PSSliderTableCell *)[self cachedCellForSpecifierID:cellId];
             for (UIView *view in cell.control.subviews) {
@@ -194,15 +256,29 @@
     }
 }
 
+- (id)readPreferenceValue:(PSSpecifier*)specifier {
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:PREFS_PATH];
+    if ([dict objectForKey:[specifier propertyForKey:@"key"]])
+        return [dict objectForKey:[specifier propertyForKey:@"key"]];
+    else
+        return [specifier propertyForKey:@"default"];
+}
+
+- (void)setPreferenceValue:(id)value specifier:(PSSpecifier*)specifier {
+    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
+    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PREFS_PATH]];
+    [defaults setObject:value forKey:[specifier propertyForKey:@"key"]];
+    [defaults writeToFile:PREFS_PATH atomically:YES];
+    CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFSTR(SETTIGNS_CHANGED), NULL, NULL, YES);
+}
+
 @end
 
-@interface LunarCalendarSpecificationsListController: PSListController {
-}
+@interface LunarCalendarSpecificationsListController: PSListController
 @end
 
 @implementation LunarCalendarSpecificationsListController
-- (id)init
-{
+- (id)init {
 	if ((self = [super init])) {
 	}
 
@@ -218,14 +294,14 @@
 		_specifiers = [[self loadSpecifiersFromPlistName:@"Specifications" target:self] retain];
 
         if (kCFCoreFoundationVersionNumber >= 847.20) {
-            for (PSSpecifier *spec in _specifiers) {
-                NSString *specId = [spec propertyForKey:@"id"];
+            for (PSSpecifier *specifier in _specifiers) {
+                NSString *specId = [specifier propertyForKey:@"id"];
                 if (specId && [specId isEqualToString:@"COPYRIGHT"])
                     continue;
-                
-                NSString *labelText = spec.name;
-                [spec setProperty:labelText forKey:@"footerText"];
-                spec.name = nil;
+
+                NSString *labelText = specifier.name;
+                [specifier setProperty:labelText forKey:@"footerText"];
+                specifier.name = nil;
             }
         }
     }
@@ -234,8 +310,7 @@
 
 @end
 
-@interface LunarCalendarMoreInfoListController: PSListController {
-}
+@interface LunarCalendarMoreInfoListController: PSListController
 @end
 
 @implementation LunarCalendarMoreInfoListController
@@ -253,49 +328,45 @@
 
 - (id)specifiers {
 	if(_specifiers == nil) {
-		_specifiers = [[self loadSpecifiersFromPlistName:@"MoreInfo" target:self] retain];
-
-        NSMutableArray *actualSpecs = [[NSMutableArray alloc] init];
-        PSSpecifier *lyricsForiPadGroupSpec = nil;
-        PSSpecifier *lyricsForiPadCellSpec = nil;
-        PSSpecifier *shareWidet7GroupSpec = nil;
-        PSSpecifier *shareWidet7CellSpec = nil;
-        
-        for (PSSpecifier *spec in _specifiers) {
-            if (kCFCoreFoundationVersionNumber < 847.20) {
-                //iOS 5 & 6
-                if ([[spec propertyForKey:@"id"] isEqualToString:@"SHAREWIDGET7_GROUP"]) {
-                    shareWidet7GroupSpec = spec;
-                    continue;
-                }
-                if ([[spec propertyForKey:@"id"] isEqualToString:@"SHAREWIDGET7_CELL"]) {
-                    shareWidet7CellSpec = spec;
-                    continue;
-                }
-            } else {
-                if ([[spec propertyForKey:@"id"] isEqualToString:@"LYRICSFORIPAD_GROUP"]) {
-                    lyricsForiPadGroupSpec = spec;
-                    continue;
-                }
-                if ([[spec propertyForKey:@"id"] isEqualToString:@"LYRICSFORIPAD_CELL"]) {
-                    lyricsForiPadCellSpec = spec;
-                    continue;
+        NSMutableArray *specifiers = [NSMutableArray array];
+        for (PSSpecifier *specifier in [self loadSpecifiersFromPlistName:@"MoreInfo" target:self]) {
+            NSString *specId = [specifier propertyForKey:@"id"];
+            if (specId) {
+                if (kCFCoreFoundationVersionNumber < 847.20) {
+                    //iOS 5 & 6
+                    if ([specId isEqualToString:@"SHAREWIDGET7_GROUP"])
+                        continue;
+                    if ([specId isEqualToString:@"SHAREWIDGET7_CELL"])
+                        continue;
+                    if ([specId isEqualToString:@"SHAREWIDGET8_GROUP"])
+                        continue;
+                    if ([specId isEqualToString:@"SHAREWIDGET8_CELL"])
+                        continue;
+                } else if (kCFCoreFoundationVersionNumber < 1140.10) {
+                    //iOS 7
+                    if ([specId isEqualToString:@"LYRICSFORIPAD_GROUP"])
+                        continue;
+                    if ([specId isEqualToString:@"LYRICSFORIPAD_CELL"])
+                        continue;
+                    if ([specId isEqualToString:@"SHAREWIDGET8_GROUP"])
+                        continue;
+                    if ([specId isEqualToString:@"SHAREWIDGET8_CELL"])
+                        continue;
+                } else {
+                    //iOS 8
+                    if ([specId isEqualToString:@"LYRICSFORIPAD_GROUP"])
+                        continue;
+                    if ([specId isEqualToString:@"LYRICSFORIPAD_CELL"])
+                        continue;
+                    if ([specId isEqualToString:@"SHAREWIDGET7_GROUP"])
+                        continue;
+                    if ([specId isEqualToString:@"SHAREWIDGET7_CELL"])
+                        continue;
                 }
             }
-            
-            [actualSpecs addObject:spec];
+            [specifiers addObject:specifier];
         }
-        if (shareWidet7GroupSpec)
-            [self removeSpecifier:shareWidet7GroupSpec];
-        if (shareWidet7CellSpec)
-            [self removeSpecifier:shareWidet7CellSpec];
-        if (lyricsForiPadGroupSpec)
-            [self removeSpecifier:lyricsForiPadGroupSpec];
-        if (lyricsForiPadCellSpec)
-            [self removeSpecifier:lyricsForiPadCellSpec];
-        
-        [_specifiers release];
-        _specifiers = actualSpecs;
+        _specifiers = [specifiers retain];
     }
 	return _specifiers;
 }
@@ -332,7 +403,29 @@
 }
 
 - (void)openShareWidget7:(PSSpecifier*)specifier {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"cydia://package/com.autopear.sharewidget7"]];
+    if (kCFCoreFoundationVersionNumber >= 847.20 && kCFCoreFoundationVersionNumber < 1140.10)
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"cydia://package/com.autopear.sharewidget7"]];
+}
+
+- (void)openShareWidget8:(PSSpecifier*)specifier {
+    if (kCFCoreFoundationVersionNumber >= 1140.10)
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"cydia://package/com.autopear.sharewidget8"]];
+}
+
+- (id)readPreferenceValue:(PSSpecifier*)specifier {
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:PREFS_PATH];
+    if ([dict objectForKey:[specifier propertyForKey:@"key"]])
+        return [dict objectForKey:[specifier propertyForKey:@"key"]];
+    else
+        return [specifier propertyForKey:@"default"];
+}
+
+- (void)setPreferenceValue:(id)value specifier:(PSSpecifier*)specifier {
+    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
+    [defaults addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:PREFS_PATH]];
+    [defaults setObject:value forKey:[specifier propertyForKey:@"key"]];
+    [defaults writeToFile:PREFS_PATH atomically:YES];
+    CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFSTR(SETTIGNS_CHANGED), NULL, NULL, YES);
 }
 
 @end
@@ -352,25 +445,26 @@
 @end
 
 @implementation LunarCalendarFontListController
+
 @synthesize fontList = _fontList;
+
 - (id)initForContentSize:(CGSize)size {
 	if ((self = [super initForContentSize:size])) {
-        _defaultFont = (kCFCoreFoundationVersionNumber < 847.20 ? @"Helvetica-Bold" : @"Helvetica");
-        
+        _defaultFont = [(kCFCoreFoundationVersionNumber < 847.20 ? @"Helvetica-Bold" : @"Helvetica") retain];
+
         NSBundle *localizedBundle = [[NSBundle alloc] initWithPath:@"/Library/PreferenceBundles/LunarCalendar.bundle/"];
-        _stringDefault = NSLocalizedStringFromTableInBundle(@" (Default)", @"TextStyle", localizedBundle, @" (Default)");
-        _stringTitle = NSLocalizedStringFromTableInBundle(@"Font", @"TextStyle", localizedBundle, @"Font");
+        _stringDefault = [NSLocalizedStringFromTableInBundle(@" (Default)", @"TextStyle", localizedBundle, @" (Default)") retain];
+        _stringTitle = [NSLocalizedStringFromTableInBundle(@"Font", @"TextStyle", localizedBundle, @"Font") retain];
         [localizedBundle release];
-        
+
 		_tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height) style:UITableViewStyleGrouped];
 		[_tableView setDataSource:self];
 		[_tableView setDelegate:self];
 		[_tableView setEditing:NO];
 		if ([self respondsToSelector:@selector(setView:)])
 			[self performSelectorOnMainThread:@selector(setView:) withObject:_tableView waitUntilDone:YES];
-        
-        BOOL isDir;
-        if (![[NSFileManager defaultManager] fileExistsAtPath:PREFS_PATH isDirectory:&isDir]) {
+
+        if (![[NSFileManager defaultManager] fileExistsAtPath:PREFS_PATH]) {
             NSMutableDictionary *defaultPrefs =  [NSMutableDictionary dictionaryWithObjectsAndKeys:_defaultFont, @"FontName", nil];
             NSData *data = [NSPropertyListSerialization dataFromPropertyList:defaultPrefs format:NSPropertyListBinaryFormat_v1_0 errorDescription:NULL];
             [defaultPrefs release];
@@ -389,19 +483,18 @@
 	self.fontList = [NSMutableArray arrayWithCapacity:5];
 
     for (NSString *familyName in [UIFont familyNames]) {
-        for (NSString *fontName in [UIFont fontNamesForFamilyName:familyName]) {
+        for (NSString *fontName in [UIFont fontNamesForFamilyName:familyName])
             [self.fontList addObject:fontName];
-        }
     }
-    
+
     [self.fontList sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-    
+
     NSMutableDictionary *_settings = [NSMutableDictionary dictionaryWithContentsOfFile:PREFS_PATH];
 
     NSString *fontName = [_settings objectForKey:@"FontName"];
-    
+
 	_selectedRow = [self.fontList indexOfObject:fontName];
-    
+
 	if (_selectedRow == NSNotFound) {
         fontName = _defaultFont;
 		_selectedRow = [self.fontList indexOfObject:fontName];
@@ -412,12 +505,12 @@
         if (![data writeToFile:PREFS_PATH atomically:YES])
             return;
     }
-    
+
     if (_selectedRow == NSNotFound) {
         _selectedRow = 0;
         fontName = @"";
     }
-    
+
     UITableViewCell *cell = (UITableViewCell *)[(PSListController *)self.parentController cachedCellForSpecifierID:@"Font"];
     [((PSTableCell *)cell) setValue:fontName];
     cell.detailTextLabel.font = [UIFont fontWithName:fontName size:[UIFont smallSystemFontSize]];
@@ -430,6 +523,9 @@
 }
 
 - (void)dealloc {
+    [_defaultFont release];
+    [_stringDefault release];
+    [_stringTitle release];
 	self.fontList = nil;
 	[super dealloc];
 }
@@ -458,9 +554,9 @@
 	UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"FontCell"];
     if (!cell)
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FontCell"] autorelease];
-    
+
     NSString *fontName = [self.fontList objectAtIndex:indexPath.row];
-    
+
     cell.textLabel.font = [UIFont fontWithName:fontName size:[UIFont labelFontSize]];
     if ([fontName isEqualToString:_defaultFont]) {
         cell.textLabel.text = [fontName stringByAppendingString:_stringDefault];
@@ -469,39 +565,39 @@
         cell.textLabel.text = fontName;
         cell.textLabel.textColor = [UIColor blackColor];
     }
-    
+
 	if (indexPath.row == _selectedRow)
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
     else
         cell.accessoryType = UITableViewCellAccessoryNone;
-    
+
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    
+
 	cell.accessoryType = UITableViewCellAccessoryCheckmark;
 	UITableViewCell *old = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_selectedRow inSection:0]];
 	if (old != cell)
 		old.accessoryType = UITableViewCellAccessoryNone;
-    
+
     if (_selectedRow != indexPath.row) {
         NSMutableDictionary *_settings = [NSMutableDictionary dictionaryWithContentsOfFile:PREFS_PATH];
-        
+
         NSString *fontName = [self.fontList objectAtIndex:indexPath.row];
-        
+
         [_settings setObject:fontName forKey:@"FontName"];
-        
+
         NSData *data = [NSPropertyListSerialization dataFromPropertyList:_settings format:NSPropertyListBinaryFormat_v1_0 errorDescription:nil];
-        
+
         if (!data)
             return;
         if (![data writeToFile:PREFS_PATH atomically:YES])
             return;
-        
-        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (CFStringRef)SETTIGNS_CHANGED, NULL, (CFDictionaryRef)_settings, true);
+
+        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFSTR(SETTIGNS_CHANGED), NULL, (CFDictionaryRef)_settings, YES);
 
         UITableViewCell *cell = (UITableViewCell *)[(PSListController *)self.parentController cachedCellForSpecifierID:@"Font"];
         [((PSTableCell *)cell) setValue:fontName];

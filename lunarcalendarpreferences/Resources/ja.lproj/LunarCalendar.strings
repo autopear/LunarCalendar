@@ -135,6 +135,8 @@
 "Copied to clipboard." = "クリップボードにコピーされました。";
 
 /* Preferences */
+"Are you sure you want to reset all settings to default?" = "Are you sure you want to reset all settings to default?";
+"Cancel" = "キャンセル";
 "Center" = "センター";
 "Custom Display Formats" = "カスタム表示形式";
 "Default view height: 28.0." = "デフォルトのビューの高さ：28.0。";
@@ -147,6 +149,8 @@
 "Left" = "左";
 "Lunar Calendar" = "旧暦";
 "More Information" = "詳細情報";
+"OK" = "確認";
+"Reset to Default" = "デフォルトにリセット";
 "Right" = "右";
 "Side Margin" = "マージン";
 "Single Tap" = "シングルタップ";
@@ -154,6 +158,7 @@
 "Swipe" = "スワイプ";
 "Switch Gesture" = "ジェスチャー";
 "Text Alignment" = "テキストアラインメント";
-"Text Style" = "テキストスタイル";
 "Text margin on the left or right." = "左側または右側のマージン。";
+"Text Style" = "テキストスタイル";
 "View Height" = "ビューの高さ";
+

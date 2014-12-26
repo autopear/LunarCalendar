@@ -27,7 +27,7 @@
 #endif
 
 #define PreferencesChangedNotification "com.autopear.lunarcalendar/prefs"
-#define PreferencesFilePath [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Preferences/com.autopear.lunarcalendar.plist"]
+#define PreferencesFilePath @"/private/var/mobile/Library/Preferences/com.autopear.lunarcalendar.plist"
 
 //Controller for iOS 5 & 6
 @interface LunarCalendarController : UIViewController <BBWeeAppController, UIAlertViewDelegate> {
@@ -100,7 +100,7 @@ static void LoadPreferences() {
         [lanCode release];
         lanCode = nil;
     }
-    
+
     NSMutableDictionary *preferences = [[NSMutableDictionary alloc] initWithContentsOfFile:PreferencesFilePath];
     if (preferences) {
         NSString *readLanguage = [preferences objectForKey:@"Language"] ? [preferences objectForKey:@"Language"] : @"default";
@@ -110,21 +110,21 @@ static void LoadPreferences() {
             if ([[NSFileManager defaultManager] fileExistsAtPath:languagePath])
                 languageStrings = [[NSDictionary alloc] initWithContentsOfFile:languagePath];
         }
-        
+
         int readSwitchGesture = [preferences objectForKey:@"SwitchGesture"] ? [[preferences objectForKey:@"SwitchGesture"] intValue] : 0;
         if (readSwitchGesture > 2 || readSwitchGesture < 0)
             readSwitchGesture = 0;
         if (readSwitchGesture != switchGesture)
             switchGesture = readSwitchGesture;
-        
+
         double readViewHeight = [preferences objectForKey:@"ViewHeight"] ? [[preferences objectForKey:@"ViewHeight"] doubleValue] : 28.0f;
-        if (readViewHeight < 20.0f || readViewHeight > 60.0f)
+        if (readViewHeight < 20.0f || readViewHeight > 100.0f)
             readViewHeight = 28.0f;
         if (readViewHeight != viewHeight) {
             viewHeightChanged = YES;
             viewHeight = readViewHeight;
         }
-        
+
         int readFontSize = [preferences objectForKey:@"FontSize"] ? [[preferences objectForKey:@"FontSize"] intValue] : 18;
         if (readFontSize < 15 || readFontSize > 40)
             readFontSize = 18;
@@ -132,19 +132,19 @@ static void LoadPreferences() {
             fontChanged = YES;
             fontSize = readFontSize;
         }
-        
-        NSString *readFontName = [preferences objectForKey:@"FontName"] ? [preferences objectForKey:@"FontName"] : (kCFCoreFoundationVersionNumber < 847.20 ? @"Helvetica-Bold" : @"Helvetica");
+
+        NSString *readFontName = [preferences objectForKey:@"FontName"] ? [preferences objectForKey:@"FontName"] : @"Helvetica-Bold";
         if (readFontName != fontName) {
             fontChanged = YES;
             fontName = [readFontName retain];
         }
-        
+
         NSString *readFormat1 = [preferences objectForKey:@"CustomFormat1"] ? [preferences objectForKey:@"CustomFormat1"] : @"";
         if (![readFormat1 isEqualToString:displayDate1]) {
             formatChanged1 = YES;
             displayDate1 = [readFormat1 retain];
         }
-        
+
         NSString *readFormat2 = [preferences objectForKey:@"CustomFormat2"] ? [preferences objectForKey:@"CustomFormat2"] : @"";
         if ([readFormat2 length] == 0) {
             if (languageStrings && [languageStrings objectForKey:@"DateFormatNormal"])
@@ -152,12 +152,12 @@ static void LoadPreferences() {
             if ([readFormat2 length] == 0)
                 readFormat2 =  NSLocalizedStringFromTableInBundle(@"DateFormatNormal", @"LunarCalendar", localizedBundle, @"[HY][EY]/[LM]/[LD] [Z]");
         }
-        
+
         if (![readFormat2 isEqualToString:displayDate2]) {
             formatChanged2 = YES;
             displayDate2 = [readFormat2 retain];
         }
-        
+
         NSString *readFormat3 = [preferences objectForKey:@"CustomFormat3"] ? [preferences objectForKey:@"CustomFormat3"] : @"";
         if ([readFormat3 length] == 0) {
             if (languageStrings && [languageStrings objectForKey:@"DateFormatTraditional"])
@@ -165,15 +165,15 @@ static void LoadPreferences() {
             if ([readFormat3 length] == 0)
                 readFormat3 =  NSLocalizedStringFromTableInBundle(@"DateFormatTraditional", @"LunarCalendar", localizedBundle, @"[HY][EY]/[HM][EM]/[HD][ED]");
         }
-        
+
         if (![readFormat3 isEqualToString:displayDate3]) {
             formatChanged3 = YES;
             displayDate3 = [readFormat3 retain];
         }
-        
-        int readTextAlign = [preferences objectForKey:@"TextAlign"] ? [[preferences objectForKey:@"TextAlign"] intValue] : (kCFCoreFoundationVersionNumber < 847.20 ? 1 : 0);
+
+        int readTextAlign = [preferences objectForKey:@"TextAlign"] ? [[preferences objectForKey:@"TextAlign"] intValue] : 1;
         if (readTextAlign < 0 || readTextAlign > 2)
-            readTextAlign = kCFCoreFoundationVersionNumber < 847.20 ? 1 : 0;
+            readTextAlign = 1;
         if (readTextAlign != textAlign) {
             textAlignChanged = YES;
             textAlign = readTextAlign;
@@ -184,9 +184,9 @@ static void LoadPreferences() {
                 sideMarginChanged = YES;
             }
         }
-        
+
         if (!sideMarginChanged) {
-            CGFloat readSideMargin = [preferences objectForKey:@"SideMargin"] ? [[preferences objectForKey:@"SideMargin"] doubleValue] : (kCFCoreFoundationVersionNumber < 847.20 ? 0 : 45.0f);
+            CGFloat readSideMargin = [preferences objectForKey:@"SideMargin"] ? [[preferences objectForKey:@"SideMargin"] doubleValue] : 0;
             if (readSideMargin < 0)
                 readSideMargin = 0;
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -201,7 +201,7 @@ static void LoadPreferences() {
                 sideMargin = readSideMargin;
             }
         }
-        
+
         CGFloat readColorRed = [preferences objectForKey:@"ColorRed"] ? [[preferences objectForKey:@"ColorRed"] floatValue] : 1.0f;
         if (readColorRed < 0.0f || readColorRed > 1.0f)
             readColorRed = 1.0f;
@@ -221,18 +221,18 @@ static void LoadPreferences() {
             colorBlue = readColorBlue;
             colorAlpha = readColorAlpha;
         }
-        
-        CGFloat readShadowWidth = [preferences objectForKey:@"ShadowWidth"] ? [[preferences objectForKey:@"ShadowWidth"] floatValue] : (kCFCoreFoundationVersionNumber < 847.20 ? 1.0f : 0.0f);
+
+        CGFloat readShadowWidth = [preferences objectForKey:@"ShadowWidth"] ? [[preferences objectForKey:@"ShadowWidth"] floatValue] : 1.0f;
         if (readShadowWidth < -5.0f)
             readShadowWidth = -5.0f;
         if (readShadowWidth > 5.0f)
             readShadowWidth = 5.0f;
-        CGFloat readShadowHeight = [preferences objectForKey:@"ShadowHeight"] ? [[preferences objectForKey:@"ShadowHeight"] floatValue] : (kCFCoreFoundationVersionNumber < 847.20 ? 1.0f : 0.0f);
+        CGFloat readShadowHeight = [preferences objectForKey:@"ShadowHeight"] ? [[preferences objectForKey:@"ShadowHeight"] floatValue] : 1.0f;
         if (readShadowHeight < -5.0f)
             readShadowHeight = -5.0f;
         if (readShadowHeight > 5.0f)
             readShadowHeight = 5.0f;
-        
+
         CGFloat readShadowRed = [preferences objectForKey:@"ShadowRed"] ? [[preferences objectForKey:@"ShadowRed"] floatValue] : 0.0f;
         if (readShadowRed < 0.0f || readShadowRed > 1.0f)
             readShadowRed = 1.0f;
@@ -258,17 +258,17 @@ static void LoadPreferences() {
         displayDate1 = @"";
         displayDate2 = [NSLocalizedStringFromTableInBundle(@"DateFormatNormal", @"LunarCalendar", localizedBundle, @"[HY][EY]/[LM]/[LD] [Z]") retain];
         displayDate3 = [NSLocalizedStringFromTableInBundle(@"DateFormatTraditional", @"LunarCalendar", localizedBundle, @"[HY][EY]/[HM][EM]/[HD][ED]") retain];
-        switchGesture = kCFCoreFoundationVersionNumber < 847.20 ? 0 : 1;
+        switchGesture = 0;
         fontSize = 18;
-        fontName = (kCFCoreFoundationVersionNumber < 847.20 ? @"Helvetica-Bold" : @"Helvetica");
-        textAlign = (kCFCoreFoundationVersionNumber < 847.20 ? 1 : 0);
-        sideMargin = (kCFCoreFoundationVersionNumber < 847.20 ? 0 : 45.0f);
+        fontName = @"Helvetica-Bold";
+        textAlign = 1;
+        sideMargin = 0;
         colorRed = 1.0f;
         colorGreen = 1.0f;
         colorBlue = 1.0f;
         colorAlpha = 1.0f;
-        shadowWidth = (kCFCoreFoundationVersionNumber < 847.20 ? 1.0f : 0.0f);
-        shadowHeight = (kCFCoreFoundationVersionNumber < 847.20 ? 1.0f : 0.0f);
+        shadowWidth = 1.0f;
+        shadowHeight = 1.0f;
         shadowRed = 0.0f;
         shadowGreen = 0.0f;
         shadowBlue = 0.0f;
@@ -282,7 +282,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 }
 
 - (id)init {
-    if (kCFCoreFoundationVersionNumber >= 847.20) //iOS 7
+    if (kCFCoreFoundationVersionNumber >= 847.20) //iOS 7+
         return nil;
 
     if ((self = [super init])) {
@@ -314,7 +314,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 
         UITapGestureRecognizer *doubleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
         doubleTapGestureRecognizer.numberOfTapsRequired = 2;
-        
+
         UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap:)];
         singleTapGestureRecognizer.numberOfTapsRequired = 1;
         [singleTapGestureRecognizer requireGestureRecognizerToFail:doubleTapGestureRecognizer];
@@ -322,7 +322,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
         [_scrollView addGestureRecognizer:longPress];
         [_scrollView addGestureRecognizer:doubleTapGestureRecognizer];
         [_scrollView addGestureRecognizer:singleTapGestureRecognizer];
-        
+
         [longPress release];
         [doubleTapGestureRecognizer release];
         [singleTapGestureRecognizer release];
@@ -330,7 +330,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
         UIColor *labelTextColor = [UIColor colorWithRed:colorRed green:colorGreen blue:colorBlue alpha:colorAlpha];
         UIColor *labelShadowColor = [UIColor colorWithRed:shadowRed green:shadowGreen blue:shadowBlue alpha:shadowAlpha];
         CGSize labelShadowSize = CGSizeMake(shadowWidth, shadowHeight);
-        
+
         CGRect frame1, frame2, frame3;
         if (textAlign == 0) {
             frame1 = CGRectMake(sideMargin, 0, (superWidth - 4 - sideMargin), viewHeight);
@@ -554,7 +554,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
         _weeView.frame = CGRectMake(0, 0, superWidth, viewHeight);
         _backgroundImageView.frame = CGRectMake(2, 0, (superWidth - 4), viewHeight);
         _scrollView.frame = CGRectMake(2, 0, (superWidth - 4), viewHeight);
-        
+
         if (textAlign == 0) {
             _pageView1.frame = CGRectMake(sideMargin, 0, (superWidth - 4 - sideMargin), viewHeight);
             _pageView2.frame = CGRectMake((superWidth - 4) + sideMargin, 0, (superWidth - 4 - sideMargin), viewHeight);
@@ -568,10 +568,10 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
             _pageView2.frame = CGRectMake((superWidth - 4), 0, (superWidth - 4), viewHeight);
             _pageView3.frame = CGRectMake((superWidth - 4) * 2, 0, (superWidth - 4), viewHeight);
         }
-        
+
         if (sideMarginChanged)
             sideMarginChanged = NO;
-        
+
         _scrollView.contentSize = CGSizeMake((superWidth - 4) * 3, viewHeight);
     } else {
         if (sideMarginChanged) {
@@ -598,7 +598,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
         [_pageView3 setFont:[UIFont fontWithName:fontName size:fontSize]];
         fontChanged = NO;
     }
-    
+
     if (textAlignChanged) {
         if (textAlign == 0) {
             _pageView1.textAlignment = lcAlignLeft;
@@ -630,7 +630,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
         _pageView3.textColor = color;
         textColorChanged = NO;
     }
-    
+
     if (shadowChaned) {
         UIColor *color = [UIColor colorWithRed:shadowRed green:shadowGreen blue:shadowBlue alpha:shadowAlpha];
         CGSize size = CGSizeMake(shadowWidth, shadowHeight);

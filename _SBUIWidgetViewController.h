@@ -40,3 +40,7 @@
 - (int)widgetIdiom;
 -(void)unloadView;
 @end
+
+@interface SBWidgetViewController : UIViewController
+- (void)requestPreferredViewHeightWithHandler:(id)arg1;
+@end

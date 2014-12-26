@@ -136,6 +136,8 @@
 "Copied to clipboard." = "복사 다 되었습니다.";
 
 /* Preferences */
+"Are you sure you want to reset all settings to default?" = "Are you sure you want to reset all settings to default?";
+"Cancel" = "Cancel";
 "Center" = "Center";
 "Custom Display Formats" = "Custom Display Formats";
 "Default view height: 28.0." = "Default view height: 28.0.";
@@ -148,6 +150,8 @@
 "Left" = "Left";
 "Lunar Calendar" = "음력";
 "More Information" = "자세한 내용은";
+"OK" = "OK";
+"Reset to Default" = "Reset to Default";
 "Right" = "Right";
 "Side Margin" = "Side Margin";
 "Single Tap" = "Single Tap";
@@ -155,6 +159,6 @@
 "Swipe" = "Swipe";
 "Switch Gesture" = "Switch Gesture";
 "Text Alignment" = "Text Alignment";
-"Text Style" = "Text Style";
 "Text margin on the left or right." = "Text margin on the left or right.";
+"Text Style" = "Text Style";
 "View Height" = "View Height";

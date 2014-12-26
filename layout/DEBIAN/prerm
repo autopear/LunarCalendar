@@ -1,6 +1,7 @@
 #!/bin/bash
 declare -a cydia
 cydia=($CYDIA)
+rm -fr /Library/WeeLoader/Plugins/LunarCalendar.bundle
 if [[ $1 == remove ]]; then
     if [ -f /var/mobile/Library/Preferences/com.autopear.lunarcalendar.plist ]; then
         rm -f /var/mobile/Library/Preferences/com.autopear.lunarcalendar.plist

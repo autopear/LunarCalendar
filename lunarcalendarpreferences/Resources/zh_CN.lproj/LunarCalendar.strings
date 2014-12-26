@@ -135,6 +135,8 @@
 "Copied to clipboard." = "已复制到剪贴板。";
 
 /* Preferences */
+"Are you sure you want to reset all settings to default?" = "您确定要将全部设置还原为默认吗？";
+"Cancel" = "取消";
 "Center" = "居中";
 "Custom Display Formats" = "自定义显示格式";
 "Default view height: 28.0." = "默认高度：28.0。";
@@ -147,6 +149,8 @@
 "Left" = "靠左";
 "Lunar Calendar" = "中国农历";
 "More Information" = "更多信息";
+"OK" = "确定";
+"Reset to Default" = "重置为默认";
 "Right" = "靠右";
 "Side Margin" = "左右边距";
 "Single Tap" = "按一下";
@@ -154,6 +158,6 @@
 "Swipe" = "左右滑动";
 "Switch Gesture" = "切换手势";
 "Text Alignment" = "文字对齐";
-"Text Style" = "文本式样";
 "Text margin on the left or right." = "左侧或右侧文字边距。";
+"Text Style" = "文本式样";
 "View Height" = "视图高度";

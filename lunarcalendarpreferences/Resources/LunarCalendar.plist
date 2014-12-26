@@ -130,7 +130,7 @@
 			<key>label</key>
 			<string>View Height</string>
 			<key>max</key>
-			<real>60</real>
+			<real>100</real>
 			<key>min</key>
 			<real>20</real>
 			<key>showValue</key>
@@ -233,6 +233,20 @@
 			<string>PSGroupCell</string>
 		</dict>
 		<dict>
+			<key>action</key>
+			<string>resetDefault:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>isDestructive</key>
+			<true/>
+			<key>label</key>
+			<string>Reset to Default</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>detail</key>
@@ -244,7 +258,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Copyright © 2012-2014 Merlin Mao</string>
+			<string>Copyright © 2012-2015 Merlin Mao</string>
 		</dict>
 	</array>
 	<key>title</key>

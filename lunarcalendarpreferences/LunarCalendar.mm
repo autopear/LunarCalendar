@@ -169,7 +169,7 @@
 
         [self reloadSpecifiers];
 
-        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFSTR(SETTIGNS_CHANGED), NULL, nil, YES);
+        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), CFSTR(SETTIGNS_CHANGED), NULL, NULL, YES);
     }
 }
 

@@ -1,4 +1,4 @@
-//
+ //
 //  LunarCalendarController.m
 //  LunarCalendarController
 //
@@ -61,7 +61,7 @@
 static NSBundle *localizedBundle = nil;
 static NSString *lanCode = nil;
 static NSDictionary *languageStrings = nil;
-static double viewHeight = 28.0f;
+static CGFloat viewHeight = 28.0f;
 static int fontSize = 18;
 static int switchGesture = 0;
 static int textAlign = 1;
@@ -117,7 +117,7 @@ static void LoadPreferences() {
         if (readSwitchGesture != switchGesture)
             switchGesture = readSwitchGesture;
 
-        double readViewHeight = [preferences objectForKey:@"ViewHeight"] ? [[preferences objectForKey:@"ViewHeight"] doubleValue] : 28.0f;
+        CGFloat readViewHeight = [preferences objectForKey:@"ViewHeight"] ? [[preferences objectForKey:@"ViewHeight"] floatValue] : 28.0f;
         if (readViewHeight < 20.0f || readViewHeight > 100.0f)
             readViewHeight = 28.0f;
         if (readViewHeight != viewHeight) {
@@ -186,7 +186,7 @@ static void LoadPreferences() {
         }
 
         if (!sideMarginChanged) {
-            CGFloat readSideMargin = [preferences objectForKey:@"SideMargin"] ? [[preferences objectForKey:@"SideMargin"] doubleValue] : 0;
+            CGFloat readSideMargin = [preferences objectForKey:@"SideMargin"] ? [[preferences objectForKey:@"SideMargin"] floatValue] : 0;
             if (readSideMargin < 0)
                 readSideMargin = 0;
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {

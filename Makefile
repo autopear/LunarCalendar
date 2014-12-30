@@ -28,6 +28,8 @@ include $(THEOS_MAKE_PATH)/library.mk
 SUBPROJECTS += lunarcalendarpreferences
 include $(THEOS_MAKE_PATH)/aggregate.mk
 
+VERSION.INC_BUILD_NUMBER = 2
+
 before-package::
 	mv _/System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendar.dylib _/System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendar
 	mv _/System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendarToday.dylib _/System/Library/WeeAppPlugins/LunarCalendar.bundle/LunarCalendarToday

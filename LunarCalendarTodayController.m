@@ -50,12 +50,12 @@
 static NSBundle *localizedBundle = nil;
 static NSString *lanCode = nil;
 static NSDictionary *languageStrings = nil;
-static double viewHeight = 28.0f;
+static CGFloat viewHeight = 28.0f;
 static int fontSize = 18;
-static int switchGesture = 0;
-static int textAlign = 1;
+static int switchGesture = 1;
+static int textAlign = 0;
 static int pageNo = 0;
-static CGFloat sideMargin = 0;
+static CGFloat sideMargin = 45.0f;
 static CGFloat colorRed = 1.0f;
 static CGFloat colorGreen = 1.0f;
 static CGFloat colorBlue = 1.0f;
@@ -102,13 +102,13 @@ static void LoadPreferences() {
                 languageStrings = [[NSDictionary alloc] initWithContentsOfFile:languagePath];
         }
 
-        int readSwitchGesture = [preferences objectForKey:@"SwitchGesture"] ? [[preferences objectForKey:@"SwitchGesture"] intValue] : 0;
+        int readSwitchGesture = [preferences objectForKey:@"SwitchGesture"] ? [[preferences objectForKey:@"SwitchGesture"] intValue] : 1;
         if (readSwitchGesture > 2 || readSwitchGesture < 0)
-            readSwitchGesture = 0;
+            readSwitchGesture = 1;
         if (readSwitchGesture != switchGesture)
             switchGesture = readSwitchGesture;
 
-        double readViewHeight = [preferences objectForKey:@"ViewHeight"] ? [[preferences objectForKey:@"ViewHeight"] doubleValue] : 28.0f;
+        CGFloat readViewHeight = [preferences objectForKey:@"ViewHeight"] ? [[preferences objectForKey:@"ViewHeight"] floatValue] : 28.0f;
         if (readViewHeight < 20.0f || readViewHeight > 100.0f)
             readViewHeight = 28.0f;
         if (readViewHeight != viewHeight) {
@@ -177,7 +177,7 @@ static void LoadPreferences() {
         }
 
         if (!sideMarginChanged) {
-            CGFloat readSideMargin = [preferences objectForKey:@"SideMargin"] ? [[preferences objectForKey:@"SideMargin"] doubleValue] : 45.0f;
+            CGFloat readSideMargin = [preferences objectForKey:@"SideMargin"] ? [[preferences objectForKey:@"SideMargin"] floatValue] : 45.0f;
             if (readSideMargin < 0)
                 readSideMargin = 0;
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
